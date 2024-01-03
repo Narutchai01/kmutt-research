@@ -1,0 +1,1 @@
+ D:\\Work\\kmutt-research\\.dart_tool\\flutter_build\\e5bccceca78b2e243f85ab0f2992d6ae\\native_assets.yaml: 
