@@ -1,40 +1,24 @@
 // import zone
-import express from "express";
-import { Config,ConfigDB } from "./lib/config";
-import mysql from "mysql2/promise";
-import Surveyor from "./routers/Surveyor"; 
+import mysql from 'mysql2/promise';
+import { Config } from './lib/config';
+import express from 'express';
 
 
-// define zone
-const PORT = Config.PORT;
+// define Zone
 const app = express();
+const PORT = 3000;
 app.use(express.json());
 
-export let conn: mysql.Connection | null = null;
-
-
-const ConnectDB = async () => {
-    conn = await mysql.createConnection({
-        host: ConfigDB.TEST_DB_HOST,
-        user: ConfigDB.TEST_DB_USER,
-        password: ConfigDB.TEST_DB_PASSWORD,
-        database: ConfigDB.TEST_DB_NAME,
-        port: ConfigDB.TEST_DB_PORT
-    });
+export const ConnenctDB = async () => {
+    await mysql.createConnection(Config.DB_URL);
 };
 
 
 
-app.get("/", (req, res) => {
-    res.send("Hello World");
+
+
+app.listen(PORT,async () => {
+    await ConnenctDB();
+    console.log(`Server is running on PORT ${PORT}`);
 });
 
-
-app.use("/api/surveyor", Surveyor);
-
-
-app.listen(PORT, async () => {
-    await ConnectDB();
-    console.log(`Server is running on port ${PORT}.`);
-    
-});
