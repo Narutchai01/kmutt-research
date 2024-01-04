@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { conn } from "../../server";
 import { hashPassword } from "../../utils/ManagePassWord";
-import { v4 as uuidv4 } from "uuid";
 
 export const CreateSurveyor = async (req: Request, res: Response) => {
     try {
