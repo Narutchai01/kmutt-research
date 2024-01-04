@@ -2,6 +2,7 @@ import express from "express";
 import { Config } from "./lib/config";
 import mysql from "mysql2/promise";
 import  SurveyorRouter  from "./routers/Surveyor";
+import CarRouter  from "./routers/Cars";
 
 const app = express();
 const PORT = Config.PORT;
@@ -26,6 +27,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/surveyor', SurveyorRouter);
+// app.use('/api/cases', );
+app.use('/api/cars', CarRouter);
 
 app.listen(PORT, () => { // Remove the unnecessary async keyword
     Connect();
