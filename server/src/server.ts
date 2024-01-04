@@ -2,6 +2,7 @@ import express from "express";
 import { Config } from "./lib/config";
 import mysql from "mysql2/promise";
 import multer from "multer";
+import cookieParser from "cookie-parser";
 
 import SurveyorRouter from "./routers/Surveyor";
 import CarRouter from "./routers/Cars";
@@ -11,6 +12,7 @@ const app = express();
 const PORT = Config.PORT;
 
 app.use(express.json());
+app.use(cookieParser());
 
 export let conn: mysql.Connection | null = null;
 const Connect = async () => {
@@ -23,6 +25,7 @@ const Connect = async () => {
   });
   console.log("Database Connected");
 };
+
 
 const multerMid = multer({
   storage: multer.memoryStorage(),
