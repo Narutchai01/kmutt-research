@@ -7,3 +7,6 @@ export interface ICONFIG {
     DB_PORT: number;
 }
 
+export interface PayLoad {
+    ID: string;
+}

@@ -24,7 +24,7 @@ export const CreateCase = async (req: Request, res: Response) => {
       CarID,
       Province,
     };
-    await conn?.query(sql, dataCase);
+    await conn?.query(sql, [dataCase.CarID ,dataCase.SurveyorID, dataCase.CarID, dataCase.Province]);
     res.status(200).json({ message: "Create Case Success" });
   } catch (error) {
     console.log(error);
