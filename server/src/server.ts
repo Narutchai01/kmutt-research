@@ -7,8 +7,6 @@ import cookieParser from "cookie-parser";
 import SurveyorRouter from "./routers/Surveyor";
 import CarRouter from "./routers/Cars";
 import CasesRouter from "./routers/Cases";
-import CustomerRouter from "./routers/Customer";
-import InsuranceRouter from "./routers/Insurance";
 
 const app = express();
 const PORT = Config.PORT;
@@ -42,8 +40,6 @@ app.get("/", (req, res) => {
 app.use("/api/surveyor", SurveyorRouter);
 app.use("/api/cases", CasesRouter);
 app.use("/api/cars", CarRouter);
-app.use("/api/customer", CustomerRouter);
-app.use("/api/insurance", InsuranceRouter);
 
 app.listen(PORT, async () => {
   await Connect();
