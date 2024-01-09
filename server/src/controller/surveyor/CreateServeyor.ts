@@ -12,10 +12,11 @@ export const CreateSurveyor = async (req: Request, res: Response) => {
       const url = await uploadImageSurveyor(file.buffer)
       return url
     }))
+    const Image = ImageURL[0] || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c";
     const dataSurveyor = {
       First_name,
       Last_name,
-      Image : ImageURL || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c",
+      Image ,
       Email,
       Birth_date,
       PassWord: await hashPassword(PassWord),
