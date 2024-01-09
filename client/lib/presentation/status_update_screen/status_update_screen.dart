@@ -225,7 +225,7 @@ class StatusUpdateScreen extends StatelessWidget {
       decoration: AppDecoration.gradientBlueToBlue900.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder10,
       ),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(

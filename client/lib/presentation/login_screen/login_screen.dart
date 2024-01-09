@@ -138,7 +138,7 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 1.h),
             child: CustomTextFormField(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black
               ),
               controller: userNameController,
@@ -168,7 +168,7 @@ class LoginScreen extends StatelessWidget {
             padding: EdgeInsets.only(left: 2.h),
             child: CustomTextFormField(
               controller: passwordController,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black
               ),
               textInputAction: TextInputAction.done,

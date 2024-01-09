@@ -43,7 +43,6 @@ class AppRoutes {
     statusUpdateScreen: (context) => StatusUpdateScreen(),
     cameraUpdateScreen: (context) => CameraUpdateScreen(),
     searchTwoScreen: (context) => SearchTwoScreen(),
-    data1UpdateScreen: (context) => Data1UpdateScreen(),
     data2UpdatePage: (context) => Data2UpdatePage(),
     appNavigationScreen: (context) => AppNavigationScreen()
   };
