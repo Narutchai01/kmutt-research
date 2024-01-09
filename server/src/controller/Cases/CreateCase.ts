@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { conn } from "../../server";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import { uploadImage } from "../../utils/UploadImage";
 
 export const CreateCase = async (req: Request, res: Response) => {
   try {
@@ -32,12 +31,8 @@ export const CreateCase = async (req: Request, res: Response) => {
     //   DataCase.Description,
     // ]);
 
-    const Images = await Promise.all(
-      (Image as any[]).map(async (image: any) => {
-        return await uploadImage(image);
-      })
-    );
-    res.status(200).json({ message: "Create Case Success", data: DataCase , Images});
+  
+    res.status(200).json({ message: "Create Case Success", data: DataCase});
   } catch (error) {
     console.log(error);
   }
