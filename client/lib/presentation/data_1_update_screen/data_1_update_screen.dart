@@ -32,16 +32,16 @@ class Data1UpdateScreen extends StatelessWidget {
                 child: SizedBox(
                     width: double.maxFinite,
                     child: Column(children: [
-                      SizedBox(height: 10.v),
+                      SizedBox(height: 5.v),
                       Expanded(
                           child: SingleChildScrollView(
                               child: Column(children: [
                         // _buildHeadRow(context),
-                        SizedBox(height: 27.v),
+                        SizedBox(height: 22.v),
                         _buildUserRow(context),
                         SizedBox(height: 36.v),
                         SizedBox(
-                            height: 849.v,
+                            height: 910.v,
                             width: double.maxFinite,
                             child: Stack(
                                 alignment: Alignment.topCenter,
@@ -63,69 +63,100 @@ class Data1UpdateScreen extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Container(
-                                                    width: 346.h,
-                                                    margin: EdgeInsets.only(
-                                                        left: 4.h, right: 6.h),
-                                                    child: RichText(
-                                                        text:
-                                                            TextSpan(children: [
-                                                          TextSpan(
-                                                              text:
-                                                                  "\nAddress :  ",
-                                                              style: CustomTextStyles
-                                                                  .bodyLargeNunitoBlack900),
-                                                          TextSpan(
-                                                              text:
-                                                                  "50/100 m.1 Bangkaw Nakhon Chaisi \n                  Nakhon Pathom 73120\n",
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .titleMedium),
-                                                          TextSpan(
-                                                              text:
-                                                                  "Make, Model :                                             ",
-                                                              style: CustomTextStyles
-                                                                  .bodyLargeNunitoBlack900),
-                                                          TextSpan(
-                                                              text: "BMW i4\n",
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .titleMedium),
-                                                          TextSpan(
-                                                              text:
-                                                                  "Policy Document Number :                     ",
-                                                              style: CustomTextStyles
-                                                                  .bodyLargeNunitoBlack900),
-                                                          TextSpan(
-                                                              text: "POL-001\n",
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .titleMedium),
-                                                          TextSpan(
-                                                              text:
-                                                                  "Type of Insurance :                        ",
-                                                              style: CustomTextStyles
-                                                                  .bodyLargeNunitoBlack900),
-                                                          TextSpan(
-                                                              text:
-                                                                  "Auto Insurance\n",
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .titleMedium),
-                                                          TextSpan(
-                                                              text:
-                                                                  "Start /End :                        ",
-                                                              style: CustomTextStyles
-                                                                  .bodyLargeNunitoBlack900),
-                                                          TextSpan(
-                                                              text:
-                                                                  "1-1-2023/31-12-2023\n",
-                                                              style: theme
-                                                                  .textTheme
-                                                                  .titleMedium)
-                                                        ]),
-                                                        textAlign:
-                                                            TextAlign.left)),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                  Text(
+                                                    "Address :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      child: Text(
+                                                      "50/100 m.1 Bangkaw Nakhon Chaisi Nakhon Pathom 73120",
+                                                      style: theme.textTheme.titleMedium,
+                                                      textAlign: TextAlign.right,
+                                                      ),
+                                                    ),)
+                                                ],
+                                            ),
+                                             Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                  Text(
+                                                    "Model :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                  "BMW i4",
+                                                   style: theme.textTheme.titleMedium,
+                                                   textAlign: TextAlign.right,
+                                                  ),
+                                                ],
+                                            ),
+                                             Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                  Text(
+                                                    "Color :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                  "White",
+                                                   style: theme.textTheme.titleMedium,
+                                                   textAlign: TextAlign.right,
+                                                  ),
+                                                ],
+                                            ),
+                                             Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                  Text(
+                                                    "Policy Document Number :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                  "POL-001",
+                                                   style: theme.textTheme.titleMedium,
+                                                   textAlign: TextAlign.right,
+                                                  ),
+                                                ],
+                                            ),
+                                             Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                  Text(
+                                                    "Type of Insurance :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                  "Auto Insurance",
+                                                   style: theme.textTheme.titleMedium,
+                                                   textAlign: TextAlign.right,
+                                                  ),
+                                                ],
+                                            ),
+                                             Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                  Text(
+                                                    "Start /End :",
+                                                    style: CustomTextStyles.bodyLargeNunitoBlack900,
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                  "1-1-2023/31-12-2023",
+                                                   style: theme.textTheme.titleMedium,
+                                                   textAlign: TextAlign.right,
+                                                  ),
+                                                ],
+                                            ),
                                                 SizedBox(height: 31.v),
                                                 Divider(
                                                     color:
@@ -154,8 +185,6 @@ class Data1UpdateScreen extends StatelessWidget {
                     ]))),
             ));
   }
-
-
   /// Section Widget
   Widget _buildUserRow(BuildContext context) {
     return Container(
@@ -195,42 +224,57 @@ Widget _buildContactColumn(BuildContext context) {
             style: CustomTextStyles.titleLargeBold, 
             textAlign: TextAlign.center,
           ),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: "Email :                                      ",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                ),
-                TextSpan(
-                  text: "test@gmail.com\n",
-                  style: theme.textTheme.titleMedium,
-                ),
-                TextSpan(
-                  text: "Phone number :                         ",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                ),
-                TextSpan(
-                  text: "087-160-3130\n",
-                  style: theme.textTheme.titleMedium,
-                ),
-                TextSpan(
-                  text: "Line ID :                                              ",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                ),
-                TextSpan(
-                  text: "Stark0086",
-                  style: theme.textTheme.titleMedium,
-                ),
-              ],
-            ),
-            textAlign: TextAlign.left,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Email :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "test@gmail.com",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Phone number :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "087-160-3130",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Line ID :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "Stark0086",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
           ),
         ],
       ),
     ),
   );
 }
+
 
 
  
