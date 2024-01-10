@@ -1,13 +1,16 @@
 import { Request,Response } from "express";
 import { conn } from "../../server";
+import jwt from "jsonwebtoken";
 
 
 export const FindSurveyorByID = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        const sql = `SELECT LPAD(SurveyorID, 5, '0') AS PaddedSurveyorID, First_name, Last_name, Birth_date, Phone_number, Email, Password FROM Surveyor WHERE SurveyorID = ?`;
-        const result:any = await conn?.query(sql, [id]);
-        res.json(result[0]);
+        const token = req.cookies.token;
+        const secert = process.env.JWT_SECRET!;
+        const decoded:any= jwt.verify(token, secert) ;
+        const sql = `SELECT * FROM Surveyor WHERE SurveyorID = ?`;
+        const result:any = await conn?.query(sql,[decoded.ID]);
+        res.status(200).send(result[0]);
     } catch (error) {
         console.log(error);
         
