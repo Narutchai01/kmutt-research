@@ -377,17 +377,17 @@ Color getColor(String path) {
   } else if (path == "Back-windshield") {
     return Color.fromRGBO(255, 0, 255, 0.502);
   } else if (path == "Windshield") {
-    return Color.fromRGBO(100,147,235,128);
+    return Color.fromRGBO(100, 147, 235, 128);
   } else if (path == "Headlight") {
-    return Color.fromRGBO(137,0,137,128);
+    return Color.fromRGBO(137, 0, 137, 128);
   } else if (path == "Grille") {
     return Color.fromRGBO(134, 97, 150, 0.786);
   } else if (path == "Hood") {
-    return Color.fromRGBO(255,68,0,128);
+    return Color.fromRGBO(255, 68, 0, 128);
   } else if (path == "License-plate") {
     return Color.fromRGBO(147, 99, 108, 0.612);
   } else if (path == "Back-door") {
-    return Color.fromRGBO(255,128,0,128);
+    return Color.fromRGBO(255, 128, 0, 128);
   }
 
   return Colors.red;
