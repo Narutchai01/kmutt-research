@@ -3,6 +3,7 @@ import 'package:client/presentation/camera_update_screen/camera_previwe.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/imagepicker_confirm/imagepicker_confirm.dart';
 
 class CameraUpdateScreen extends StatefulWidget {
   const CameraUpdateScreen({Key? key});
@@ -15,6 +16,7 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
   late CameraController _controller;
   late List<CameraDescription> cameras;
   bool _isCameraInitialized = false;
+  List<XFile> selectedImages = [];
 
   @override
   void initState() {
@@ -43,18 +45,20 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
   Future<void> _pickImage() async {
     try {
       final imagePicker = ImagePicker();
-      final imageFile =
-          await imagePicker.pickImage(source: ImageSource.gallery);
-      if (imageFile != null) {
-        Navigator.push(
+      final List<XFile>? imageFiles = await imagePicker.pickMultiImage();
+
+      if (imageFiles != null && imageFiles.isNotEmpty) {
+        // Navigate to ImagePickerConfirm and clear the navigation stack
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => ImagePreview(imageFile),
+            builder: (context) => ImagePickerConfirm(imageFiles),
           ),
+          (route) => true,
         );
       }
     } catch (e) {
-      print('Error picking image: $e');
+      print('Error picking images: $e');
     }
   }
 
