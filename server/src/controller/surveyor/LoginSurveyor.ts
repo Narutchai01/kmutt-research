@@ -26,8 +26,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     const token = jwt.sign(payLoad, secret as Secret, {
       expiresIn: "1h",
     });
-    res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ message: "Login Success"});
+    res.status(200).send(token);
     
   } catch (error) {
     console.log(error);
