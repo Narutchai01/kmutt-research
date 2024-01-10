@@ -16,7 +16,12 @@ const PORT = Config.PORT;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(
+  {
+    origin: true,
+    credentials: true,
+  }
+));
 
 export let conn: mysql.Connection | null = null;
 const Connect = async () => {
