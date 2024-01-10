@@ -13,11 +13,9 @@ export const CreateCase = async (req: Request, res: Response) => {
     const { CarID, Province, Description } = req.body;
     const Images = req.files;
     const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
-    const addImageCase = `INSERT INTO ImagesCase (CaseID , Image_link) VALUES (?,?,?)`;
+    const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
     const date = new Date();
-    const Date_opened = `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    const Date_opened = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
     const DataCase = {
       CaseID,
       SurveyorID: decoded.ID,
@@ -48,7 +46,7 @@ export const CreateCase = async (req: Request, res: Response) => {
       })
     );
 
-    res.status(200).json({ message: "Create Case Success"});
+    res.status(200).json({ message: "Create Case Success" });
   } catch (error) {
     console.log(error);
   }
