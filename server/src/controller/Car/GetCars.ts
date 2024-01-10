@@ -4,7 +4,7 @@ import {conn} from '../../server'
 
 export const GetCars = async (req:Request,res:Response) => {
     try {
-        const sql = 'SELECT * FROM car';
+        const sql = 'SELECT * FROM Car';
         const result:any = await conn?.query(sql);
         if (!result[0]){
             res.status(404).json({message: 'Not Found'})
