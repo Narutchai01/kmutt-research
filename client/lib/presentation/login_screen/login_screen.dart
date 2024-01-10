@@ -7,11 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 
+import 'package:client/presentation/model/token_model.dart';
+
+TokenModel GlobalModel = TokenModel(token: '');
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key})
       : super(
           key: key,
         );
+  String formatToken(String originalToken) {
+    // Add your formatting logic here
+    // For example, you can convert the token to uppercase
+    return originalToken;
+  }
 
   TextEditingController EmailController = TextEditingController();
 
@@ -27,11 +36,22 @@ class LoginScreen extends StatelessWidget {
     );
     try {
       print(response.data);
-      TokenModel tokenModel = TokenModel.fromJson(response.data);
+      TokenModel tokenModel = TokenModel.fromMap(response.data);
+      GlobalModel = TokenModel(token: formatToken(tokenModel.token));
+
       print(tokenModel.token);
+
       Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
     } catch (e) {
-      print('Error: $e');
+      if (e is DioException) {
+        print('DioError: ${e.message}');
+        if (e.response != null) {
+          print('Response data: ${e.response!.data}');
+          print('Response status: ${e.response!.statusCode}');
+        }
+      } else {
+        print('Error: $e');
+      }
     }
   }
 

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class TokenModel {
@@ -17,7 +15,7 @@ class TokenModel {
 
   factory TokenModel.fromMap(Map<String, dynamic> map) {
     return TokenModel(
-      token: (map[''] ?? '') as String,
+      token: (map['token'] ?? '') as String,
     );
   }
 

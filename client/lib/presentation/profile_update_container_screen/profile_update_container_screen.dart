@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
@@ -6,6 +7,9 @@ import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 import 'package:dio/dio.dart';
+
+//import login screen
+import 'package:client/presentation/login_screen/login_screen.dart';
 
 // ignore_for_file: must_be_immutable
 class ProfileUpdateContainerScreen extends StatelessWidget {
@@ -22,23 +26,24 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
   //   print(response.data);
   // }
 
-  void getID(BuildContext context) async {
-    print('Hello');
-    final response =
-        await dio.get('http://localhost:8080/api/surveyor/findSurveyorByID');
+  // void GetSurveryor(BuildContext context) async {
+  //   final response = await dio.get(
+  //     'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+  //   );
 
-    try {
-      print(response.data);
-    } catch (e) {
-      print('Error: $e');
-    }
-    print('Hello');
+  //   final data = response.data[0];
+  //   print(data['Email']);
+  // }
+
+  void test() {
+    print('Test: ${GlobalModel.token}');
   }
 
   @override
   Widget build(BuildContext context) {
     // getData(context);
-    getID(context);
+    // GetSurveryor(context);
+    test();
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.blue900,

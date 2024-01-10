@@ -1,6 +1,8 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:client/presentation/login_screen/login_screen.dart';
 
 // ignore_for_file: must_be_immutable
 class ProfileUpdatePage extends StatelessWidget {
@@ -8,11 +10,21 @@ class ProfileUpdatePage extends StatelessWidget {
       : super(
           key: key,
         );
+  final dio = Dio();
+  late List<String> data;
+  void GetSurveryor(BuildContext context) async {
+    final response = await dio.get(
+      'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+    );
+
+    data = response.data[0];
+  }
 
   TextEditingController editTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    GetSurveryor(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
@@ -80,7 +92,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Poomthai Promkrot",
+                                            "${data[0]}",
                                             style: CustomTextStyles
                                                 .titleLargeWhiteA700,
                                           ),
