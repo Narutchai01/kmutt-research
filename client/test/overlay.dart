@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async' show Future;
+import 'dart:async' show Completer, Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 
@@ -26,7 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<String> selectedCarParts = ["All"];
-  List<String> imagePaths = ["original", "img-2","img-1"];
+  List<String> imagePaths = ["original", "img-2", "img-1"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            child: ImageWithSquare(selectedCarParts: selectedCarParts, imagePaths: imagePaths),
+            child: ImageWithSquare(
+              selectedCarParts: selectedCarParts,
+              imagePaths: imagePaths,
+            ),
           ),
         ],
       ),
@@ -70,97 +73,186 @@ class _MyHomePageState extends State<MyHomePage> {
 class ImageWithSquare extends StatelessWidget {
   final List<String> selectedCarParts;
   final List<String> imagePaths;
-  ImageWithSquare({required this.selectedCarParts, required this.imagePaths});
+
+  ImageWithSquare({
+    required this.selectedCarParts,
+    required this.imagePaths,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       itemCount: imagePaths.length,
-      itemBuilder: (context, index){
-      return 
-       FutureBuilder(
-        future: getJson(imagePaths[index]),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            String jsonContent = snapshot.data.toString();
-            Map<String, dynamic> jsonData = json.decode(jsonContent);
+      itemBuilder: (context, index) {
+        return FutureBuilder(
+          future: getJson(imagePaths[index]),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              String jsonContent = snapshot.data.toString();
+              Map<String, dynamic> jsonData = json.decode(jsonContent);
 
-            List<Map<dynamic, dynamic>> predictionsList =
-                (jsonData['predictions'] as List<dynamic>)
-                    .cast<Map<dynamic, dynamic>>();
+              List<Map<dynamic, dynamic>> predictionsList =
+                  (jsonData['predictions'] as List<dynamic>)
+                      .cast<Map<dynamic, dynamic>>();
 
-            List<List<Offset>> pointspolyList = [];
-            for (var prediction in predictionsList) {
-              List<Offset> pointsList =
-                  (prediction['points'] as List<dynamic>).map((pointObj) {
-                double x = pointObj['x']?.toDouble() / 1.4 ?? 0.0;
-                double y = pointObj['y']?.toDouble() / 1.4 ?? 0.0;
-                return Offset(x, y);
-              }).toList();
-              pointspolyList.add(pointsList);
-            }
-
-            List<Map<dynamic, dynamic>> filteredPredictionsList = predictionsList
-                .where((prediction) =>
-                    selectedCarParts.contains("All") ||
-                    selectedCarParts.contains(prediction['class']))
-                .toList();
-
-            List<List<Offset>> filteredPointspolyList = [];
-
-            pointspolyList.asMap().forEach((i, points) {
-              if (selectedCarParts.contains("All") ||
-                selectedCarParts.contains(predictionsList[i]['class'])) {
-              filteredPointspolyList.add(points);
+              List<List<Offset>> pointspolyList = [];
+              for (var prediction in predictionsList) {
+                List<Offset> pointsList =
+                    (prediction['points'] as List<dynamic>).map((pointObj) {
+                  double x = pointObj['x']?.toDouble() / 1.4 ?? 0.0;
+                  double y = pointObj['y']?.toDouble() / 1.4 ?? 0.0;
+                  return Offset(x, y);
+                }).toList();
+                pointspolyList.add(pointsList);
               }
-            });
 
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-              Container(
-                width: 390,
-                height: 350,
-                child: Image.asset(
-                  'assets/${imagePaths[index]}.jpg',
-                fit: BoxFit.fitWidth,
-                ),
-              ),
-                for (var i = 0; i < filteredPredictionsList.length; i++)
-                  if (selectedCarParts.contains("All") ||
-                      selectedCarParts.contains(filteredPredictionsList[i]['class']))
-                    Positioned(
-                      top: 22,
-                      left: -5,
-                      child: CustomPaint(
-                        painter: PolygonPainter(
-                          points: filteredPointspolyList[i],
-                          color: getColor(filteredPredictionsList[i]['class']),
+              List<Map<dynamic, dynamic>> filteredPredictionsList =
+                  predictionsList
+                      .where((prediction) =>
+                          selectedCarParts.contains("All") ||
+                          selectedCarParts.contains(prediction['class']))
+                      .toList();
+
+              List<List<Offset>> filteredPointspolyList = [];
+
+              pointspolyList.asMap().forEach((i, points) {
+                if (selectedCarParts.contains("All") ||
+                    selectedCarParts.contains(predictionsList[i]['class'])) {
+                  filteredPointspolyList.add(points);
+                }
+              });
+
+              return FutureBuilder<ImageInfo>(
+                future: getImageSize(imagePaths[index]),
+                builder: (context, imageSizeSnapshot) {
+                  if (imageSizeSnapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (imageSizeSnapshot.hasError) {
+                    return Text(
+                        'Error getting image size: ${imageSizeSnapshot.error}');
+                  } else {
+                    ImageInfo imageInfo = imageSizeSnapshot.data!;
+                    Size imageSize = Size(imageInfo.image.width.toDouble(),
+                        imageInfo.image.height.toDouble());
+                    print('Image size: $imageSize');
+
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Positioned widget with an Image
+                        Positioned(
+                          top: 0,
+                          width: imageSize.width / 1.4,
+                          height: imageSize.height / 1.4,
+                          child: Image.asset(
+                            'assets/${imagePaths[index]}.jpg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                    ),
-                for (var i = 0; i < filteredPredictionsList.length; i++)
-                  if (selectedCarParts.contains("All") ||
-                      selectedCarParts.contains(filteredPredictionsList[i]['class']))
-                    OverlayText(
-                      x: filteredPredictionsList[i]['x']?.toDouble() ?? 0.0,
-                      y: filteredPredictionsList[i]['y']?.toDouble() ?? 0.0,
-                      width: filteredPredictionsList[i]['width']?.toDouble() ?? 0.0,
-                      height: filteredPredictionsList[i]['width']?.toDouble() ?? 0.0,
-                      predictionClass: filteredPredictionsList[i]['class'],
-                      confidence: filteredPredictionsList[i]['confidence']?.toDouble() ?? 0.0,
-                ),
-              ],
-            );
-          }
-        },
-       );
+
+                        // Loop through filteredPredictionsList and add Positioned widgets for polygons
+                        for (var i = 0; i < filteredPredictionsList.length; i++)
+                          if (selectedCarParts.contains("All") ||
+                              selectedCarParts.contains(
+                                  filteredPredictionsList[i]['class']))
+                            Positioned(
+                              top: 0,
+                              width: imageSize.width / 1.4,
+                              height: imageSize.height / 1.4,
+                              child: CustomPaint(
+                                painter: PolygonPainter(
+                                  points: filteredPointspolyList[i],
+                                  color: getColor(
+                                      filteredPredictionsList[i]['class']),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                        Stack(
+                          children: [
+                            Positioned(
+                              width: imageSize.width,
+                              height: imageSize.height,
+                              left: -imageSize.width / 10,
+                              top: -imageSize.height / 20,
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    for (var i = 0;
+                                        i < filteredPredictionsList.length;
+                                        i++)
+                                      if (selectedCarParts.contains("All") ||
+                                          selectedCarParts.contains(
+                                              filteredPredictionsList[i]
+                                                  ['class']))
+                                        OverlayText(
+                                          imageSize: imageSize,
+                                          x: filteredPredictionsList[i]['x']
+                                                  ?.toDouble() ??
+                                              0.0,
+                                          y: filteredPredictionsList[i]['y']
+                                                  ?.toDouble() ??
+                                              0.0,
+                                          width: filteredPredictionsList[i]
+                                                      ['width']
+                                                  ?.toDouble() ??
+                                              0.0,
+                                          height: filteredPredictionsList[i]
+                                                      ['height']
+                                                  ?.toDouble() ??
+                                              0.0,
+                                          predictionClass:
+                                              filteredPredictionsList[i]
+                                                  ['class'],
+                                          confidence: filteredPredictionsList[i]
+                                                      ['confidence']
+                                                  ?.toDouble() ??
+                                              0.0,
+                                        ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                },
+              );
+            }
+          },
+        );
       },
     );
+  }
+
+  Future<ImageInfo> getImageSize(String imagePath) async {
+    final Completer<ImageInfo> completer = Completer<ImageInfo>();
+    final ImageStream stream =
+        AssetImage('assets/$imagePath.jpg').resolve(ImageConfiguration.empty);
+    final listener = ImageStreamListener(
+      (ImageInfo imageInfo, bool synchronousCall) {
+        if (!completer.isCompleted) {
+          completer.complete(imageInfo);
+        }
+      },
+      onError: (dynamic exception, StackTrace? stackTrace) {
+        if (!completer.isCompleted) {
+          completer.completeError(exception, stackTrace);
+        }
+      },
+    );
+    stream.addListener(listener);
+    completer.future.then((_) {
+      stream.removeListener(listener);
+    });
+    return completer.future;
   }
 }
 
@@ -171,6 +263,7 @@ class OverlayText extends StatelessWidget {
   final double height;
   final String predictionClass;
   final double confidence;
+  final Size imageSize;
 
   OverlayText({
     required this.x,
@@ -179,37 +272,43 @@ class OverlayText extends StatelessWidget {
     required this.height,
     required this.predictionClass,
     required this.confidence,
+    required this.imageSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: (y/1.15),
-      left: (x/1.65)-20,
+    return Container(
+        child: Positioned(
+      top: (y / 1.4),
+      left: (x / 1.4),
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Color.fromARGB(31, 0, 0, 0),
-          
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               '$predictionClass',
-              style: TextStyle(fontSize: 12, color: const Color.fromARGB(255, 255, 255, 255)),
+              style: TextStyle(
+                fontSize: 12,
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
             ),
             Text(
               '  ${(confidence * 100).toStringAsFixed(0)}%',
-              style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 255, 255, 255)),
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
 }
-
 
 class PolygonPainter extends CustomPainter {
   final List<Offset> points;
@@ -218,6 +317,7 @@ class PolygonPainter extends CustomPainter {
   PolygonPainter({
     required this.points,
     required this.color,
+    required BoxFit fit,
   });
 
   @override
