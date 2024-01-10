@@ -24,22 +24,70 @@ class Data2UpdatePage extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                           padding: EdgeInsets.only(left: 37.h, right: 51.h),
-                          child: Row(children: [
-                            SizedBox(
-                                width: 100.h,
-                                child: Text(
-                                    "PDN :\nClaim info :\nStatus : \nCreate on : ",
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: theme.textTheme.titleLarge)),
-                            Container(
-                                width: 113.h,
-                                margin:
-                                    EdgeInsets.only(left: 127.h, bottom: 2.v),
-                                child: Text("POL-001\n\nSuccess\n12-10-2023",
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: CustomTextStyles.titleLargeBold))
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment:MainAxisAlignment.center,
+                                children: [
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    Text(
+                                      "PDN :",
+                                       style: theme.textTheme.titleLarge,
+                                       textAlign: TextAlign.left,
+                                       ),
+                                    Text(
+                                      "POL-001",
+                                      style: CustomTextStyles.titleLargeBold,
+                                      textAlign: TextAlign.right,
+                                        ),
+                                    ],
+                                ),
+                                 Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    Text(
+                                      "Claim Info:",
+                                       style: theme.textTheme.titleLarge,
+                                       textAlign: TextAlign.left,
+                                       ),
+                                    Text(
+                                      "",
+                                      style: CustomTextStyles.titleLargeBold,
+                                      textAlign: TextAlign.right,
+                                        ),
+                                    ],
+                                ),
+                                 Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    Text(
+                                      "Status :",
+                                       style: theme.textTheme.titleLarge,
+                                       textAlign: TextAlign.left,
+                                       ),
+                                    Text(
+                                      "Success",
+                                      style: CustomTextStyles.titleLargeBold,
+                                      textAlign: TextAlign.right,
+                                        ),
+                                    ],
+                                ),
+                                 Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    Text(
+                                      "Create on :",
+                                       style: theme.textTheme.titleLarge,
+                                       textAlign: TextAlign.left,
+                                       ),
+                                    Text(
+                                      "12-10-2023",
+                                      style: CustomTextStyles.titleLargeBold,
+                                      textAlign: TextAlign.right,
+                                        ),
+                                    ],
+                                ),
                           ]))),
                   SizedBox(height: 26.v),
                   CustomImageView(
