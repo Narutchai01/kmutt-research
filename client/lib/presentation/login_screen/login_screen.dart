@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/model/token_model.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/foundation.dart';
@@ -26,13 +27,9 @@ class LoginScreen extends StatelessWidget {
     );
     try {
       print(response.data);
-      if (response.data['message'] == 'Login Success') {
-        Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response.data['message']),
-        ));
-      }
+      TokenModel tokenModel = TokenModel.fromJson(response.data);
+      print(tokenModel.token);
+      Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
     } catch (e) {
       print('Error: $e');
     }
