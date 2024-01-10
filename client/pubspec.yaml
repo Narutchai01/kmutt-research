@@ -32,7 +32,13 @@ flutter:
     - assets/
     - assets/images/
     - assets/original.jpg
-    - assets/message.json
+    - assets/original.json
+    - assets/img-2.jpg
+    - assets/img-2.json
+    - assets/img-1.jpg
+    - assets/img-1.json
+    - assets/img-3.jpg
+    - assets/img-3.json
     
   fonts: 
     - family: Nunito
