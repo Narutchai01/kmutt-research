@@ -15,29 +15,30 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
 
   final dio = Dio();
 
-  void getData(BuildContext context) async {
-    final response = await dio.get(
-      'http://localhost:8080/api/surveyor/getSurveyor',
-    );
-    print(response.data);
-  }
-
-  // void getID(BuildContext context) async {
-  //   final response =
-  //       await dio.get('http://localhost:8080/api/surveyor/findSurveyorByID');
-
-  //   try {
-  //     print(response.data);
-  //   } catch (e) {
-  //     print('Error: $e');
-  //   }
-  //   print('Hello');
+  // void getData(BuildContext context) async {
+  //   final response = await dio.get(
+  //     'http://localhost:8080/api/surveyor/getSurveyor',
+  //   );
+  //   print(response.data);
   // }
+
+  void getID(BuildContext context) async {
+    print('Hello');
+    final response =
+        await dio.get('http://localhost:8080/api/surveyor/findSurveyorByID');
+
+    try {
+      print(response.data);
+    } catch (e) {
+      print('Error: $e');
+    }
+    print('Hello');
+  }
 
   @override
   Widget build(BuildContext context) {
     // getData(context);
-    getData(context);
+    getID(context);
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.blue900,
