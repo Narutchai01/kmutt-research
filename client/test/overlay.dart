@@ -26,7 +26,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<String> selectedCarParts = ["All"];
-  List<String> imagePaths = ["original", "img-2", "img-1"];
+  List<String> imagePaths = ["original", "img-2", "img-1", "img-3"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -345,7 +345,7 @@ class PolygonPainter extends CustomPainter {
 
 Color getColor(String path) {
   if (path == "Front-bumper") {
-    return Color.fromRGBO(85, 227, 194, 0.749);
+    return Color.fromRGBO(251, 171, 171, 0.5);
   } else if (path == "Quarter-panel") {
     return Color.fromRGBO(215, 189, 215, 0.502);
   } else if (path == "Tail-light") {
@@ -376,6 +376,18 @@ Color getColor(String path) {
     return Color.fromRGBO(217, 112, 145, 0.502);
   } else if (path == "Back-windshield") {
     return Color.fromRGBO(255, 0, 255, 0.502);
+  } else if (path == "Windshield") {
+    return Color.fromRGBO(100,147,235,128);
+  } else if (path == "Headlight") {
+    return Color.fromRGBO(137,0,137,128);
+  } else if (path == "Grille") {
+    return Color.fromRGBO(134, 97, 150, 0.786);
+  } else if (path == "Hood") {
+    return Color.fromRGBO(255,68,0,128);
+  } else if (path == "License-plate") {
+    return Color.fromRGBO(147, 99, 108, 0.612);
+  } else if (path == "Back-door") {
+    return Color.fromRGBO(255,128,0,128);
   }
 
   return Colors.red;
@@ -383,19 +395,25 @@ Color getColor(String path) {
 
 List<String> carPartList = [
   "All",
-  "Front-bumper",
-  "Quarter-panel",
-  "Tail-light",
-  "Rocker-panel",
-  "Front-door",
-  "Back-wheel",
-  "Mirror",
-  "Front-wheel",
-  "Back-window",
-  "Fender",
-  "Trunk",
-  "Roof",
-  "Front-window",
-  "Back-windshield",
   "Back-bumper",
+  "Back-door",
+  "Back-wheel",
+  "Back-window",
+  "Back-windshield",
+  "Fender",
+  "Front-bumper",
+  "Front-door",
+  "Front-wheel",
+  "Front-window",
+  "Grille",
+  "Headlight",
+  "Hood",
+  "License-plate",
+  "Mirror",
+  "Quarter-panel",
+  "Roof",
+  "Rocker-panel",
+  "Tail-light",
+  "Trunk",
+  "Wind-shield"
 ];
