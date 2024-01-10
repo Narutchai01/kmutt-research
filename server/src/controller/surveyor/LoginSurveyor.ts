@@ -26,7 +26,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     const token = jwt.sign(payLoad, secret as Secret, {
       expiresIn: "1h",
     });
-    res.status(200).send(token);
+    res.status(200).send({token});
     
   } catch (error) {
     console.log(error);

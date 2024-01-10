@@ -4,9 +4,9 @@ import { GetCase } from '../controller/Cases/GetCase';
 import { findCaseBySurveyorID } from '../controller/Cases/FindCaseByID';
 const router = exporess.Router();
 
-router.post('/createCase', CreateCase);
+router.post('/createCase/:token', CreateCase);
 router.get('/getCase', GetCase);
-router.get('/findCase', findCaseBySurveyorID);
+router.get('/findCase/:token', findCaseBySurveyorID);
 
 
 
