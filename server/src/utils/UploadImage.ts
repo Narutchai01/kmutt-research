@@ -30,3 +30,11 @@ export const upLoadImageCar = async (file: File) => {
     const url = await getDownloadURL(snapshot.ref);
     return url;
 };
+
+export const upLoadImageCustomer = async (file: File) => {
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `imagesCustomer/${uuidv4()}`);
+    const snapshot = await uploadBytes(storageRef, file, metadata);
+    const url = await getDownloadURL(snapshot.ref);
+    return url;
+};

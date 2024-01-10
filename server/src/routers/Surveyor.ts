@@ -3,6 +3,7 @@ import { CreateSurveyor } from '../controller/surveyor/CreateServeyor';
 import { GetSurveyor } from '../controller/surveyor/GetSurveyor';
 import { LoginSurveyor } from '../controller/surveyor/LoginSurveyor';
 import { FindSurveyorByID } from '../controller/surveyor/FindSurveyorByID';
+import { AddCar } from '../controller/Car/AddCar';
 
 const router = express.Router();
 
