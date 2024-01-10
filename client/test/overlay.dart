@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-import 'package:polygon/polygon.dart';
 
 void main() => runApp(MyApp());
 
-Future<String> getJson() async {
-  return await rootBundle.loadString('assets/message.json');
+Future<String> getJson(String imagePath) async {
+  return await rootBundle.loadString('assets/$imagePath.json');
 }
 
 class MyApp extends StatelessWidget {
@@ -26,93 +25,141 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Map<dynamic, dynamic>> predictionsList = [];
-  List<List<Offset>> pointspolyList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    // Call the function to load and overlay predictions when the widget is initialized
-    overlayPoints();
-  }
-
-  void overlayPoints() async {
-    String jsonContent = await getJson();
-
-    // Parse the JSON string
-    Map<String, dynamic> jsonData = json.decode(jsonContent);
-
-    predictionsList = (jsonData['predictions'] as List<dynamic>)
-        .cast<Map<dynamic, dynamic>>();
-
-    // Iterate over predictionsList to get points from each prediction
-    for (var prediction in predictionsList) {
-      List<Offset> pointsList =
-          (prediction['points'] as List<dynamic>).map((pointObj) {
-        double x = pointObj['x']?.toDouble() / 1.4 ?? 0.0;
-        double y = pointObj['y']?.toDouble() / 1.4 ?? 0.0;
-        return Offset(x, y);
-      }).toList();
-      pointspolyList.add(pointsList);
-    }
-    // print(pointspolyList);
-
-    // Update the state to trigger a rebuild
-    setState(() {});
-  }
-
+  List<String> selectedCarParts = ["All"];
+  List<String> imagePaths = ["original", "img-2","img-1"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Image Demo'),
+        title: const Text("Flutter Image Demo"),
       ),
-      body: ImageWithSquare(
-        predictionsList: predictionsList,
-        pointspolyList: pointspolyList,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: carPartList.length,
+              itemBuilder: (context, index) {
+                final carPart = carPartList[index];
+                return CheckboxListTile(
+                  title: Text(carPart),
+                  value: selectedCarParts.contains(carPart),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      if (value != null) {
+                        if (value) {
+                          selectedCarParts.add(carPart);
+                        } else {
+                          selectedCarParts.remove(carPart);
+                        }
+                      }
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: ImageWithSquare(selectedCarParts: selectedCarParts, imagePaths: imagePaths),
+          ),
+        ],
       ),
     );
   }
 }
 
 class ImageWithSquare extends StatelessWidget {
-  final List<Map<dynamic, dynamic>> predictionsList;
-  final List<List<Offset>> pointspolyList;
-
-  ImageWithSquare({
-    required this.predictionsList,
-    required this.pointspolyList,
-  });
+  final List<String> selectedCarParts;
+  final List<String> imagePaths;
+  ImageWithSquare({required this.selectedCarParts, required this.imagePaths});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset('assets/original.jpg'),
-          for (var i = 0; i < predictionsList.length; i++)
-            Positioned(
-              top: -3,
-              left: -3, // Adjust this value for the desired left margin
-              child: CustomPaint(
-                painter: PolygonPainter(
-                  points: pointspolyList[i],
-                  color: getColor(predictionsList[i]['class']),
+    return PageView.builder(
+      itemCount: imagePaths.length,
+      itemBuilder: (context, index){
+      return 
+       FutureBuilder(
+        future: getJson(imagePaths[index]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            String jsonContent = snapshot.data.toString();
+            Map<String, dynamic> jsonData = json.decode(jsonContent);
+
+            List<Map<dynamic, dynamic>> predictionsList =
+                (jsonData['predictions'] as List<dynamic>)
+                    .cast<Map<dynamic, dynamic>>();
+
+            List<List<Offset>> pointspolyList = [];
+            for (var prediction in predictionsList) {
+              List<Offset> pointsList =
+                  (prediction['points'] as List<dynamic>).map((pointObj) {
+                double x = pointObj['x']?.toDouble() / 1.4 ?? 0.0;
+                double y = pointObj['y']?.toDouble() / 1.4 ?? 0.0;
+                return Offset(x, y);
+              }).toList();
+              pointspolyList.add(pointsList);
+            }
+
+            List<Map<dynamic, dynamic>> filteredPredictionsList = predictionsList
+                .where((prediction) =>
+                    selectedCarParts.contains("All") ||
+                    selectedCarParts.contains(prediction['class']))
+                .toList();
+
+            List<List<Offset>> filteredPointspolyList = [];
+
+            pointspolyList.asMap().forEach((i, points) {
+              if (selectedCarParts.contains("All") ||
+                selectedCarParts.contains(predictionsList[i]['class'])) {
+              filteredPointspolyList.add(points);
+              }
+            });
+
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+              Container(
+                width: 390,
+                height: 350,
+                child: Image.asset(
+                  'assets/${imagePaths[index]}.jpg',
+                fit: BoxFit.fitWidth,
                 ),
               ),
-            ),
-          for (var i = 0; i < predictionsList.length; i++)
-            OverlayText(
-              x: predictionsList[i]['x']?.toDouble() ?? 0.0,
-              y: predictionsList[i]['y']?.toDouble() ?? 0.0,
-              width: predictionsList[i]['width']?.toDouble() ?? 0.0,
-              height: predictionsList[i]['width']?.toDouble() ?? 0.0,
-              predictionClass: predictionsList[i]['class'],
-            ),
-        ],
-      ),
+                for (var i = 0; i < filteredPredictionsList.length; i++)
+                  if (selectedCarParts.contains("All") ||
+                      selectedCarParts.contains(filteredPredictionsList[i]['class']))
+                    Positioned(
+                      top: 22,
+                      left: -5,
+                      child: CustomPaint(
+                        painter: PolygonPainter(
+                          points: filteredPointspolyList[i],
+                          color: getColor(filteredPredictionsList[i]['class']),
+                        ),
+                      ),
+                    ),
+                for (var i = 0; i < filteredPredictionsList.length; i++)
+                  if (selectedCarParts.contains("All") ||
+                      selectedCarParts.contains(filteredPredictionsList[i]['class']))
+                    OverlayText(
+                      x: filteredPredictionsList[i]['x']?.toDouble() ?? 0.0,
+                      y: filteredPredictionsList[i]['y']?.toDouble() ?? 0.0,
+                      width: filteredPredictionsList[i]['width']?.toDouble() ?? 0.0,
+                      height: filteredPredictionsList[i]['width']?.toDouble() ?? 0.0,
+                      predictionClass: filteredPredictionsList[i]['class'],
+                      confidence: filteredPredictionsList[i]['confidence']?.toDouble() ?? 0.0,
+                ),
+              ],
+            );
+          }
+        },
+       );
+      },
     );
   }
 }
@@ -123,6 +170,7 @@ class OverlayText extends StatelessWidget {
   final double width;
   final double height;
   final String predictionClass;
+  final double confidence;
 
   OverlayText({
     required this.x,
@@ -130,32 +178,38 @@ class OverlayText extends StatelessWidget {
     required this.width,
     required this.height,
     required this.predictionClass,
+    required this.confidence,
   });
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: y - 50,
-      left: x - 80,
+      top: (y/1.15),
+      left: (x/1.65)-20,
       child: Container(
-        padding: EdgeInsets.all(8.0), // Adjust padding as needed
+        padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: getColor(predictionClass),
-          borderRadius:
-              BorderRadius.circular(8.0), // Adjust border radius as needed
-          border: Border.all(
-            color: const Color.fromARGB(60, 0, 0, 0),
-            width: 1.0,
-          ),
+          color: Color.fromARGB(31, 0, 0, 0),
+          
         ),
-        child: Text(
-          '$predictionClass',
-          style: TextStyle(fontSize: 16, color: Colors.black),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$predictionClass',
+              style: TextStyle(fontSize: 12, color: const Color.fromARGB(255, 255, 255, 255)),
+            ),
+            Text(
+              '  ${(confidence * 100).toStringAsFixed(0)}%',
+              style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
 
 class PolygonPainter extends CustomPainter {
   final List<Offset> points;
@@ -226,3 +280,22 @@ Color getColor(String path) {
 
   return Colors.red;
 }
+
+List<String> carPartList = [
+  "All",
+  "Front-bumper",
+  "Quarter-panel",
+  "Tail-light",
+  "Rocker-panel",
+  "Front-door",
+  "Back-wheel",
+  "Mirror",
+  "Front-wheel",
+  "Back-window",
+  "Fender",
+  "Trunk",
+  "Roof",
+  "Front-window",
+  "Back-windshield",
+  "Back-bumper",
+];
