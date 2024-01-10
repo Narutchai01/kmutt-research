@@ -1,6 +1,7 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 // ignore_for_file: must_be_immutable
 class ProfileUpdatePage extends StatelessWidget {
@@ -11,8 +12,15 @@ class ProfileUpdatePage extends StatelessWidget {
 
   TextEditingController editTextController = TextEditingController();
 
+  void getData() async {
+    final response =
+        await Dio().get('http://localhost:8080/api/surveyor/getSurveyor');
+    print(response.data);
+  }
+
   @override
   Widget build(BuildContext context) {
+    getData();
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
