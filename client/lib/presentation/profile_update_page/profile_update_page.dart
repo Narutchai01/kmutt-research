@@ -11,20 +11,20 @@ class ProfileUpdatePage extends StatelessWidget {
           key: key,
         );
   final dio = Dio();
-  late List<String> data;
-  void GetSurveryor(BuildContext context) async {
-    final response = await dio.get(
-      'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
-    );
+  // late List<String> data;
+  // void GetSurveryor(BuildContext context) async {
+  //   final response = await dio.get(
+  //     'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+  //   );
 
-    data = response.data[0];
-  }
+  //   // data = response.data[0];
+  // }
 
   TextEditingController editTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    GetSurveryor(context);
+    // GetSurveryor(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
@@ -92,7 +92,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${data[0]}",
+                                            "Poomthai Promkrote",
                                             style: CustomTextStyles
                                                 .titleLargeWhiteA700,
                                           ),
