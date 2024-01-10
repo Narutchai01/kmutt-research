@@ -5,6 +5,7 @@ import 'package:client/presentation/user_profile_update_page/user_profile_update
 import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
+import 'package:dio/dio.dart';
 
 // ignore_for_file: must_be_immutable
 class ProfileUpdateContainerScreen extends StatelessWidget {
@@ -12,8 +13,31 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  final dio = Dio();
+
+  void getData(BuildContext context) async {
+    final response = await dio.get(
+      'http://localhost:8080/api/surveyor/getSurveyor',
+    );
+    print(response.data);
+  }
+
+  // void getID(BuildContext context) async {
+  //   final response =
+  //       await dio.get('http://localhost:8080/api/surveyor/findSurveyorByID');
+
+  //   try {
+  //     print(response.data);
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  //   print('Hello');
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // getData(context);
+    getData(context);
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.blue900,

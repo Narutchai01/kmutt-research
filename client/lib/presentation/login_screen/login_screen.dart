@@ -1,6 +1,7 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
@@ -28,11 +29,9 @@ class LoginScreen extends StatelessWidget {
       if (response.data['message'] == 'Login Success') {
         Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.data['message']),
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response.data['message']),
+        ));
       }
     } catch (e) {
       print('Error: $e');
