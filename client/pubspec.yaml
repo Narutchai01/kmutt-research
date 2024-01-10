@@ -17,6 +17,10 @@ dependencies:
   image_picker: ^0.8.6
   camera: ^0.10.5+9
   gallery_saver: ^2.0.4
+  http: ^0.13.6
+  dio: ^5.4.0
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.2
   cool_alert: ^2.0.1
 dev_dependencies: 
   flutter_test: 

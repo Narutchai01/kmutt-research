@@ -1,17 +1,59 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/model/token_model.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
+
+import 'package:client/presentation/model/token_model.dart';
+
+TokenModel GlobalModel = TokenModel(token: '');
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key})
       : super(
           key: key,
         );
+  String formatToken(String originalToken) {
+    // Add your formatting logic here
+    // For example, you can convert the token to uppercase
+    return originalToken;
+  }
 
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  final dio = Dio();
+  void sentLogin(BuildContext context) async {
+    final response = await dio.post(
+      'http://localhost:8080/api/surveyor/loginSurveyor',
+      data: {
+        "email": EmailController.text,
+        "PassWord": passwordController.text,
+      },
+    );
+    try {
+      print(response.data);
+      TokenModel tokenModel = TokenModel.fromMap(response.data);
+      GlobalModel = TokenModel(token: formatToken(tokenModel.token));
+
+      print(tokenModel.token);
+
+      Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
+    } catch (e) {
+      if (e is DioException) {
+        print('DioError: ${e.message}');
+        if (e.response != null) {
+          print('Response data: ${e.response!.data}');
+          print('Response status: ${e.response!.statusCode}');
+        }
+      } else {
+        print('Error: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                         style: theme.textTheme.titleLarge,
                       ),
                       SizedBox(height: 22.v),
-                      _buildUsernameSection(context),
+                      _buildEmailSection(context),
                       SizedBox(height: 29.v),
                       _buildPasswordSection(context),
                       SizedBox(height: 34.v),
@@ -60,6 +102,10 @@ class LoginScreen extends StatelessWidget {
                         text: "Sign in",
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
+                        onPressed: () {
+                          sentLogin(context);
+                          ;
+                        },
                       ),
                       SizedBox(height: 273.v),
                     ],
@@ -121,7 +167,7 @@ class LoginScreen extends StatelessWidget {
   // }
 
   /// Section Widget
-  Widget _buildUsernameSection(BuildContext context) {
+  Widget _buildEmailSection(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 69.h),
       child: Column(
@@ -130,7 +176,7 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 1.h),
             child: Text(
-              "Username",
+              "Email",
               style: theme.textTheme.bodyMedium,
             ),
           ),
@@ -138,10 +184,8 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 1.h),
             child: CustomTextFormField(
-              textStyle: const TextStyle(
-                color: Colors.black
-              ),
-              controller: userNameController,
+              textStyle: const TextStyle(color: Colors.black),
+              controller: EmailController,
             ),
           ),
         ],
@@ -168,9 +212,7 @@ class LoginScreen extends StatelessWidget {
             padding: EdgeInsets.only(left: 2.h),
             child: CustomTextFormField(
               controller: passwordController,
-              textStyle: const TextStyle(
-                color: Colors.black
-              ),
+              textStyle: const TextStyle(color: Colors.black),
               textInputAction: TextInputAction.done,
               obscureText: true,
             ),
