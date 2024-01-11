@@ -46,7 +46,6 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
     try {
       final imagePicker = ImagePicker();
       final List<XFile>? imageFiles = await imagePicker.pickMultiImage();
-
       if (imageFiles != null && imageFiles.isNotEmpty) {
         // Navigate to ImagePickerConfirm and clear the navigation stack
         Navigator.pushAndRemoveUntil(
@@ -65,6 +64,7 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Camera")),
       body: _isCameraInitialized
           ? Stack(
               children: [
