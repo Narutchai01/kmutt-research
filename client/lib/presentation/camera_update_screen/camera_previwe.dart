@@ -33,7 +33,7 @@ class _ImagePreviewState extends State<ImagePreview> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              Navigator.pop(context);
+              go_back();
             },
             child: Icon(Icons.cancel),
             backgroundColor: Colors.red,
@@ -42,6 +42,7 @@ class _ImagePreviewState extends State<ImagePreview> {
           FloatingActionButton(
             onPressed: () {
               saveImage();
+              go_back();
             },
             child: Icon(Icons.save),
           ),
@@ -64,8 +65,6 @@ class _ImagePreviewState extends State<ImagePreview> {
           content: Text('Image saved to gallery'),
         ),
       );
-
-      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -73,5 +72,9 @@ class _ImagePreviewState extends State<ImagePreview> {
         ),
       );
     }
+  }
+
+  Future<void> go_back() async {
+    Navigator.pop(context);
   }
 }
