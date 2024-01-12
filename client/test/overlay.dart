@@ -107,13 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ImageWithSquare(
-              selectedCarParts: selectedCarParts,
-              imagePaths: imagePaths,
-            ),
-          ),
-          MyAppBar(
+           MyAppBar(
             carPartList: carPartList,
             selectedFilters: selectedFilters,
             onFiltersChanged: (List<String> newFilters) {
@@ -122,6 +116,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     newFilters.contains("All") ? ["All"] : newFilters;
               });
             },
+          ),
+          Expanded(
+            child: ImageWithSquare(
+              selectedCarParts: selectedCarParts,
+              imagePaths: imagePaths,
+            ),
           ),
         ],
       ),
