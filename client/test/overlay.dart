@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:async' show Completer, Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 void main() => runApp(MyApp());
-
 Future<String> getJson(String imagePath) async {
   return await rootBundle.loadString('assets/$imagePath.json');
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,6 +18,47 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final List<String> carPartList;
+  final List<String> selectedFilters;
+  final Function(List<String>) onFiltersChanged;
+
+   MyAppBar({
+    required this.carPartList,
+    required this.selectedFilters,
+    required this.onFiltersChanged,
+  });
+  @override
+  Widget build(BuildContext context) {
+    carPartList.sort();
+    return AppBar(
+      actions: [
+        MultiSelectDialogField(
+          buttonText: Text("Filter"),
+          title: Text("Select Filters"),
+          items: carPartList
+              .map((carPart) => MultiSelectItem<String>(
+                carPart, 
+                carPart,
+                ))
+              .toList(),
+          listType: MultiSelectListType.CHIP,
+          selectedItemsTextStyle: TextStyle(color: Colors.black),
+          selectedColor: Color(0XFF4DC3FF),
+          chipDisplay: MultiSelectChipDisplay.none(),
+          onConfirm: (values) {
+            onFiltersChanged(values.map((e) => e.toString()).toList());
+          },
+          initialValue: selectedFilters,
+        ),
+      ],
+    );
+  }
+  
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -27,6 +67,38 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<String> selectedCarParts = ["All"];
   List<String> imagePaths = ["original", "img-2", "img-1", "img-3"];
+  List<String> selectedFilters = ["All"];
+  List<String> carPartList = ["All"];
+  
+  @override
+  void initState() {
+    super.initState();
+    loadCarPartList();
+  }
+
+  Future<void> loadCarPartList() async {
+    // Load the JSON data for each image and update the carPartList
+    for (var imagePath in imagePaths) {
+      String jsonContent = await getJson(imagePath);
+      Map<String, dynamic> jsonData = json.decode(jsonContent);
+
+      List<Map<dynamic, dynamic>> predictionsList =
+          (jsonData['predictions'] as List<dynamic>)
+              .cast<Map<dynamic, dynamic>>();
+
+      for (var prediction in predictionsList) {
+        String carPart = prediction['class'];
+        if (!carPartList.contains(carPart)) {
+          carPartList.add(carPart);
+        }
+      }
+    }
+
+    setState(() {
+      selectedFilters = ["All"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,33 +108,20 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: carPartList.length,
-              itemBuilder: (context, index) {
-                final carPart = carPartList[index];
-                return CheckboxListTile(
-                  title: Text(carPart),
-                  value: selectedCarParts.contains(carPart),
-                  onChanged: (bool? value) {
-                    setState(() {
-                      if (value != null) {
-                        if (value) {
-                          selectedCarParts.add(carPart);
-                        } else {
-                          selectedCarParts.remove(carPart);
-                        }
-                      }
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-          Expanded(
             child: ImageWithSquare(
               selectedCarParts: selectedCarParts,
               imagePaths: imagePaths,
             ),
+          ),
+          MyAppBar(
+            carPartList: carPartList,
+            selectedFilters: selectedFilters,
+            onFiltersChanged: (List<String> newFilters) {
+              setState(() {
+                selectedCarParts =
+                    newFilters.contains("All") ? ["All"] : newFilters;
+              });
+            },
           ),
         ],
       ),
@@ -343,56 +402,33 @@ class PolygonPainter extends CustomPainter {
   }
 }
 
+
+const Map<String, Color> carPartColors = {
+  "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
+  "Quarter-panel": Color.fromRGBO(215, 189, 215, 0.502),
+  "Tail-light": Color.fromRGBO(217, 112, 145, 0.502),
+  "Rocker-panel": Color.fromRGBO(255, 20, 145, 0.502),
+  "Front-door": Color.fromRGBO(0, 0, 255, 0.502),
+  "Back-wheel": Color.fromRGBO(0, 181, 233, 0.502),
+  "Back-bumper": Color.fromRGBO(85, 227, 194, 0.749),
+  "Mirror": Color.fromRGBO(0, 255, 255, 0.502),
+  "Front-wheel": Color.fromRGBO(159, 82, 44, 0.502),
+  "Back-window": Color.fromRGBO(255, 255, 0, 0.502),
+  "Fender": Color.fromRGBO(14, 122, 253, 0.502),
+  "Trunk": Color.fromRGBO(221, 183, 133, 0.502),
+  "Roof": Color.fromRGBO(255, 227, 179, 0.502),
+  "Front-window": Color.fromRGBO(128, 128, 0, 0.502),
+  "Back-windshield": Color.fromRGBO(255, 0, 255, 0.502),
+  "Windshield": Color.fromRGBO(100, 147, 235, 128),
+  "Headlight": Color.fromRGBO(137, 0, 137, 128),
+  "Grille": Color.fromRGBO(134, 97, 150, 0.786),
+  "Hood": Color.fromRGBO(255, 68, 0, 128),
+  "License-plate": Color.fromRGBO(147, 99, 108, 0.612),
+  "Back-door": Color.fromRGBO(255, 128, 0, 128),
+};
 Color getColor(String path) {
-  if (path == "Front-bumper") {
-    return Color.fromRGBO(251, 171, 171, 0.5);
-  } else if (path == "Quarter-panel") {
-    return Color.fromRGBO(215, 189, 215, 0.502);
-  } else if (path == "Tail-light") {
-    return Color.fromRGBO(217, 112, 145, 0.502);
-  } else if (path == "Rocker-panel") {
-    return Color.fromRGBO(255, 20, 145, 0.502);
-  } else if (path == "Front-door") {
-    return Color.fromRGBO(0, 0, 255, 0.502);
-  } else if (path == "Back-wheel") {
-    return Color.fromRGBO(0, 181, 233, 0.502);
-  } else if (path == "Back-bumper") {
-    return Color.fromRGBO(85, 227, 194, 0.749);
-  } else if (path == "Mirror") {
-    return Color.fromRGBO(0, 255, 255, 0.502);
-  } else if (path == "Front-wheel") {
-    return Color.fromRGBO(159, 82, 44, 0.502);
-  } else if (path == "Back-window") {
-    return Color.fromRGBO(255, 255, 0, 0.502);
-  } else if (path == "Fender") {
-    return Color.fromRGBO(14, 122, 253, 0.502);
-  } else if (path == "Trunk") {
-    return Color.fromRGBO(221, 183, 133, 0.502);
-  } else if (path == "Roof") {
-    return Color.fromRGBO(255, 227, 179, 0.502);
-  } else if (path == "Front-window") {
-    return Color.fromRGBO(128, 128, 0, 0.502);
-  } else if (path == "Tail-light") {
-    return Color.fromRGBO(217, 112, 145, 0.502);
-  } else if (path == "Back-windshield") {
-    return Color.fromRGBO(255, 0, 255, 0.502);
-  } else if (path == "Windshield") {
-    return Color.fromRGBO(100, 147, 235, 128);
-  } else if (path == "Headlight") {
-    return Color.fromRGBO(137, 0, 137, 128);
-  } else if (path == "Grille") {
-    return Color.fromRGBO(134, 97, 150, 0.786);
-  } else if (path == "Hood") {
-    return Color.fromRGBO(255, 68, 0, 128);
-  } else if (path == "License-plate") {
-    return Color.fromRGBO(147, 99, 108, 0.612);
-  } else if (path == "Back-door") {
-    return Color.fromRGBO(255, 128, 0, 128);
-  }
-
-  return Colors.red;
+  return carPartColors[path] ?? Colors.red;
 }
-
 List<String> carPartList = [
   "All",
   "Back-bumper",
