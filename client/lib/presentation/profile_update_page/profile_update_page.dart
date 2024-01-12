@@ -3,28 +3,40 @@ import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
-
+import 'package:client/presentation/profile_update_page/User_model.dart';
 // ignore_for_file: must_be_immutable
+
+StringModel Profile1 =
+    StringModel(First_name: '', Last_name: '', SurveyorID: '');
+
 class ProfileUpdatePage extends StatelessWidget {
   ProfileUpdatePage({Key? key})
       : super(
           key: key,
         );
   final dio = Dio();
-  // late List<String> data;
-  // void GetSurveryor(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
-  //   );
+  var data;
+  String formatString(String originalString) {
+    // Add your formatting logic here
+    // For example, you can convert the token to uppercase
+    return originalString;
+  }
 
-  //   // data = response.data[0];
-  // }
+  void GetSurveryor(BuildContext context) async {
+    final response = await dio.get(
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+    );
+
+    var data = response.data[0];
+
+    Profile1 = StringModel.fromMap(response.data[0]);
+  }
 
   TextEditingController editTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // GetSurveryor(context);
+    GetSurveryor(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
@@ -92,7 +104,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Poomthai Promkrote",
+                                            '${Profile1.First_name} ${Profile1.Last_name}',
                                             style: CustomTextStyles
                                                 .titleLargeWhiteA700,
                                           ),
@@ -100,7 +112,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                           Padding(
                                             padding: EdgeInsets.only(left: 8.h),
                                             child: Text(
-                                              "ID : 12345",
+                                              '${Profile1.SurveyorID}',
                                               style: CustomTextStyles
                                                   .titleLargeBlue900,
                                             ),
