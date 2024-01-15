@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -16,18 +17,13 @@ class ProfileUpdatePage extends StatelessWidget {
         );
   final dio = Dio();
   var data;
-  String formatString(String originalString) {
-    // Add your formatting logic here
-    // For example, you can convert the token to uppercase
-    return originalString;
-  }
 
   void GetSurveryor(BuildContext context) async {
     final response = await dio.get(
       'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
     );
 
-    var data = response.data[0];
+    // var data = response.data[0];
 
     Profile1 = StringModel.fromMap(response.data[0]);
   }
@@ -37,6 +33,7 @@ class ProfileUpdatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GetSurveryor(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
