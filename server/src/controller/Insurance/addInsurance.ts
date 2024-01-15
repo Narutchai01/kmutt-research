@@ -12,7 +12,7 @@ export const addInsurance = async (req: Request, res: Response) => {
             Policy_type,
             Start_date,
             End_date,
-            Status: "In progress"
+            Status: "Active"
         };
         await conn?.query(addInsurance, [
             DataInsurance.Policy_number,

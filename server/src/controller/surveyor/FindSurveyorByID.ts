@@ -8,7 +8,7 @@ export const FindSurveyorByID = async (req: Request, res: Response) => {
         const token = req.params.token;
         const secert = process.env.JWT_SECRET!;
         const decoded:any= jwt.verify(token, secert) ;
-        const sql = `SELECT SurveyorID , First_name , Last_name FROM Surveyor WHERE SurveyorID = ?`;
+        const sql = `SELECT * FROM Surveyor WHERE SurveyorID = ?`;
         const result:any = await conn?.query(sql,[decoded.ID]);
         res.status(200).send(result[0]);
     } catch (error) {
