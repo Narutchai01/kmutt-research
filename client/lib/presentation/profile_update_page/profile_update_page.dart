@@ -114,7 +114,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                       padding: EdgeInsets.only(
                                         top: 20.v,
                                         bottom: 15.v,
-                                        left: 40.h,
+                                        left: 30.h,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:

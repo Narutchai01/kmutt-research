@@ -1,6 +1,7 @@
 // import 'dart:js';
 
 // import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+import 'package:client/core/app_export.dart';
 import 'package:dio/dio.dart';
 // import '../search_update_page/widgets/userlist_item_widget.dart';
 // import 'package:client/core/app_export.dart';
@@ -59,11 +60,13 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
     return searchModels;
   }
 
+  List<SearchModel> display_list = List.from(searchModels);
+
   void updateList(String value) {
     setState(() {
-      searchModels = searchModels
-          .where((element) =>
-              element.CarID.toLowerCase().contains(value.toLowerCase()))
+      display_list = searchModels
+          .where((searchModel) =>
+              searchModel.CarID.toLowerCase().contains(value.toLowerCase()))
           .toList();
     });
   }
@@ -74,54 +77,81 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
       appBar: AppBar(
         title: Text('Search'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
+      body: Container(
+        color: appTheme.blue900, // Add background color here
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              onChanged: (value) => updateList(value),
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
+            Padding(padding: const EdgeInsets.only(top: 30)),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 40),
+              child: TextField(
+                onChanged: (value) => updateList(value),
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
                   hintText: "Enter car ID",
                   suffixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.black,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.white), // Set the border color to white
+                  ),
+                  filled: true, // Enable filling the TextField with color
+                  fillColor: Colors.white, // Set the fill color to white
+                ),
+              ),
             ),
             SizedBox(
               height: 20,
             ),
-            Text(
-              "Search for a car",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
+            Padding(padding: const EdgeInsets.only(top: 10)),
             Expanded(
-              child: ListView.builder(
-                itemCount: searchModels.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(
-                    searchModels[index]
-                        .CarID, // Use searchModels instead of searchList
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    '${searchModels[index].CarID}', // Use searchModels instead of searchList
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+              // Add Expanded widget
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Search for a car",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      // Add Expanded widget
+                      child: ListView.builder(
+                        itemCount: display_list.length,
+                        itemBuilder: (context, index) => ListTile(
+                          title: Text(
+                            display_list.isNotEmpty
+                                ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
+                                : '',
+                            // Use searchModels instead of searchList
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            display_list.isNotEmpty
+                                ? '${display_list[index].CarID}' // Use display_list instead of searchList
+                                : '', // Show an empty string if display_list is empty
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
