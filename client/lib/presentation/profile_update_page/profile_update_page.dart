@@ -57,13 +57,12 @@ class ProfileUpdatePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // _buildHeadSection(context),
                       SizedBox(height: 43.v),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          height: 90.v,
-                          width: 299.h,
+                          height: 105.v,
+                          width: 309.h,
                           margin: EdgeInsets.only(left: 54.h),
                           child: Stack(
                             alignment: Alignment.center,
@@ -75,7 +74,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                   width: 110.h,
                                   margin: EdgeInsets.only(
                                     right: 72.h,
-                                    bottom: 14.v,
+                                    bottom: 18.v,
                                   ),
                                   decoration: BoxDecoration(
                                     color: appTheme.whiteA700,
@@ -88,16 +87,34 @@ class ProfileUpdatePage extends StatelessWidget {
                               Align(
                                 alignment: Alignment.center,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(Profile1.Image,
-                                        height: 30, width: 30),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: Image.network(
+                                          Profile1.Image,
+                                          height: 80.0,
+                                          width: 81.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                        top: 9.v,
+                                        top: 20.v,
                                         bottom: 15.v,
+                                        left: 40.h,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
@@ -105,7 +122,6 @@ class ProfileUpdatePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             '${Profile1.First_name} ${Profile1.Last_name}',
-                                            // '${Profile1.Image}',
                                             style: CustomTextStyles
                                                 .titleLargeWhiteA700,
                                           ),
