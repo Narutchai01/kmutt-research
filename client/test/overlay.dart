@@ -36,20 +36,37 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         MultiSelectDialogField(
           buttonText: Text("Filter"),
           title: Text("Select Filters"),
-          items: carPartList
-              .map((carPart) => MultiSelectItem<String>(
-                carPart, 
+           items: [
+            if (selectedFilters.length == 1 && selectedFilters.contains("All"))
+            MultiSelectItem<String>("All", "All"),
+            ...carPartList
+            .where((carPart) => !selectedFilters.contains("All"))
+            .map(
+              (carPart) => MultiSelectItem<String>(
                 carPart,
-                ))
-              .toList(),
+                carPart,
+              ),
+            ),
+          ],
           listType: MultiSelectListType.CHIP,
           selectedItemsTextStyle: TextStyle(color: Colors.black),
           selectedColor: Color(0XFF4DC3FF),
           chipDisplay: MultiSelectChipDisplay.none(),
-          onConfirm: (values) {
-            onFiltersChanged(values.map((e) => e.toString()).toList());
+          onConfirm: (List<Object?> values) {
+            if (values.contains("All") && values.length == 1) {
+              onFiltersChanged(["All"]);
+            } else if (values.contains("All") && values.length > 1) {
+              onFiltersChanged(
+                values
+                    .whereType<String>() 
+                    .where((value) => value != "All")
+                    .toList(),
+              );
+            }else {
+              onFiltersChanged(values.map((e) => e.toString()).toList());
+            }
           },
-          initialValue: selectedFilters,
+          initialValue: selectedFilters.contains("All") ? ["All"] : selectedFilters,
         ),
       ],
     );
@@ -67,8 +84,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<String> selectedCarParts = ["All"];
   List<String> imagePaths = ["original", "img-2", "img-1", "img-3"];
-  List<String> selectedFilters = ["All"];
-  List<String> carPartList = ["All"];
+  List<String> selectedFilters = [];
+  List<String> carPartList = [
+  "All",
+  "Back-bumper",
+  "Back-door",
+  "Back-wheel",
+  "Back-window",
+  "Back-windshield",
+  "Fender",
+  "Front-bumper",
+  "Front-door",
+  "Front-wheel",
+  "Front-window",
+  "Grille",
+  "Headlight",
+  "Hood",
+  "License-plate",
+  "Mirror",
+  "Quarter-panel",
+  "Roof",
+  "Rocker-panel",
+  "Tail-light",
+  "Trunk",
+  "Wind-shield"
+]; 
   
   @override
   void initState() {
@@ -94,9 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    setState(() {
-      selectedFilters = ["All"];
-    });
+   
   }
 
   @override
@@ -112,8 +150,9 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedFilters: selectedFilters,
             onFiltersChanged: (List<String> newFilters) {
               setState(() {
-                selectedCarParts =
-                    newFilters.contains("All") ? ["All"] : newFilters;
+                selectedCarParts = newFilters.contains("All")
+                    ? carPartList
+                    : List<String>.from(newFilters);
               });
             },
           ),
@@ -429,27 +468,3 @@ const Map<String, Color> carPartColors = {
 Color getColor(String path) {
   return carPartColors[path] ?? Colors.red;
 }
-List<String> carPartList = [
-  "All",
-  "Back-bumper",
-  "Back-door",
-  "Back-wheel",
-  "Back-window",
-  "Back-windshield",
-  "Fender",
-  "Front-bumper",
-  "Front-door",
-  "Front-wheel",
-  "Front-window",
-  "Grille",
-  "Headlight",
-  "Hood",
-  "License-plate",
-  "Mirror",
-  "Quarter-panel",
-  "Roof",
-  "Rocker-panel",
-  "Tail-light",
-  "Trunk",
-  "Wind-shield"
-];
