@@ -1,4 +1,5 @@
 import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+import 'package:dio/dio.dart';
 import '../search_update_page/widgets/userlist_item_widget.dart';
 import 'package:client/core/app_export.dart';
 import 'package:client/widgets/custom_search_view.dart';
@@ -9,8 +10,17 @@ class SearchUpdatePage extends StatelessWidget {
   SearchUpdatePage({Key? key}) : super(key: key);
 
   TextEditingController searchController = TextEditingController();
+
+  final dio = Dio();
+  void getCustomer(BuildContext context) async {
+    final response =
+        await dio.get('http://10.0.2.2:8080/api/customer/getCustomer');
+    print(response);
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCustomer(context);
     return SafeArea(
         top: false,
         bottom: false,
@@ -124,14 +134,14 @@ class SearchUpdatePage extends StatelessWidget {
   }
 
   /// Navigates to the data1UpdateScreen when the action is triggered.
- void onTapTxtUserName(BuildContext context, String userName) {
-  if (userName == "Anthony Edward Stark") {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Data1UpdateScreen()),
-    );
-  } else {
-    print("Invalid username: $userName");
+  void onTapTxtUserName(BuildContext context, String userName) {
+    if (userName == "Anthony Edward Stark") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Data1UpdateScreen()),
+      );
+    } else {
+      print("Invalid username: $userName");
+    }
   }
-}
 }

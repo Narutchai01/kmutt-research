@@ -1,12 +1,28 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/model/case_model.dart';
 // import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
+//import car_customer.dart
+import 'package:client/presentation/model/car_customer.dart';
+
+CustomerModel Customer1 = CustomerModel(
+  CarID: '',
+  CustomerID: '',
+  Province: '',
+  Brand: '',
+  Model: '',
+  Color: '',
+  Policy_number: '',
+  Image: '',
+  Status: '',
+);
 
 // ignore_for_file: must_be_immutable
 class Data1UpdateScreen extends StatelessWidget {
@@ -14,8 +30,17 @@ class Data1UpdateScreen extends StatelessWidget {
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
+  final dio = Dio();
+  void getCustomer(BuildContext context) async {
+    final response = await dio.get(
+        'http://10.0.2.2:8080/api/cars/getCarByID?CarID=กอ%209119&Province=ชลบุรี');
+    print(response.data[0]);
+    Customer1 = CustomerModel.fromMap(response.data[0]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCustomer(context);
     return SafeArea(
         child: Scaffold(
       extendBody: true,
