@@ -5,7 +5,19 @@ export const getCarByID = async (req: Request, res: Response) => {
   try {
     const { CarID, Province } = req.query;
     const sql = `
-    SELECT Cus.First_name , Cus.Last_name , C.CarID , Cus.image as Customer_image , C.image as Car_Image, Cus.Address , C.Model , C.Brand , Insu.Policy_number , Insu.Policy_type , Insu.Start_date, Insu.End_date
+    SELECT Cus.First_name , Cus.Last_name 
+, C.CarID 
+, Cus.image as Customer_image 
+, C.image as Car_Image, Cus.Address 
+, C.Model 
+, C.Brand 
+, Insu.Policy_number 
+, Insu.Policy_type 
+, Insu.Start_date
+, Insu.End_date 
+,Cus.Email
+,Cus.Phone_number
+,Cus.Line
 FROM Car AS C
 JOIN Customer AS Cus ON C.CustomerID = Cus.CustomerID
 JOIN Insurance AS Insu ON Cus.CustomerID = Insu.CustomerID
