@@ -186,13 +186,14 @@ class ProfileUpdatePage extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 6.v),
-                            CustomTextFormField(
-                              controller: editTextController,
-                              textInputAction: TextInputAction.done,
-                              borderDecoration:
-                                  TextFormFieldStyleHelper.fillBlue,
-                              filled: true,
-                              fillColor: appTheme.blue100,
+                            Container(
+                              height: 160.v,
+                              width: 361.h,
+                              decoration: BoxDecoration(
+                                  color: appTheme.blue100,
+                                  borderRadius: BorderRadius.horizontal(
+                                      right: Radius.circular(10.h),
+                                      left: Radius.circular(10.h))),
                             ),
                             SizedBox(height: 38.v),
                             Align(
@@ -258,10 +259,10 @@ class ProfileUpdatePage extends StatelessWidget {
                                   left: Radius.circular(10.h),
                                 ),
                                 child: LinearProgressIndicator(
-                                  value: 0.03,
-                                  backgroundColor: appTheme.blue100,
+                                  value: 0.97,
+                                  backgroundColor: appTheme.blue900,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    appTheme.blue900,
+                                    appTheme.blue100,
                                   ),
                                 ),
                               ),

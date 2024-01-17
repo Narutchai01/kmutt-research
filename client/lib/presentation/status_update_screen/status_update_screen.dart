@@ -10,11 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
-class StatusUpdateScreen extends StatelessWidget {
+class StatusUpdateScreen extends StatefulWidget {
+  @override
+  _StatusUpdateScreenState createState() => _StatusUpdateScreenState();
+}
+
+class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
   CaseModel _dataFromAPI = CaseModel();
   final dio = Dio();
   var data = [];
-
+  bool isSearch = false;
   // void getCase(BuildContext context) async {
   //   final response = await dio.get(
   //     'http://10.0.2.2:8080/api/cases/getCase',
@@ -34,7 +39,7 @@ class StatusUpdateScreen extends StatelessWidget {
   // }
   @override
   void initState() {
-    initState();
+    super.initState();
     loadData();
   }
 
@@ -68,6 +73,7 @@ class StatusUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(isSearch);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -114,6 +120,7 @@ class StatusUpdateScreen extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              showsearch(),
                               _buildSeventyTwoSection(context),
                               SizedBox(height: 16.v),
                               FutureBuilder<List<CaseModel>>(
@@ -159,6 +166,25 @@ class StatusUpdateScreen extends StatelessWidget {
     );
   }
 
+  Widget showsearch() {
+    return isSearch
+        ? Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        : SizedBox.shrink(); // Return an empty SizedBox to hide the widget
+  }
+
   /// Section Widget
   Widget _buildSeventyNineSection(BuildContext context) {
     return Padding(
@@ -181,6 +207,11 @@ class StatusUpdateScreen extends StatelessWidget {
               top: 11.v,
               bottom: 9.v,
             ),
+            onTap: () {
+              setState(() {
+                isSearch = true;
+              });
+            },
           ),
         ],
       ),
