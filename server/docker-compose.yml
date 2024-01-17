@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+
+  node-server:
+    # ตั้งชื่อ container (เหมือน --name)
+    container_name: node-server
+    command: node --watch ./dist/server
+    build: . # ตำแหน่ง dockerfile
+    restart: always
+    ports:
+      - "8080:8080" # map port ออกมา เหมือน -p ใน docker run
