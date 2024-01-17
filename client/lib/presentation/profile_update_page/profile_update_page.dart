@@ -62,7 +62,7 @@ class ProfileUpdatePage extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                           height: 105.v,
-                          width: 309.h,
+                          width: double.maxFinite,
                           margin: EdgeInsets.only(left: 54.h),
                           child: Stack(
                             alignment: Alignment.center,
@@ -73,8 +73,8 @@ class ProfileUpdatePage extends StatelessWidget {
                                   height: 31.v,
                                   width: 110.h,
                                   margin: EdgeInsets.only(
-                                    right: 72.h,
-                                    bottom: 18.v,
+                                    right: 155.h,
+                                    bottom: 19.v,
                                   ),
                                   decoration: BoxDecoration(
                                     color: appTheme.whiteA700,
