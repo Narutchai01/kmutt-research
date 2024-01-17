@@ -54,9 +54,8 @@ export const AddCar = async (req: Request, res: Response) => {
       data.Model,
       data.Color,
       data.Status,
-    
     ]);
-    res.status(200).json(data);
+    res.status(200).json({ message: "Add Car Success" });
   } catch (error) {
     console.log(error);
   }
