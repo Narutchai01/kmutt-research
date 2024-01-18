@@ -6,7 +6,7 @@ WORKDIR /user/src/app
 # Install app dependencies
 COPY package*.json ./
 
-RUN npm install && tsc 
+RUN npm install 
 
 
 # Bundle app source
