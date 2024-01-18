@@ -11,6 +11,6 @@ router.post('/createSurveyor',CreateSurveyor);
 router.get('/getsurveyor',GetSurveyor);
 router.post('/loginSurveyor',LoginSurveyor);
 router.get('/findSurveyorByID/:token', FindSurveyorByID);
-// router.post('/changePassWord/:token',ChangePassWord);
+router.post('/changePassWord/:token',ChangePassWord);
 
 export default router;
