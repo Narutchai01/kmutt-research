@@ -1,12 +1,13 @@
 import { Secret, Jwt } from './../../../node_modules/@types/jsonwebtoken/index.d';
 import { Request, Response } from "express";
-import { conn } from "../../server";
+import { conn ,Connect } from "../../server";
 import {comparePassword} from '../../utils/ManagePassWord';
 import jwt from 'jsonwebtoken';
 import { PayLoad } from '../../interface/Interface';
 
 export const LoginSurveyor = async (req: Request, res: Response) => {
   try {
+    await Connect();
     const { email, PassWord } = req.body;
     const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
     const secret = process.env.JWT_SECRET;
