@@ -42,7 +42,6 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
 
     return SafeArea(
         child: Scaffold(
-            backgroundColor: appTheme.blue900,
             body: Navigator(
                 key: navigatorKey,
                 initialRoute: AppRoutes.profileUpdatePage,

@@ -10,11 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
-class StatusUpdateScreen extends StatelessWidget {
+class StatusUpdateScreen extends StatefulWidget {
+  @override
+  _StatusUpdateScreenState createState() => _StatusUpdateScreenState();
+}
+
+class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
   CaseModel _dataFromAPI = CaseModel();
   final dio = Dio();
   var data = [];
-
+  bool isSearch = true;
   // void getCase(BuildContext context) async {
   //   final response = await dio.get(
   //     'http://10.0.2.2:8080/api/cases/getCase',
@@ -34,7 +39,7 @@ class StatusUpdateScreen extends StatelessWidget {
   // }
   @override
   void initState() {
-    initState();
+    super.initState();
     loadData();
   }
 
@@ -173,15 +178,55 @@ class StatusUpdateScreen extends StatelessWidget {
             "Status",
             style: theme.textTheme.displayMedium,
           ),
-          CustomImageView(
-            imagePath: ImageConstant.imgSearch,
-            height: 34.adaptSize,
-            width: 34.adaptSize,
-            margin: EdgeInsets.only(
-              top: 11.v,
-              bottom: 9.v,
+          AnimatedContainer(
+            duration: Duration(milliseconds: 400),
+            width: isSearch ? 56 : 200,
+            height: 56,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32),
+              color: !isSearch ? Colors.white : appTheme.blue900,
             ),
-          ),
+            child: Row(children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 16),
+                  child: !isSearch
+                      ? TextField(
+                          decoration: InputDecoration(
+                              hintText: 'Search...', border: InputBorder.none),
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : null,
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 400),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(isSearch ? 32 : 0),
+                        topRight: Radius.circular(32),
+                        bottomLeft: Radius.circular(isSearch ? 32 : 0),
+                        bottomRight: Radius.circular(32),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          isSearch ? Icons.search : Icons.close,
+                          color: isSearch ? Colors.white : Colors.black,
+                          size: 35,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          isSearch = !isSearch;
+                        });
+                      }),
+                ),
+              )
+            ]),
+          )
         ],
       ),
     );
