@@ -9,7 +9,7 @@ import SurveyorRouter from "./routers/Surveyor";
 // import CasesRouter from "./routers/Cases";
 import CustomerRouter from "./routers/Customer";
 import InsuranceRouter from "./routers/Insurance";
-// import CarRouter from "./routers/Cars";
+import CarRouter from "./routers/Cars";
 
 const app = express();
 const PORT = Config.PORT;
@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// app.use("/api/cars",CarRouter);
+app.use("/api/cars",CarRouter);
 app.use("/api/surveyor", SurveyorRouter);
 // app.use("/api/cases", CasesRouter);
 app.use("/api/customer",CustomerRouter);
