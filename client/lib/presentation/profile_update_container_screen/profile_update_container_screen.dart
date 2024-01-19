@@ -19,22 +19,6 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
 
   final dio = Dio();
 
-  // void getData(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://localhost:8080/api/surveyor/getSurveyor',
-  //   );
-  //   print(response.data);
-  // }
-
-  // void GetSurveryor(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
-  //   );
-
-  //   final data = response.data[0];
-  //   print(data['Email']);
-  // }
-
   @override
   Widget build(BuildContext context) {
     // getData(context);

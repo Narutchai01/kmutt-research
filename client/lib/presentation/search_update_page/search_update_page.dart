@@ -1,7 +1,8 @@
 // import 'dart:js';
 
-// import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/model/CarID_model.dart';
 import 'package:dio/dio.dart';
 // import '../search_update_page/widgets/userlist_item_widget.dart';
 // import 'package:client/core/app_export.dart';
@@ -10,6 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/model/search_model.dart';
 
 List<SearchModel> searchModels = []; // Declare searchModels list globally
+
+carCustomerModel carToken = carCustomerModel(
+  CarID: '',
+  Province: '',
+);
 
 // ignore_for_file: must_be_immutable
 class SearchUpdatePage extends StatefulWidget {
@@ -20,8 +26,14 @@ class SearchUpdatePage extends StatefulWidget {
 }
 
 class _SearchUpdatePageState extends State<SearchUpdatePage> {
+  String formatInfo(String originalInfo) {
+    // Add your formatting logic here
+    // For example, you can convert the token to uppercase
+    return originalInfo;
+  }
+
   TextEditingController searchController = TextEditingController();
-  SearchModel _dataFromAPI = SearchModel();
+
   final dio = Dio();
   var data = [];
 
@@ -128,25 +140,40 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                       // Add Expanded widget
                       child: ListView.builder(
                         itemCount: display_list.length,
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                            display_list.isNotEmpty
-                                ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
-                                : '',
-                            // Use searchModels instead of searchList
-                            style: TextStyle(
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () => {
+                            carToken = carCustomerModel(
+                                CarID: formatInfo(display_list[index].CarID),
+                                Province:
+                                    formatInfo(display_list[index].Province)),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Data1UpdateScreen()),
+                            )
+                          },
+                          child: ListTile(
+                            title: Text(
+                              display_list.isNotEmpty
+                                  ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
+                                  : '',
+                              // Use searchModels instead of searchList
+                              style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            display_list.isNotEmpty
-                                ? '${display_list[index].CarID}' // Use display_list instead of searchList
-                                : '', // Show an empty string if display_list is empty
-                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              display_list.isNotEmpty
+                                  ? '${display_list[index].CarID}' // Use display_list instead of searchList
+                                  : '', // Show an empty string if display_list is empty
+                              style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),

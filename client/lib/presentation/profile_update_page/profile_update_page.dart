@@ -1,11 +1,9 @@
 import 'package:client/core/app_export.dart';
-import 'package:client/presentation/status_update_screen/status_update_screen.dart';
-import 'package:client/widgets/custom_image.dart';
-import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
+
 // ignore_for_file: must_be_immutable
 
 StringModel Profile1 = StringModel(
@@ -102,11 +100,19 @@ class ProfileUpdatePage extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(50.0),
-                                        child: Image.network(
-                                          Profile1.Image,
-                                          height: 80.0,
-                                          width: 81.0,
-                                          fit: BoxFit.cover,
+                                        // child: Image.network(
+                                        //   ImageConstant.imgEllipse27,
+                                        //   height: 80.0,
+                                        //   width: 81.0,
+                                        //   fit: BoxFit.cover,
+                                        // ),
+                                        child: CustomImageView(
+                                          imagePath: ImageConstant.imgEllipse27,
+                                          height: 90.v,
+                                          width: 93.h,
+                                          radius: BorderRadius.circular(
+                                            46.h,
+                                          ),
                                         ),
                                       ),
                                     ),

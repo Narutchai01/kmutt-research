@@ -5,10 +5,8 @@ import 'package:client/presentation/profile_update_page/profile_update_page.dart
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
 class StatusUpdateScreen extends StatefulWidget {
   @override
@@ -16,27 +14,10 @@ class StatusUpdateScreen extends StatefulWidget {
 }
 
 class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
-  CaseModel _dataFromAPI = CaseModel();
   final dio = Dio();
   var data = [];
   bool isSearch = true;
-  // void getCase(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://10.0.2.2:8080/api/cases/getCase',
-  //   );
-  //   data = response.data;
 
-  //   caseModels =
-  //       List<CaseModel>.from(data.map((item) => CaseModel.fromMap(item)));
-
-  //   // Print the list of CaseModels
-  //   caseModels.map((caseModel) {
-  //     caseModel.toMap();
-  //   });
-  //   print(data[5]);
-
-  //   print(caseModels.length);
-  // }
   @override
   void initState() {
     super.initState();

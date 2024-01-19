@@ -70,18 +70,6 @@ class LoginScreen extends StatelessWidget {
       print("throwing new error");
       throw Exception("Error on server");
     }
-    // if (response.statusCode == 200) {
-    // TokenModel tokenModel = TokenModel.fromMap(response.data);
-    // GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-
-    // print(tokenModel.token);
-
-    //   Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
-    // } else {
-    //   // Handle other status codes here
-    //   print(
-    //       'Server returned a non-successful status code: ${response.statusCode}');
-    // }
   }
 
   @override
