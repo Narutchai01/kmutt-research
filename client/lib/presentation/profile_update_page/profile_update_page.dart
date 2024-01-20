@@ -17,11 +17,20 @@ StringModel Profile1 = StringModel(
   Password: '',
 );
 
-class ProfileUpdatePage extends StatelessWidget {
-  ProfileUpdatePage({Key? key})
-      : super(
-          key: key,
-        );
+class ProfileUpdatePage extends StatefulWidget {
+  const ProfileUpdatePage({super.key});
+
+  @override
+  State<ProfileUpdatePage> createState() => _ProfileUpdatePageState();
+}
+
+class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
+  @override
+  void initState() {
+    super.initState();
+    getSurveyorInfo(context);
+  }
+
   final dio = Dio();
   var data;
 
@@ -35,11 +44,62 @@ class ProfileUpdatePage extends StatelessWidget {
     Profile1 = StringModel.fromMap(response.data[0]);
   }
 
+  Future<StringModel> getSurveyorInfo(BuildContext context) async {
+    var response = await dio.get(
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+      options: Options(
+        responseType: ResponseType.json,
+        validateStatus: (statusCode) {
+          if (statusCode == null) {
+            return false;
+          }
+          if (statusCode == 400) {
+            // your http status code
+            return true;
+          } else {
+            return statusCode >= 200 && statusCode < 300;
+          }
+        },
+      ),
+    );
+    Profile1 = StringModel.fromMap(response.data[0]);
+    return Profile1;
+  }
+
+  //  Future<CustomerModel> getCustomer(
+  //     BuildContext context, String carID, String province) async {
+  //   String Car = carID.replaceAll(" ", "%20");
+  //   String Province1 = province.replaceAll(" ", "%20");
+  //   print("Test 1: $Car $Province1");
+
+  //   var response = await dio.get(
+  //     'http://10.0.2.2:8080/api/cars/getCarByID?CarID=$Car&Province=$Province1',
+  //     options: Options(
+  //       responseType: ResponseType.json,
+  //       validateStatus: (statusCode) {
+  //         if (statusCode == null) {
+  //           return false;
+  //         }
+  //         if (statusCode == 400) {
+  //           // your http status code
+  //           return true;
+  //         } else {
+  //           return statusCode >= 200 && statusCode < 300;
+  //         }
+  //       },
+  //     ),
+  //   );
+
+  //   customer = CustomerModel.fromMap(response.data[0]);
+  //   return customer;
+  // }
+
   TextEditingController editTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    GetSurveryor(context);
+    //GetSurveryor(context);
+    // getSurveyorInfo(context);
 
     return SafeArea(
       child: Scaffold(
@@ -306,52 +366,4 @@ class ProfileUpdatePage extends StatelessWidget {
       ),
     );
   }
-
-  /// Section Widget
-  // Widget _buildHeadSection(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //       left: 25.h,
-  //       right: 20.h,
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Padding(
-  //           padding: EdgeInsets.only(
-  //             top: 13.v,
-  //             bottom: 5.v,
-  //           ),
-  //           child: Text(
-  //             "15:05 Fri 6 Oct",
-  //             style: theme.textTheme.bodyLarge,
-  //           ),
-  //         ),
-  //         Spacer(),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgVector,
-  //           height: 19.v,
-  //           width: 27.h,
-  //           margin: EdgeInsets.symmetric(vertical: 10.v),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettingsWhiteA700,
-  //           height: 18.v,
-  //           width: 25.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             top: 10.v,
-  //             bottom: 10.v,
-  //           ),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgBiBattery,
-  //           height: 39.adaptSize,
-  //           width: 39.adaptSize,
-  //           margin: EdgeInsets.only(left: 7.h),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
