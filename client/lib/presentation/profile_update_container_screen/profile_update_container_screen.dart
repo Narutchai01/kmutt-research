@@ -1,5 +1,4 @@
 import 'package:client/core/app_export.dart';
-
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
@@ -8,42 +7,41 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 import 'package:dio/dio.dart';
 
-//import login screen
-import 'package:client/presentation/login_screen/login_screen.dart';
-
-// ignore_for_file: must_be_immutable
 class ProfileUpdateContainerScreen extends StatelessWidget {
   ProfileUpdateContainerScreen({Key? key}) : super(key: key);
 
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  final dio = Dio();
-
+  final Dio dio = Dio();
   @override
   Widget build(BuildContext context) {
     // getData(context);
     // GetSurveryor(context);
 
     return SafeArea(
-        child: Scaffold(
-            body: Navigator(
-                key: navigatorKey,
-                initialRoute: AppRoutes.profileUpdatePage,
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) =>
-                        getCurrentPage(routeSetting.name!),
-                    transitionDuration: Duration(seconds: 0))),
-            bottomNavigationBar: _buildBottomBar(context)));
+      child: Scaffold(
+          body: Navigator(
+            key: navigatorKey,
+            initialRoute: AppRoutes.profileUpdatePage,
+            onGenerateRoute: (routeSetting) => PageRouteBuilder(
+              pageBuilder: (ctx, ani, ani1) =>
+                  getCurrentPage(routeSetting.name!),
+              transitionDuration: Duration(seconds: 0),
+            ),
+          ),
+          bottomNavigationBar: _buildBottomBar(context)),
+    );
   }
 
-  /// Section Widget
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(onChanged: (BottomBarEnum type) {
-      Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
+      Navigator.pushNamed(
+        navigatorKey.currentContext!,
+        getCurrentRoute(type),
+      );
     });
   }
 
-  ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Home:
@@ -59,7 +57,6 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
     }
   }
 
-  ///Handling page based on route
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
       case AppRoutes.profileUpdatePage:
