@@ -1,12 +1,23 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'dart:async' show Completer, Future;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show  rootBundle;
 import 'dart:convert';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'pdf.dart';
 void main() => runApp(MyApp());
 Future<String> getJson(String imagePath) async {
   return await rootBundle.loadString('assets/$imagePath.json');
+}
+Future<Uint8List> getImage(String imagePath) async {
+  try {
+    final data = await rootBundle.load('assets/$imagePath.jpg');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  } catch (error) {
+    print('Error loading image: $error');
+    throw error; 
+  }
 }
 class MyApp extends StatelessWidget {
   @override
@@ -17,64 +28,70 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<String> carPartList;
   final List<String> selectedFilters;
   final Function(List<String>) onFiltersChanged;
-
-   MyAppBar({
+ 
+  MyAppBar({
     required this.carPartList,
     required this.selectedFilters,
     required this.onFiltersChanged,
+   
   });
+
   @override
   Widget build(BuildContext context) {
     carPartList.sort();
+    bool isAllSelected = selectedFilters.contains('All');
+
     return AppBar(
       actions: [
+        Row(
+          children: [
+            ElevatedButton(
+               onPressed: () {
+                List<String> newFilters = List.from(selectedFilters);
+                if (isAllSelected) {
+                  newFilters.remove('All');
+                } else {
+                  newFilters.add('All');
+                }
+                onFiltersChanged(newFilters);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isAllSelected ? Colors.grey : Colors.blue,
+              ),
+              child: Text(isAllSelected ? 'Clear All' : 'All'),
+            ),
+          ],
+        ),
         MultiSelectDialogField(
           buttonText: Text("Filter"),
           title: Text("Select Filters"),
-           items: [
-            if (selectedFilters.length == 1 && selectedFilters.contains("All"))
-            MultiSelectItem<String>("All", "All"),
-            ...carPartList
-            .where((carPart) => !selectedFilters.contains("All"))
-            .map(
-              (carPart) => MultiSelectItem<String>(
-                carPart,
-                carPart,
-              ),
-            ),
-          ],
+          items: carPartList
+              .map((carPart) => MultiSelectItem<String>(
+                    carPart,
+                    carPart,
+                  ))
+              .toList(),
           listType: MultiSelectListType.CHIP,
           selectedItemsTextStyle: TextStyle(color: Colors.black),
           selectedColor: Color(0XFF4DC3FF),
           chipDisplay: MultiSelectChipDisplay.none(),
-          onConfirm: (List<Object?> values) {
-            if (values.contains("All") && values.length == 1) {
-              onFiltersChanged(["All"]);
-            } else if (values.contains("All") && values.length > 1) {
-              onFiltersChanged(
-                values
-                    .whereType<String>() 
-                    .where((value) => value != "All")
-                    .toList(),
-              );
-            }else {
-              onFiltersChanged(values.map((e) => e.toString()).toList());
-            }
+          onConfirm: (values) {
+            onFiltersChanged(values.map((e) => e.toString()).toList());
           },
-          initialValue: selectedFilters.contains("All") ? ["All"] : selectedFilters,
+          initialValue: selectedFilters,
         ),
       ],
     );
   }
-  
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -82,34 +99,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> selectedCarParts = ["All"];
-  List<String> imagePaths = ["original", "img-2", "img-1", "img-3"];
+  List<String> selectedCarParts = [];
+  List<String> imagePaths = ["original","img-1","img-2","img-3"];
   List<String> selectedFilters = [];
-  List<String> carPartList = [
-  "All",
-  "Back-bumper",
-  "Back-door",
-  "Back-wheel",
-  "Back-window",
-  "Back-windshield",
-  "Fender",
-  "Front-bumper",
-  "Front-door",
-  "Front-wheel",
-  "Front-window",
-  "Grille",
-  "Headlight",
-  "Hood",
-  "License-plate",
-  "Mirror",
-  "Quarter-panel",
-  "Roof",
-  "Rocker-panel",
-  "Tail-light",
-  "Trunk",
-  "Wind-shield"
-]; 
-  
+  List<String> carPartList = [];
   @override
   void initState() {
     super.initState();
@@ -134,7 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-   
+    setState(() {
+      selectedFilters = [];
+    });
   }
 
   @override
@@ -145,14 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-           MyAppBar(
+          MyAppBar(
             carPartList: carPartList,
             selectedFilters: selectedFilters,
             onFiltersChanged: (List<String> newFilters) {
               setState(() {
-                selectedCarParts = newFilters.contains("All")
-                    ? carPartList
-                    : List<String>.from(newFilters);
+                    selectedCarParts = newFilters;
               });
             },
           ),
@@ -162,6 +155,9 @@ class _MyHomePageState extends State<MyHomePage> {
               imagePaths: imagePaths,
             ),
           ),
+          PDFProvider(
+            imagePaths: imagePaths, 
+            selectedCarParts: ["All"],),
         ],
       ),
     );
@@ -440,7 +436,48 @@ class PolygonPainter extends CustomPainter {
     return false;
   }
 }
+class PDFProvider extends StatelessWidget {
+  final List<String> imagePaths;
+  final List<String> selectedCarParts;
 
+  PDFProvider({
+    required this.imagePaths,
+    required this.selectedCarParts,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        child: Center(
+          child: ElevatedButton(
+            child: Text("Create PDF"),
+            onPressed: _createPDF,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _createPDF() async {
+    PdfDocument document = PdfDocument();
+    PdfPage page = document.pages.add();
+    for (var imagePath in imagePaths) {
+      
+      Uint8List imageData = await getImage(imagePath);
+      PdfBitmap baseImage = PdfBitmap(imageData);
+      page.graphics.drawImage(
+        baseImage,
+        Rect.fromLTWH(0, 0, 0, 0),
+      );
+    }
+    List<int> bytes = document.saveSync();
+    document.dispose();
+    saveAndLaunchFile(bytes, "Output.pdf");
+  }
+
+}
 
 const Map<String, Color> carPartColors = {
   "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
@@ -468,3 +505,26 @@ const Map<String, Color> carPartColors = {
 Color getColor(String path) {
   return carPartColors[path] ?? Colors.red;
 }
+List<String> carPartList = [
+  "Back-bumper",
+  "Back-door",
+  "Back-wheel",
+  "Back-window",
+  "Back-windshield",
+  "Fender",
+  "Front-bumper",
+  "Front-door",
+  "Front-wheel",
+  "Front-window",
+  "Grille",
+  "Headlight",
+  "Hood",
+  "License-plate",
+  "Mirror",
+  "Quarter-panel",
+  "Roof",
+  "Rocker-panel",
+  "Tail-light",
+  "Trunk",
+  "Wind-shield"
+];
