@@ -453,30 +453,64 @@ class PDFProvider extends StatelessWidget {
         child: Center(
           child: ElevatedButton(
             child: Text("Create PDF"),
-            onPressed: _createPDF,
+            onPressed: () async {
+              await _createPDF(context);
+            },
           ),
         ),
       ),
     );
   }
 
-  Future<void> _createPDF() async {
+  Future<void> _createPDF(BuildContext context) async {
     PdfDocument document = PdfDocument();
-    PdfPage page = document.pages.add();
+
     for (var imagePath in imagePaths) {
-      
       Uint8List imageData = await getImage(imagePath);
       PdfBitmap baseImage = PdfBitmap(imageData);
+      PdfPage page = document.pages.add();
       page.graphics.drawImage(
         baseImage,
         Rect.fromLTWH(0, 0, 0, 0),
       );
+      await _overlayTextOnPage(page, imagePath);
     }
+
     List<int> bytes = document.saveSync();
     document.dispose();
     saveAndLaunchFile(bytes, "Output.pdf");
   }
 
+  Future<void> _overlayTextOnPage(PdfPage page, String imagePath) async {
+  String jsonContent = await getJson(imagePath);
+  Map<String, dynamic> jsonData = json.decode(jsonContent);
+
+  List<Map<dynamic, dynamic>> predictionsList =
+      (jsonData['predictions'] as List<dynamic>)
+          .cast<Map<dynamic, dynamic>>();
+  
+  for (var prediction in predictionsList) {
+    String carPart = prediction['class'];
+    if (selectedCarParts.contains("All") ||
+        selectedCarParts.contains(carPart)) {
+      double x = prediction['x']?.toDouble() / 1.4 ?? 0.0;
+      double y = prediction['y']?.toDouble() / 1.4 ?? 0.0;
+      double width = prediction['width']?.toDouble() ?? 0.0;
+      double height = prediction['height']?.toDouble() ?? 0.0;
+      double confidence = prediction['confidence']?.toDouble() ?? 0.0;
+     
+      page.graphics.drawString(
+        '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
+        PdfStandardFont(PdfFontFamily.helvetica, 14),
+        bounds: Rect.fromPoints(
+          Offset(x, y),
+          Offset(x + width, y + height),
+        ),
+        brush: PdfSolidBrush(PdfColor(255, 255, 255)), 
+      );
+    }
+  }
+}
 }
 
 const Map<String, Color> carPartColors = {
