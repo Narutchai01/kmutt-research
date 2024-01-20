@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { conn } from "../../server";
+import { conn , Connect } from "../../server";
 import { upLoadImageCustomer } from "../../utils/UploadImage";
 
 export const addCustomer = async (req: Request, res: Response) => {
   try {
+    await Connect();
     const { First_name, Last_name, Email, Address, Phone_number, Line } =
       req.body;
     const Image = req.files;

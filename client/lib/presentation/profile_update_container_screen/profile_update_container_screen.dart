@@ -35,15 +35,11 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
   //   print(data['Email']);
   // }
 
-  void test() {
-    print('Test: ${GlobalModel.token}');
-  }
-
   @override
   Widget build(BuildContext context) {
     // getData(context);
     // GetSurveryor(context);
-    test();
+
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.blue900,

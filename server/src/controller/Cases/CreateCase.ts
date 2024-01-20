@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { conn } from "../../server";
+import { conn ,Connect} from "../../server";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { upLoadImageCase } from "../../utils/UploadImage";
 
 export const CreateCase = async (req: Request, res: Response) => {
   try {
+    await Connect();
     const token = req.params.token ;
     const secert = process.env.JWT_SECRET!;
     const decoded: any = jwt.verify(token, secert);

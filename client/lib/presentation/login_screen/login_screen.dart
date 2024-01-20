@@ -11,6 +11,12 @@ import 'package:client/presentation/model/token_model.dart';
 
 TokenModel GlobalModel = TokenModel(token: '');
 
+class MyCustomException implements Exception {
+  final String message;
+
+  MyCustomException(this.message);
+}
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key})
       : super(
@@ -26,33 +32,56 @@ class LoginScreen extends StatelessWidget {
 
   TextEditingController passwordController = TextEditingController();
   final dio = Dio();
+
+// Your request code here
+
   void sentLogin(BuildContext context) async {
-    final response = await dio.post(
-      'http://localhost:8080/api/surveyor/loginSurveyor',
-      data: {
-        "email": EmailController.text,
-        "PassWord": passwordController.text,
-      },
-    );
     try {
-      print(response.data);
-      TokenModel tokenModel = TokenModel.fromMap(response.data);
-      GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-
-      print(tokenModel.token);
-
-      Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
-    } catch (e) {
-      if (e is DioException) {
-        print('DioError: ${e.message}');
-        if (e.response != null) {
-          print('Response data: ${e.response!.data}');
-          print('Response status: ${e.response!.statusCode}');
-        }
+      final response = await dio.post(
+        'http://10.0.2.2:8080/api/surveyor/loginSurveyor',
+        data: {
+          "email": EmailController.text,
+          "PassWord": passwordController.text,
+        },
+        options: Options(
+          responseType: ResponseType.json,
+          validateStatus: (statusCode) {
+            if (statusCode == null) {
+              return false;
+            }
+            if (statusCode == 400) {
+              // your http status code
+              return true;
+            } else {
+              return statusCode >= 200 && statusCode < 300;
+            }
+          },
+        ),
+      );
+      print(response.data['message']);
+      if (response.data['message'] == 'Password is incorrect') {
+        print('Password is incorrect');
       } else {
-        print('Error: $e');
+        TokenModel tokenModel = TokenModel.fromMap(response.data);
+        GlobalModel = TokenModel(token: formatToken(tokenModel.token));
+        Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
       }
+    } on Exception catch (_) {
+      print("throwing new error");
+      throw Exception("Error on server");
     }
+    // if (response.statusCode == 200) {
+    // TokenModel tokenModel = TokenModel.fromMap(response.data);
+    // GlobalModel = TokenModel(token: formatToken(tokenModel.token));
+
+    // print(tokenModel.token);
+
+    //   Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
+    // } else {
+    //   // Handle other status codes here
+    //   print(
+    //       'Server returned a non-successful status code: ${response.statusCode}');
+    // }
   }
 
   @override

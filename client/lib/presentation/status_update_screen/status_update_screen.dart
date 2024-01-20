@@ -1,18 +1,70 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
+import 'package:client/presentation/model/case_model.dart';
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
+
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class StatusUpdateScreen extends StatelessWidget {
-  StatusUpdateScreen({Key? key})
-      : super(
-          key: key,
-        );
+  CaseModel _dataFromAPI = CaseModel();
+  final dio = Dio();
+  var data = [];
 
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  // void getCase(BuildContext context) async {
+  //   final response = await dio.get(
+  //     'http://10.0.2.2:8080/api/cases/getCase',
+  //   );
+  //   data = response.data;
+
+  //   caseModels =
+  //       List<CaseModel>.from(data.map((item) => CaseModel.fromMap(item)));
+
+  //   // Print the list of CaseModels
+  //   caseModels.map((caseModel) {
+  //     caseModel.toMap();
+  //   });
+  //   print(data[5]);
+
+  //   print(caseModels.length);
+  // }
+  @override
+  void initState() {
+    initState();
+    loadData();
+  }
+
+  void loadData() async {
+    List<CaseModel> caseModels = await getCaseModel();
+    print(caseModels);
+    // Now you can use the caseModels list as needed
+  }
+
+  Future<List<CaseModel>> getCaseModel() async {
+    final response = await dio.get(
+      'http://10.0.2.2:8080/api/cases/getCase',
+    );
+
+    // Check if response.data is a List<dynamic>
+    if (response.data is! List<dynamic>) {
+      // Handle the unexpected data format
+      throw Exception("Expected List<dynamic>, but got something else.");
+    }
+
+    // Convert the JSON array to a List of Maps
+    List<Map<String, dynamic>> responseDataList =
+        List<Map<String, dynamic>>.from(response.data);
+
+    // Map each item in the list to a CaseModel instance
+    List<CaseModel> caseModels =
+        responseDataList.map((map) => CaseModel.fromJson(map)).toList();
+
+    return caseModels;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +94,6 @@ class StatusUpdateScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // _buildHeadSection(context),
                         SizedBox(height: 31.v),
                         _buildSeventyNineSection(context),
                         SizedBox(height: 8.v),
@@ -65,7 +116,33 @@ class StatusUpdateScreen extends StatelessWidget {
                             children: [
                               _buildSeventyTwoSection(context),
                               SizedBox(height: 16.v),
-                              _buildThirtyThreeSection(context),
+                              FutureBuilder<List<CaseModel>>(
+                                  future: getCaseModel(),
+                                  builder: (context,
+                                      AsyncSnapshot<List<CaseModel>?>
+                                          snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CircularProgressIndicator();
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    } else if (snapshot.data?.isEmpty ?? true) {
+                                      return Text('No data');
+                                    } else {
+                                      return Column(
+                                          children:
+                                              snapshot.data!.map((caseModel) {
+                                        return Container(
+                                          margin: EdgeInsets.only(bottom: 16.v),
+                                          child: _buildThirtyThreeSection(
+                                              context,
+                                              snapshot.data!,
+                                              snapshot.data!
+                                                  .indexOf(caseModel)),
+                                        );
+                                      }).toList());
+                                    }
+                                  }),
                               SizedBox(height: 16.v),
                             ],
                           ),
@@ -78,58 +155,9 @@ class StatusUpdateScreen extends StatelessWidget {
             ),
           ),
         ),
-        // bottomNavigationBar: _buildBottomBarSection(context),
       ),
     );
   }
-
-  /// Section Widget
-  // Widget _buildHeadSection(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //       left: 25.h,
-  //       right: 20.h,
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Padding(
-  //           padding: EdgeInsets.only(
-  //             top: 13.v,
-  //             bottom: 5.v,
-  //           ),
-  //           child: Text(
-  //             "15:05 Fri 6 Oct",
-  //             style: theme.textTheme.bodyLarge,
-  //           ),
-  //         ),
-  //         Spacer(),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgVector,
-  //           height: 19.v,
-  //           width: 27.h,
-  //           margin: EdgeInsets.symmetric(vertical: 10.v),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettingsWhiteA700,
-  //           height: 18.v,
-  //           width: 25.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             top: 10.v,
-  //             bottom: 10.v,
-  //           ),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgBiBattery,
-  //           height: 39.adaptSize,
-  //           width: 39.adaptSize,
-  //           margin: EdgeInsets.only(left: 7.h),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   /// Section Widget
   Widget _buildSeventyNineSection(BuildContext context) {
@@ -159,63 +187,6 @@ class StatusUpdateScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  // Widget _buildSeventyTwoSection(BuildContext context) {
-  //   return SizedBox(
-  //     height: 68.v,
-  //     width: 398.h,
-  //     child: Stack(
-  //       alignment: Alignment.centerLeft,
-  //       children: [
-  //         Align(
-  //           alignment: Alignment.center,
-  //           child: Container(
-  //             padding: EdgeInsets.symmetric(
-  //               horizontal: 48.h,
-  //               vertical: 18.v,
-  //             ),
-  //             decoration: AppDecoration.gradientBlueToBlue900.copyWith(
-  //               borderRadius: BorderRadiusStyle.roundedBorder10,
-  //             ),
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               crossAxisAlignment: CrossAxisAlignment.end,
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 SizedBox(height: 3.v),
-  //                 Text(
-  //                   "Status",
-  //                   style: CustomTextStyles.titleLargeWhiteA700,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         Align(
-  //           alignment: Alignment.centerLeft,
-  //           child: Padding(
-  //             padding: EdgeInsets.only(left: 34.h),
-  //             child: Row(
-  //               children: [
-  //                 Text(
-  //                   "Date",
-  //                   style: CustomTextStyles.titleLargeWhiteA700,
-  //                 ),
-  //                 Padding(
-  //                   padding: EdgeInsets.only(left: 77.h),
-  //                   child: Text(
-  //                     "Car ID",
-  //                     style: CustomTextStyles.titleLargeWhiteA700,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
   Widget _buildSeventyTwoSection(BuildContext context) {
     return Container(
       height: 68.v,
@@ -255,62 +226,62 @@ class StatusUpdateScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildThirtyThreeSection(BuildContext context) {
-  return GestureDetector(
-    onTap: () => onTapCases(context),
-    child: Container(
-      height: 68.v,
-      width: MediaQuery.of(context).size.width - 16.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 18.v),
-      decoration: BoxDecoration(
-        color: Color(0xFFF2F2F2),
-        borderRadius: BorderRadius.circular(10),
+  Widget _buildThirtyThreeSection(
+      BuildContext context, List<CaseModel> caseModels, int n) {
+    return GestureDetector(
+      onTap: () => onTapCases(context),
+      child: Container(
+        height: 68.v,
+        width: MediaQuery.of(context).size.width - 16.h,
+        padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 18.v),
+        decoration: BoxDecoration(
+          color: Color(0xFFF2F2F2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              caseModels.isNotEmpty
+                  ? extractDate(caseModels[n].Date_opened)
+                  : 'No data',
+              // caseModels.isNotEmpty ? caseModels[n].Date_opened : 'No data',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              caseModels.isNotEmpty ? caseModels[n].CarID : 'No data',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              caseModels.isNotEmpty ? caseModels[n].Status : 'No data',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "1-1-2021",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-          Text(
-            "YCI-1234",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-          Text(
-            "o Success",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-void onTapCases(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => Data2UpdatePage()),
-  );
-}
-  /// Section Widget
-  // Widget _buildBottomBarSection(BuildContext context) {
-  //   return CustomBottomBar(
-  //     onChanged: (BottomBarEnum type) {
-  //       Navigator.pushNamed(
-  //           navigatorKey.currentContext!, getCurrentRoute(type));
-  //     },
-  //   );
-  // }
+    );
+  }
+
+  String extractDate(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+  }
+
+  void onTapCases(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Data2UpdatePage()),
+    );
+  }
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
@@ -344,5 +315,3 @@ void onTapCases(BuildContext context) {
     }
   }
 }
-
-
