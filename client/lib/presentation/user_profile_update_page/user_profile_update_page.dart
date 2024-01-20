@@ -16,11 +16,19 @@ StringModel Profile1 = StringModel(
 );
 
 // ignore_for_file: must_be_immutable
-class UserProfileUpdatePage extends StatelessWidget {
-  UserProfileUpdatePage({Key? key})
-      : super(
-          key: key,
-        );
+class UserProfileUpdatePage extends StatefulWidget {
+  const UserProfileUpdatePage({super.key});
+
+  @override
+  State<UserProfileUpdatePage> createState() => _UserProfileUpdatePageState();
+}
+
+class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
+  @override
+  void initState() {
+    super.initState();
+    GetSurveryor(context);
+  }
 
   final dio = Dio();
   var data;
@@ -37,7 +45,6 @@ class UserProfileUpdatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GetSurveryor(context);
     return SafeArea(
       top: false,
       bottom: false,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:client/core/app_export.dart';
 
 // import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
@@ -6,65 +8,23 @@ import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:client/presentation/model/customer_model.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
-CustomerModel Customer1 = CustomerModel(
-  First_name: '',
-  Last_name: '',
-  CarID: '',
-  Customer_image: '',
-  Car_Image: '',
-  Address: '',
-  Model: '',
-  Brand: '',
-  Policy_number: '',
-  Policy_type: '',
-  Start_date: '',
-  End_date: '',
-  Email: '',
-  Phone_number: '',
-  Line: '',
-);
-
 // ignore_for_file: must_be_immutable
-class Data1UpdateScreen extends StatelessWidget {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
-  var dio = Dio();
-  void getCustomer(BuildContext context) async {
-    String Car = carToken.CarID.replaceAll(" ", "%20");
-    String Province1 = carToken.Province.replaceAll(" ", "%20");
-    print("Testtttttttt ${Car} ${Province1}");
-    var response = await dio.get(
-      'http://10.0.2.2:8080/api/cars/getCarByID?CarID=${Car}&Province=${Province1}',
-      options: Options(
-        responseType: ResponseType.json,
-        validateStatus: (statusCode) {
-          if (statusCode == null) {
-            return false;
-          }
-          if (statusCode == 400) {
-            // your http status code
-
-            return true;
-          } else {
-            return statusCode >= 200 && statusCode < 300;
-          }
-        },
-      ),
-    );
-
-    //print(response.data[0]);
-    Customer1 = CustomerModel.fromMap(response.data[0]);
-  }
+class Data1UpdateScreen extends StatefulWidget {
+  const Data1UpdateScreen({super.key});
 
   @override
+  State<Data1UpdateScreen> createState() => _Data1UpdateScreenState();
+}
+
+class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
+  @override
   Widget build(BuildContext context) {
-    //print(Customer1);
-    getCustomer(context);
+    print('Test 2 : ${customer.CarID}');
+    //print(customer);
+    // getCustomer(context);
     return SafeArea(
         child: Scaffold(
       extendBody: true,
@@ -121,7 +81,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                           Expanded(
                                             child: Container(
                                               child: Text(
-                                                "${Customer1.Address}",
+                                                "${customer.Address}",
                                                 style:
                                                     theme.textTheme.titleMedium,
                                                 textAlign: TextAlign.right,
@@ -141,7 +101,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "${Customer1.Model}",
+                                            "${customer.Model}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -175,7 +135,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "${Customer1.Policy_number}",
+                                            "${customer.Policy_number}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -192,7 +152,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "${Customer1.Policy_type}",
+                                            "${customer.Policy_type}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -209,7 +169,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            " ",
+                                            "${extractDate(customer.Start_date)} / ${extractDate(customer.End_date)}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -259,7 +219,7 @@ class Data1UpdateScreen extends StatelessWidget {
               width: 165.h,
               margin: EdgeInsets.only(left: 20.h, top: 21.v, bottom: 8.v),
               child: Text(
-                  "${Customer1.First_name} ${Customer1.Last_name}\n${Customer1.CarID}",
+                  "${customer.First_name} ${customer.Last_name}\n${customer.CarID}",
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: CustomTextStyles.bodyLargeNunitoBlack900_1))
@@ -290,7 +250,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "${Customer1.Email}",
+                  "${customer.Email}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
@@ -305,7 +265,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "${Customer1.Phone_number}",
+                  "${customer.Phone_number}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
@@ -320,7 +280,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "${Customer1.Line}",
+                  "${customer.Line}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),

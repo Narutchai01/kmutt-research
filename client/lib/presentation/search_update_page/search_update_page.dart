@@ -3,6 +3,7 @@
 import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/CarID_model.dart';
+import 'package:client/presentation/model/customer_model.dart';
 import 'package:dio/dio.dart';
 // import '../search_update_page/widgets/userlist_item_widget.dart';
 // import 'package:client/core/app_export.dart';
@@ -15,6 +16,24 @@ List<SearchModel> searchModels = []; // Declare searchModels list globally
 carCustomerModel carToken = carCustomerModel(
   CarID: '',
   Province: '',
+);
+
+CustomerModel customer = CustomerModel(
+  First_name: '',
+  Last_name: '',
+  CarID: '',
+  Customer_image: '',
+  Car_Image: '',
+  Address: '',
+  Model: '',
+  Brand: '',
+  Policy_number: '',
+  Policy_type: '',
+  Start_date: '',
+  End_date: '',
+  Email: '',
+  Phone_number: '',
+  Line: '',
 );
 
 // ignore_for_file: must_be_immutable
@@ -70,6 +89,34 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
         responseDataList.map((map) => SearchModel.fromJson(map)).toList();
 
     return searchModels;
+  }
+
+  Future<CustomerModel> getCustomer(
+      BuildContext context, String carID, String province) async {
+    String Car = carID.replaceAll(" ", "%20");
+    String Province1 = province.replaceAll(" ", "%20");
+    print("Test 1: $Car $Province1");
+
+    var response = await dio.get(
+      'http://10.0.2.2:8080/api/cars/getCarByID?CarID=$Car&Province=$Province1',
+      options: Options(
+        responseType: ResponseType.json,
+        validateStatus: (statusCode) {
+          if (statusCode == null) {
+            return false;
+          }
+          if (statusCode == 400) {
+            // your http status code
+            return true;
+          } else {
+            return statusCode >= 200 && statusCode < 300;
+          }
+        },
+      ),
+    );
+
+    customer = CustomerModel.fromMap(response.data[0]);
+    return customer;
   }
 
   List<SearchModel> display_list = List.from(searchModels);
@@ -141,16 +188,23 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                       child: ListView.builder(
                         itemCount: display_list.length,
                         itemBuilder: (context, index) => GestureDetector(
-                          onTap: () => {
+                          onTap: () async {
                             carToken = carCustomerModel(
-                                CarID: formatInfo(display_list[index].CarID),
-                                Province:
-                                    formatInfo(display_list[index].Province)),
+                              CarID: formatInfo(display_list[index].CarID),
+                              Province:
+                                  formatInfo(display_list[index].Province),
+                            );
+
+                            await getCustomer(
+                                context, carToken.CarID, carToken.Province);
+
+                            print('Test 1.1 : ${customer.CarID}');
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Data1UpdateScreen()),
-                            )
+                            );
                           },
                           child: ListTile(
                             title: Text(
