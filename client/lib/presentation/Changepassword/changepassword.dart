@@ -23,9 +23,10 @@ class _ChangePasswordState extends State<ChangePassword> {
   void ChangePasswordApi() async {
     try {
       final response = await dio.post(
-        'http://localhost:8080/api/surveyor/changePassWord/${GlobalModel.token}',
+        'http://10.0.2.2:8080/api/surveyor/changePassWord/${GlobalModel.token}',
         data: {
-          'q': 'title:android',
+          "oldPassword": currentPasswordController.text,
+          "newPassword": newPasswordController.text,
         },
       );
       print(response);
@@ -50,6 +51,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     if (newPasswordController.text == confirmNewPasswordController.text) {
       ChangePasswordApi();
+
       CoolAlert.show(
         context: context,
         type: CoolAlertType.success,
@@ -148,6 +150,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               buttonStyle: CustomButtonStyles.fillBlue,
               buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
               onPressed: () {
+                print(GlobalModel.token);
+                print(newPasswordController.text);
+                print(confirmNewPasswordController.text);
                 CheckPassword();
                 ;
               },
