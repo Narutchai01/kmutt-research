@@ -436,7 +436,7 @@ class PolygonPainter extends CustomPainter {
     return false;
   }
 }
-class PDFProvider extends StatelessWidget {
+class PDFProvider extends StatefulWidget {
   final List<String> imagePaths;
   final List<String> selectedCarParts;
 
@@ -444,6 +444,23 @@ class PDFProvider extends StatelessWidget {
     required this.imagePaths,
     required this.selectedCarParts,
   });
+
+  @override
+  _PDFProviderState createState() => _PDFProviderState();
+}
+
+class _PDFProviderState extends State<PDFProvider> {
+  late PdfDocument document;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePdfDocument();
+  }
+
+  void _initializePdfDocument() {
+    document = PdfDocument();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -463,9 +480,7 @@ class PDFProvider extends StatelessWidget {
   }
 
   Future<void> _createPDF(BuildContext context) async {
-    PdfDocument document = PdfDocument();
-
-    for (var imagePath in imagePaths) {
+    for (var imagePath in widget.imagePaths) {
       Uint8List imageData = await getImage(imagePath);
       PdfBitmap baseImage = PdfBitmap(imageData);
       PdfPage page = document.pages.add();
@@ -473,44 +488,91 @@ class PDFProvider extends StatelessWidget {
         baseImage,
         Rect.fromLTWH(0, 0, 0, 0),
       );
+      await _overlayPolygonsOnPage(page, imagePath);
       await _overlayTextOnPage(page, imagePath);
+      page.graphics.drawImage(
+      baseImage,
+      Rect.fromLTWH(0,400, 0, 0),
+    );
+
     }
 
     List<int> bytes = document.saveSync();
     document.dispose();
     saveAndLaunchFile(bytes, "Output.pdf");
   }
-
-  Future<void> _overlayTextOnPage(PdfPage page, String imagePath) async {
+  Future<void> _overlayPolygonsOnPage(PdfPage page, String imagePath) async {
   String jsonContent = await getJson(imagePath);
   Map<String, dynamic> jsonData = json.decode(jsonContent);
 
   List<Map<dynamic, dynamic>> predictionsList =
       (jsonData['predictions'] as List<dynamic>)
           .cast<Map<dynamic, dynamic>>();
-  
+  List<List<Offset>> pointspolyList = [];
+
   for (var prediction in predictionsList) {
-    String carPart = prediction['class'];
-    if (selectedCarParts.contains("All") ||
-        selectedCarParts.contains(carPart)) {
-      double x = prediction['x']?.toDouble() / 1.4 ?? 0.0;
-      double y = prediction['y']?.toDouble() / 1.4 ?? 0.0;
-      double width = prediction['width']?.toDouble() ?? 0.0;
-      double height = prediction['height']?.toDouble() ?? 0.0;
-      double confidence = prediction['confidence']?.toDouble() ?? 0.0;
-     
-      page.graphics.drawString(
-        '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
-        PdfStandardFont(PdfFontFamily.helvetica, 14),
-        bounds: Rect.fromPoints(
-          Offset(x, y),
-          Offset(x + width, y + height),
-        ),
-        brush: PdfSolidBrush(PdfColor(255, 255, 255)), 
-      );
+    List<Offset> pointsList =
+        (prediction['points'] as List<dynamic>).map((pointObj) {
+      double x = pointObj['x']?.toDouble() / 1.3  ?? 0.0;
+      double y = pointObj['y']?.toDouble() / 1.3 ?? 0.0;
+      return Offset(x, y);
+    }).toList();
+    pointspolyList.add(pointsList);
+  }
+
+  List<List<Offset>> filteredPointspolyList = [];
+
+  pointspolyList.asMap().forEach((i, points) {
+    if (widget.selectedCarParts.contains("All") ||
+        widget.selectedCarParts.contains(predictionsList[i]['class'])) {
+      filteredPointspolyList.add(points);
     }
+  });
+
+  for (var i = 0; i < filteredPointspolyList.length; i++) {
+    page.graphics.drawPolygon(
+      pointspolyList[i],
+      brush: PdfSolidBrush(getColorPDF(predictionsList[i]['class'])),
+    );
   }
 }
+  Future<void> _overlayTextOnPage(PdfPage page, String imagePath) async {
+    String jsonContent = await getJson(imagePath);
+    Map<String, dynamic> jsonData = json.decode(jsonContent);
+    List<Map<dynamic, dynamic>> predictionsList =
+        (jsonData['predictions'] as List<dynamic>)
+            .cast<Map<dynamic, dynamic>>();
+    PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
+    for (var prediction in predictionsList) {
+      String carPart = prediction['class'];
+      if (widget.selectedCarParts.contains("All") ||
+          widget.selectedCarParts.contains(carPart)) {
+        double x = prediction['x']?.toDouble() / 1.3 ?? 0.0;
+        double y = prediction['y']?.toDouble() / 1.3 ?? 0.0;
+        double width = prediction['width']?.toDouble() ?? 0.0;
+        double height = prediction['height']?.toDouble() ?? 0.0;
+        double confidence = prediction['confidence']?.toDouble() ?? 0.0;
+        Size textSize = font.measureString(
+        '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
+      );
+       width = width < textSize.width ? textSize.width : width;
+       height = height < textSize.height ? textSize.height : height;
+       page.graphics.drawRectangle(
+        brush: PdfSolidBrush(PdfColor(31, 0, 0,)),
+        bounds: Rect.fromLTWH(x, y, textSize.width, textSize.height)
+      );
+        page.graphics.drawString(
+          '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
+          PdfStandardFont(PdfFontFamily.helvetica, 12),
+          bounds: Rect.fromPoints(
+            Offset(x, y),
+            Offset(x + 1000, y + 1000),
+          ),
+          brush: PdfSolidBrush(PdfColor(255, 255, 255)),
+        );
+      }
+    }
+  }
 }
 
 const Map<String, Color> carPartColors = {
@@ -539,6 +601,11 @@ const Map<String, Color> carPartColors = {
 Color getColor(String path) {
   return carPartColors[path] ?? Colors.red;
 }
+PdfColor getColorPDF(String path) {
+  Color color = carPartColors[path] ?? Colors.red;
+  return PdfColor(color.red, color.green, color.blue);
+}
+
 List<String> carPartList = [
   "Back-bumper",
   "Back-door",

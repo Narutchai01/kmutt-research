@@ -26,6 +26,8 @@ dependencies:
   syncfusion_flutter_pdf: ^24.1.45
   path_provider: ^2.1.2
   open_file: ^3.3.2
+  pdf: ^3.10.7
+  printing: ^5.11.1
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
