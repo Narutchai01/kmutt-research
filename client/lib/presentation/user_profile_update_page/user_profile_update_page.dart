@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/Changepassword/changepassword.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
 import 'package:dio/dio.dart';
@@ -17,8 +18,6 @@ StringModel Profile1 = StringModel(
 
 // ignore_for_file: must_be_immutable
 class UserProfileUpdatePage extends StatefulWidget {
-  const UserProfileUpdatePage({super.key});
-
   @override
   State<UserProfileUpdatePage> createState() => _UserProfileUpdatePageState();
 }
@@ -167,9 +166,19 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                         left: 27.h,
                         top: 6.v,
                       ),
-                      child: Text(
-                        "Edit password",
-                        style: theme.textTheme.titleLarge,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChangePassword(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Edit password",
+                          style: theme.textTheme.titleLarge,
+                        ),
                       ),
                     ),
                   ],
