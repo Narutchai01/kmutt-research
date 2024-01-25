@@ -23,8 +23,6 @@ class _ProfileUpdateContainerScreenState
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   bool showBottomBar = true;
-
-  final Dio dio = Dio();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

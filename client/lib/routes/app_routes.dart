@@ -1,3 +1,5 @@
+import 'package:client/presentation/Home_page/hom_page.dart';
+import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
@@ -15,7 +17,7 @@ class AppRoutes {
 
   static const String profileUpdateContainerScreen =
       '/profile_update_container_screen';
-
+  static const String homePage = '/home_page';
   static const String searchUpdatePage = '/search_update_page';
 
   static const String data1UpdateScreen = '/data_1_update_screen';
@@ -36,8 +38,6 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
-  static const String ProfileUpdatePage = '/profile_update_page';
-
   static Map<String, WidgetBuilder> routes = {
     loginScreen: (context) => LoginScreen(),
     profileUpdateContainerScreen: (context) => ProfileUpdateContainerScreen(),
@@ -47,5 +47,7 @@ class AppRoutes {
     searchTwoScreen: (context) => SearchTwoScreen(),
     data2UpdatePage: (context) => Data2UpdatePage(),
     appNavigationScreen: (context) => AppNavigationScreen(),
+    homePage: (context) => HomePage(),
+    profileUpdatePage: (context) => ProfileUpdatePage(),
   };
 }

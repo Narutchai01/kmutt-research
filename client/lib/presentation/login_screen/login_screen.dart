@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
       } else {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
         GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-        Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
+        Navigator.pushNamed(context, AppRoutes.homePage);
       }
     } on Exception catch (_) {
       print("throwing new error");
@@ -136,54 +136,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  // Widget _buildRowWithImages(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //       left: 25.h,
-  //       right: 20.h,
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Padding(
-  //           padding: EdgeInsets.only(top: 3.v),
-  //           child: Text(
-  //             "15:05 Fri 6 Oct",
-  //             style: CustomTextStyles.bodyLargeBlack900,
-  //           ),
-  //         ),
-  //         Spacer(),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettings,
-  //           height: 19.v,
-  //           width: 27.h,
-  //           margin: EdgeInsets.only(bottom: 4.v),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettingsBlack900,
-  //           height: 18.v,
-  //           width: 25.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             bottom: 4.v,
-  //           ),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgVectorBlack900,
-  //           height: 19.v,
-  //           width: 39.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             bottom: 3.v,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  /// Section Widget
   Widget _buildEmailSection(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 69.h),
