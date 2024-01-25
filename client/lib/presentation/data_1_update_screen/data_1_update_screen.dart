@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
-
+import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 // import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
-import 'package:client/presentation/profile_update_page/profile_update_page.dart';
+
 import 'package:client/presentation/search_update_page/search_update_page.dart';
-import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
-import 'package:client/widgets/custom_bottom_bar.dart';
+
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // ignore_for_file: must_be_immutable
 class Data1UpdateScreen extends StatefulWidget {
@@ -187,8 +183,9 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                                             buttonTextStyle: CustomTextStyles
                                                 .titleMediumBluegray50,
                                             onPressed: () {
-                                              //onTapNewCase(context);
-                                              _navigateToCamera(context);
+                                              getPageroute(
+                                                  AppRoutes.cameraUpdateScreen);
+                                              gocamrea(context);
                                             }),
                                       ),
                                       SizedBox(height: 4.v)
@@ -292,12 +289,13 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     );
   }
 
-  void _navigateToCamera(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
-    );
-  }
+  // void _navigateToCamera(BuildContext context) {
+  //   getPageroute(AppRoutes.cameraUpdateScreen);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
+  //   );
+  // }
 
   String extractDate(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);

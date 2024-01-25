@@ -27,9 +27,6 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     BottomMenuModel(
       type: BottomBarEnum.Lock,
     ),
-    BottomMenuModel(
-      type: BottomBarEnum.Camera,
-    ),
   ];
 
   @override
@@ -61,7 +58,6 @@ enum BottomBarEnum {
   Circumsearch,
   Fluenttasklist20filled,
   Lock,
-  Camera,
 }
 
 class BottomMenuModel {

@@ -1,4 +1,7 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
+import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
@@ -7,29 +10,35 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 import 'package:dio/dio.dart';
 
-class ProfileUpdateContainerScreen extends StatelessWidget {
+class ProfileUpdateContainerScreen extends StatefulWidget {
   ProfileUpdateContainerScreen({Key? key}) : super(key: key);
 
+  @override
+  _ProfileUpdateContainerScreenState createState() =>
+      _ProfileUpdateContainerScreenState();
+}
+
+class _ProfileUpdateContainerScreenState
+    extends State<ProfileUpdateContainerScreen> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  bool showBottomBar = true;
 
   final Dio dio = Dio();
   @override
   Widget build(BuildContext context) {
-    // getData(context);
-    // GetSurveryor(context);
-
     return SafeArea(
       child: Scaffold(
-          body: Navigator(
-            key: navigatorKey,
-            initialRoute: AppRoutes.profileUpdatePage,
-            onGenerateRoute: (routeSetting) => PageRouteBuilder(
-              pageBuilder: (ctx, ani, ani1) =>
-                  getCurrentPage(routeSetting.name!),
-              transitionDuration: Duration(seconds: 0),
-            ),
+        body: Navigator(
+          key: navigatorKey,
+          initialRoute: AppRoutes.profileUpdatePage,
+          onGenerateRoute: (routeSetting) => PageRouteBuilder(
+            pageBuilder: (ctx, ani, ani1) => getCurrentPage(routeSetting.name!),
+            transitionDuration: Duration(seconds: 0),
           ),
-          bottomNavigationBar: _buildBottomBar(context)),
+        ),
+        bottomNavigationBar: showBottomBar ? _buildBottomBar(context) : null,
+      ),
     );
   }
 
@@ -58,17 +67,27 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
   }
 
   Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.profileUpdatePage:
-        return ProfileUpdatePage();
-      case AppRoutes.searchUpdatePage:
-        return SearchUpdatePage();
-      case AppRoutes.statusUpdateScreen:
-        return StatusUpdateScreen();
-      case AppRoutes.userProfileUpdatePage:
-        return UserProfileUpdatePage();
-      default:
-        return DefaultWidget();
+    if (getPageroute(currentRoute) == AppRoutes.profileUpdatePage) {
+      return ProfileUpdatePage();
+    } else if (getPageroute(currentRoute) == AppRoutes.searchUpdatePage) {
+      return SearchUpdatePage();
+    } else if (getPageroute(currentRoute) == AppRoutes.statusUpdateScreen) {
+      return StatusUpdateScreen();
+    } else if (getPageroute(currentRoute) == AppRoutes.userProfileUpdatePage) {
+      return UserProfileUpdatePage();
     }
+    throw Exception('Invalid currentRoute');
   }
+}
+
+String getPageroute(String route) {
+  print(route);
+  return route;
+}
+
+void gocamrea(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
+  );
 }
