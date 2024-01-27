@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
       } else {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
         GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-        Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
+        Navigator.pushNamed(context, AppRoutes.homePage);
       }
     } on Exception catch (_) {
       print("throwing new error");
@@ -133,7 +133,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildEmailSection(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 69.h),

@@ -16,25 +16,17 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgHome,
-      activeIcon: ImageConstant.imgHome,
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgCircumSearch,
-      activeIcon: ImageConstant.imgCircumSearch,
       type: BottomBarEnum.Circumsearch,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgFluentTaskList20Filled,
-      activeIcon: ImageConstant.imgFluentTaskList20Filled,
       type: BottomBarEnum.Fluenttasklist20filled,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgLock,
-      activeIcon: ImageConstant.imgLock,
       type: BottomBarEnum.Lock,
-    )
+    ),
   ];
 
   @override
@@ -70,15 +62,8 @@ enum BottomBarEnum {
 
 class BottomMenuModel {
   BottomMenuModel({
-    required this.icon,
-    required this.activeIcon,
     required this.type,
   });
-
-  String icon;
-
-  String activeIcon;
-
   BottomBarEnum type;
 }
 

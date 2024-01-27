@@ -133,9 +133,6 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search'),
-      ),
       body: Container(
         color: appTheme.blue900, // Add background color here
         child: Column(

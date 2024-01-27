@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:client/core/app_export.dart';
-
+import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
+import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 // import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
-import 'package:client/presentation/profile_update_page/profile_update_page.dart';
+
 import 'package:client/presentation/search_update_page/search_update_page.dart';
-import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
-import 'package:client/widgets/custom_bottom_bar.dart';
+
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // ignore_for_file: must_be_immutable
 class Data1UpdateScreen extends StatefulWidget {
@@ -23,8 +20,6 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
   @override
   Widget build(BuildContext context) {
     print('Test 2 : ${customer.CarID}');
-    //print(customer);
-    // getCustomer(context);
     return SafeArea(
         child: Scaffold(
       extendBody: true,
@@ -180,14 +175,19 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                                       SizedBox(height: 24.v),
                                       _buildContactColumn(context),
                                       SizedBox(height: 33.v),
-                                      CustomElevatedButton(
-                                          width: 150.h,
-                                          text: "New case",
-                                          buttonTextStyle: CustomTextStyles
-                                              .titleMediumBluegray50,
-                                          onPressed: () {
-                                            onTapNewCase(context);
-                                          }),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 50.h),
+                                        child: CustomElevatedButton(
+                                            width: 150.h,
+                                            text: "New case",
+                                            buttonTextStyle: CustomTextStyles
+                                                .titleMediumBluegray50,
+                                            onPressed: () {
+                                              getPageroute(
+                                                  AppRoutes.cameraUpdateScreen);
+                                              gocamrea(context);
+                                            }),
+                                      ),
                                       SizedBox(height: 4.v)
                                     ]))),
                         CustomImageView(
@@ -201,7 +201,6 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     ));
   }
 
-  /// Section Widget
   Widget _buildUserRow(BuildContext context) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 20.h),
@@ -226,15 +225,13 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
         ]));
   }
 
-  /// Section Widget
   Widget _buildContactColumn(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 0.h),
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // Center the text horizontally
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "Contact",
@@ -292,42 +289,13 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     );
   }
 
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return AppRoutes.profileUpdatePage;
-      case BottomBarEnum.Circumsearch:
-        return AppRoutes.searchUpdatePage;
-      case BottomBarEnum.Fluenttasklist20filled:
-        return AppRoutes.statusUpdateScreen;
-      case BottomBarEnum.Lock:
-        return AppRoutes.userProfileUpdatePage;
-      default:
-        return "/";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.profileUpdatePage:
-        return ProfileUpdatePage();
-      case AppRoutes.searchUpdatePage:
-        return SearchUpdatePage();
-      case AppRoutes.statusUpdateScreen:
-        return StatusUpdateScreen();
-      case AppRoutes.userProfileUpdatePage:
-        return UserProfileUpdatePage();
-      default:
-        return DefaultWidget();
-    }
-  }
-
-  /// Navigates to the cameraUpdateScreen when the action is triggered.
-  onTapNewCase(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.cameraUpdateScreen);
-  }
+  // void _navigateToCamera(BuildContext context) {
+  //   getPageroute(AppRoutes.cameraUpdateScreen);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
+  //   );
+  // }
 
   String extractDate(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
