@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
 
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
@@ -70,6 +71,8 @@ class ProfileUpdateContainerScreen extends StatelessWidget {
         return StatusUpdateScreen();
       case AppRoutes.userProfileUpdatePage:
         return UserProfileUpdatePage();
+      case AppRoutes.cameraUpdateScreen:
+        return CameraUpdateScreen();
       default:
         return DefaultWidget();
     }
