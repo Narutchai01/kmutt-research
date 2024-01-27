@@ -75,7 +75,7 @@ class AppNavigationScreen extends StatelessWidget {
                           context,
                           screenTitle: "Change Password",
                           onTapScreenTitle: () => onTapScreenTitle(
-                              context, AppRoutes.ChangePasswordPage),
+                              context, AppRoutes.changepassword),
                         ),
                       ],
                     ),

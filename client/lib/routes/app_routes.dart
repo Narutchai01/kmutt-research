@@ -39,6 +39,8 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
+  static const String changepassword = '/changepassword';
+
   static Map<String, WidgetBuilder> routes = {
     loginScreen: (context) => LoginScreen(),
     profileUpdateContainerScreen: (context) => ProfileUpdateContainerScreen(),
@@ -50,5 +52,6 @@ class AppRoutes {
     appNavigationScreen: (context) => AppNavigationScreen(),
     homePage: (context) => HomePage(),
     profileUpdatePage: (context) => ProfileUpdatePage(),
+    changepassword: (context) => ChangePassword(),
   };
 }
