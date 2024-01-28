@@ -81,11 +81,11 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildCustomImageView(
+                        picimg_btn(
                           imagePath: ImageConstant.imgTelevision,
                           onTap: () => _pickImage(),
                         ),
-                        _buildCustomImageView(
+                        take_img_btn(
                           imagePath: ImageConstant.imgCamera,
                           onTap: () async {
                             if (!_controller.value.isInitialized) {
@@ -121,8 +121,19 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
     );
   }
 
-  Widget _buildCustomImageView(
-      {required String imagePath, VoidCallback? onTap}) {
+  Widget picimg_btn({required String imagePath, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 59.v,
+        width: 59.h,
+        color: Color(0xFFE6E6E6),
+      ),
+    );
+  }
+
+  Widget take_img_btn({required String imagePath, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: CustomImageView(
