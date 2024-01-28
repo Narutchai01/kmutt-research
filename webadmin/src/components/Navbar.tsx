@@ -23,7 +23,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     className="flex items-center space-x-4"
-                    to="/dashboard"
+                    to="/dashboards"
                   >
                     Overview
                   </NavLink>
@@ -47,7 +47,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/data"
+                        to="/SurveyorPage"
                       >
                         Surveyor
                       </NavLink>
