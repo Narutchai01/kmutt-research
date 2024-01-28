@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
+import 'package:client/presentation/login_screen/login_screen.dart';
 
 class ImagePickerConfirm extends StatefulWidget {
   const ImagePickerConfirm(this.selectedImages, {Key? key}) : super(key: key);
@@ -15,8 +16,37 @@ class ImagePickerConfirm extends StatefulWidget {
 }
 
 class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
+  TextEditingController descriptionController = TextEditingController();
+
+  void submit() async {
+    FormData formData = FormData.fromMap({
+      'Description': descriptionController,
+      'Province': 'ชลบุรี',
+      'CarID': 'กอ 9112',
+    });
+    for (var file in widget.selectedImages) {
+      formData.files.add(MapEntry(
+        'file',
+        await MultipartFile.fromFile(file.path),
+      ));
+    }
+    Response response;
+    try {
+      response = await Dio().post(
+        'http://10.0.2.2:8080/api/cases/createCase/${GlobalModel.token}',
+        data: formData,
+      );
+      if (response.statusCode == 200) {
+        print('success');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(GlobalModel.token);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appTheme.blue900,
@@ -66,6 +96,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
                   style: TextStyle(
                     color: Colors.black,
                   ),
+                  controller: descriptionController,
                   decoration: InputDecoration(
                     hintText: 'Enter your description...',
                     border: OutlineInputBorder(),
@@ -80,6 +111,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
               padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
+                  submit();
                   CoolAlert.show(
                     context: context,
                     type: CoolAlertType.success,
