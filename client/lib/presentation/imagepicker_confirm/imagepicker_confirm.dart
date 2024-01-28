@@ -3,6 +3,7 @@ import 'package:client/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dio/dio.dart';
 
 class ImagePickerConfirm extends StatefulWidget {
   const ImagePickerConfirm(this.selectedImages, {Key? key}) : super(key: key);
