@@ -17,11 +17,7 @@ const LoginPage = () => {
     }));
   };
   
-  console.log(loginData);
   
-
-
-
 
   return (
     <>
@@ -41,7 +37,7 @@ const LoginPage = () => {
                 <input type="password" className="border-[1px] border-primary py-2 rounded-xl" name="password" onChange={handleChange}/>
               </div>
               <div className="flex justify-center bg-primary py-3 text-xl text-white rounded-xl">
-                <button>Sign in</button>
+                <button type="submit">Sign in</button>
               </div>
             </form>
           </div>
