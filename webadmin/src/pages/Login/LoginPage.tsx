@@ -24,11 +24,10 @@ const handleSubmit = (e: React.FormEvent) => {
   try {
     e.preventDefault(); 
     axiosInstance.post("/api/admin/loginadmin", loginData).then(() => {
-     navigate("/dashboards");
+      navigate("/dashboards");
     });
   } catch (error) {
     console.log(error);
-    
   }
 };
   
