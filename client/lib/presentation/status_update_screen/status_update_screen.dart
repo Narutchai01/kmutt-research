@@ -18,6 +18,8 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
   var data = [];
   bool isSearch = true;
 
+  TextEditingController searchStatusController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +56,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(searchStatusController.text);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -115,9 +118,20 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                                     } else if (snapshot.data?.isEmpty ?? true) {
                                       return Text('No data');
                                     } else {
+                                      print(searchStatusController.text);
+
+                                      List<CaseModel> searchData = snapshot
+                                          .data!
+                                          .where((caseModel) =>
+                                              caseModel.CarID.toLowerCase()
+                                                  .contains(
+                                                      searchStatusController
+                                                          .text
+                                                          .toLowerCase()))
+                                          .toList();
+
                                       return Column(
-                                          children:
-                                              snapshot.data!.map((caseModel) {
+                                          children: searchData.map((caseModel) {
                                         return Container(
                                           margin: EdgeInsets.only(bottom: 16.v),
                                           child: _buildThirtyThreeSection(
@@ -173,6 +187,10 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                   padding: EdgeInsets.only(left: 16),
                   child: !isSearch
                       ? TextField(
+                          controller: searchStatusController,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                           decoration: InputDecoration(
                               hintText: 'Search...', border: InputBorder.none),
                           style: TextStyle(color: Colors.black),
