@@ -10,6 +10,7 @@ import CasesRouter from "./routers/Cases";
 import CustomerRouter from "./routers/Customer";
 import InsuranceRouter from "./routers/Insurance";
 import CarRouter from "./routers/Cars";
+import AdminRouter from "./routers/Admin";
 
 const app = express();
 const PORT = Config.PORT;
@@ -51,6 +52,7 @@ app.use("/api/surveyor", SurveyorRouter);
 app.use("/api/cases", CasesRouter);
 app.use("/api/customer",CustomerRouter);
 app.use("/api/insurance",InsuranceRouter);
+app.use("/api/admin",AdminRouter);
 
 app.listen(PORT, async () => {
   // await Connect();
