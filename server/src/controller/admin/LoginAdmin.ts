@@ -29,9 +29,7 @@ export const loginAdmin = async (req:Request,res:Response) => {
         return res.status(200).json({
             status: "success",
             message: "Login success",
-            token,
         });
-
     } catch (error) {
         console.log(error);
     }
