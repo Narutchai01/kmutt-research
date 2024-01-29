@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         primary: "#120554",
-      }
+      },
+
     },
   },
   plugins: [],

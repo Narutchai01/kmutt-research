@@ -24,11 +24,12 @@ export const loginAdmin = async (req:Request,res:Response) => {
                 message: "Password is not correct",
             });
         }
-        const token = jwt.sign({id:Admin[0].id},secret as string,{expiresIn: "1d"});
-        res.cookie("token",token,{expires: new Date(Date.now() + 86400000),httpOnly: true});
+        const token = jwt.sign({id:Admin[0].AdminID},secret as string,{expiresIn: "1d"});
+        res.cookie("token",token,{httpOnly: true});
         return res.status(200).json({
             status: "success",
             message: "Login success",
+            token,
         });
     } catch (error) {
         console.log(error);
