@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { conn } from "../../server";
+import { conn ,Connect} from "../../server";
 import { hashPassword } from "../../utils/ManagePassWord";
 import { uploadImageSurveyor } from "../../utils/UploadImage";
 
 export const CreateSurveyor = async (req: Request, res: Response) => {
   try {
+    await Connect();
     const Images = req.files
     const { First_name, Last_name, Email, PassWord, Phone_number, Birth_date } =req.body;
     const sql = `INSERT INTO Surveyor ( First_name, Last_name, Image , Birth_date , Phone_number ,Email , Password) VALUES ( ?, ?, ?, ?, ?, ? ,?)`;

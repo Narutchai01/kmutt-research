@@ -24,7 +24,7 @@ app.use(cors(
 ));
 
 export let conn: mysql.Connection | null = null;
-const Connect = async () => {
+export const Connect = async () => {
   conn = await mysql.createConnection({
     host: Config.DB_HOST,
     user: Config.DB_USER,
@@ -53,6 +53,6 @@ app.use("/api/customer",CustomerRouter);
 app.use("/api/insurance",InsuranceRouter);
 
 app.listen(PORT, async () => {
-  await Connect();
+  // await Connect();
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });

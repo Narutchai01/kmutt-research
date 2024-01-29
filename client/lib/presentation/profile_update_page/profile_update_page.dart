@@ -1,30 +1,48 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/status_update_screen/status_update_screen.dart';
+import 'package:client/widgets/custom_image.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
-
+import 'package:client/presentation/profile_update_page/User_model.dart';
 // ignore_for_file: must_be_immutable
+
+StringModel Profile1 = StringModel(
+  First_name: '',
+  Last_name: '',
+  SurveyorID: '',
+  Birth_date: '',
+  Image: '',
+  Email: '',
+  Phone_number: '',
+  Password: '',
+);
+
 class ProfileUpdatePage extends StatelessWidget {
   ProfileUpdatePage({Key? key})
       : super(
           key: key,
         );
   final dio = Dio();
-  // late List<String> data;
-  // void GetSurveryor(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://localhost:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
-  //   );
+  var data;
 
-  //   // data = response.data[0];
-  // }
+  void GetSurveryor(BuildContext context) async {
+    final response = await dio.get(
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+    );
+
+    // var data = response.data[0];
+    print(response.data[0]);
+    Profile1 = StringModel.fromMap(response.data[0]);
+  }
 
   TextEditingController editTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // GetSurveryor(context);
+    GetSurveryor(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.blue900,
@@ -39,13 +57,12 @@ class ProfileUpdatePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // _buildHeadSection(context),
                       SizedBox(height: 43.v),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          height: 90.v,
-                          width: 299.h,
+                          height: 105.v,
+                          width: 309.h,
                           margin: EdgeInsets.only(left: 54.h),
                           child: Stack(
                             alignment: Alignment.center,
@@ -57,7 +74,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                   width: 110.h,
                                   margin: EdgeInsets.only(
                                     right: 72.h,
-                                    bottom: 14.v,
+                                    bottom: 18.v,
                                   ),
                                   decoration: BoxDecoration(
                                     color: appTheme.whiteA700,
@@ -70,29 +87,41 @@ class ProfileUpdatePage extends StatelessWidget {
                               Align(
                                 alignment: Alignment.center,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomImageView(
-                                      imagePath: ImageConstant.imgEllipse27,
-                                      height: 90.v,
-                                      width: 93.h,
-                                      radius: BorderRadius.circular(
-                                        46.h,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: Image.network(
+                                          Profile1.Image,
+                                          height: 80.0,
+                                          width: 81.0,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                        top: 9.v,
+                                        top: 20.v,
                                         bottom: 15.v,
+                                        left: 30.h,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Poomthai Promkrote",
+                                            '${Profile1.First_name} ${Profile1.Last_name}',
                                             style: CustomTextStyles
                                                 .titleLargeWhiteA700,
                                           ),
@@ -100,7 +129,7 @@ class ProfileUpdatePage extends StatelessWidget {
                                           Padding(
                                             padding: EdgeInsets.only(left: 8.h),
                                             child: Text(
-                                              "ID : 12345",
+                                              '${Profile1.SurveyorID}',
                                               style: CustomTextStyles
                                                   .titleLargeBlue900,
                                             ),

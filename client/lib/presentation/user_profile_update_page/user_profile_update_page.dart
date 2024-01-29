@@ -1,15 +1,43 @@
 import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
+import 'package:client/presentation/profile_update_page/User_model.dart';
+import 'package:dio/dio.dart';
+import 'package:client/presentation/login_screen/login_screen.dart';
+
+StringModel Profile1 = StringModel(
+  First_name: '',
+  Last_name: '',
+  SurveyorID: '',
+  Birth_date: '',
+  Image: '',
+  Email: '',
+  Phone_number: '',
+  Password: '',
+);
 
 // ignore_for_file: must_be_immutable
 class UserProfileUpdatePage extends StatelessWidget {
-  const UserProfileUpdatePage({Key? key})
+  UserProfileUpdatePage({Key? key})
       : super(
           key: key,
         );
 
+  final dio = Dio();
+  var data;
+
+  void GetSurveryor(BuildContext context) async {
+    final response = await dio.get(
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+    );
+
+    // var data = response.data[0];
+    print(response.data[0]);
+    Profile1 = StringModel.fromMap(response.data[0]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    GetSurveryor(context);
     return SafeArea(
       top: false,
       bottom: false,
@@ -41,7 +69,7 @@ class UserProfileUpdatePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 31.h),
                       child: Text(
-                        "Poomthai ",
+                        "${Profile1.SurveyorID}",
                         style: theme.textTheme.headlineSmall,
                       ),
                     ),
@@ -66,7 +94,7 @@ class UserProfileUpdatePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 30.h),
                       child: Text(
-                        "10-10-2000",
+                        "${Profile1.Birth_date}",
                         style: theme.textTheme.headlineSmall,
                       ),
                     ),
@@ -88,7 +116,7 @@ class UserProfileUpdatePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 28.h),
                       child: Text(
-                        "test@gmail.com",
+                        "${Profile1.Email}",
                         style: theme.textTheme.titleLarge,
                       ),
                     ),
@@ -108,7 +136,7 @@ class UserProfileUpdatePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 28.h),
                       child: Text(
-                        "087-1234567",
+                        "${Profile1.Phone_number}",
                         style: theme.textTheme.titleLarge,
                       ),
                     ),
@@ -206,11 +234,11 @@ class UserProfileUpdatePage extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: EdgeInsets.only(
-                right: 78.h,
-                bottom: 2.v,
+                right: 150.h,
+                bottom: 10.v,
               ),
               child: Text(
-                "Poom Poomthai",
+                "${Profile1.First_name} ${Profile1.Last_name}",
                 style: theme.textTheme.headlineSmall,
               ),
             ),
