@@ -7,6 +7,8 @@ import {axiosInstance} from "../../lib/axios"
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  localStorage.setItem("authen", "false");
+
   const [loginData, setLoginData] = useState<LoginData>({
     Email: "",
     Password: "",
@@ -24,6 +26,7 @@ const handleSubmit = (e: React.FormEvent) => {
   try {
     e.preventDefault(); 
     axiosInstance.post("/api/admin/loginadmin", loginData).then(() => {
+      localStorage.setItem("authen", "true");
       navigate("/dashboards");
     });
   } catch (error) {

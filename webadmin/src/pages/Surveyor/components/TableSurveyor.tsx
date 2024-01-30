@@ -18,23 +18,23 @@ const TableSurveyor = () => {
 
   useEffect(() => {
     getSurveyor();
-  }, [surveyor]);
+  }, []);
 
   
 
 
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th></th>
+      <table className="w-full">
+        <thead className="w-full bg-[#F0F0F0] h-11">
+          <tr className="w-full">
+            <th className="">ID</th>
+            <th className="text-left">Name</th>
+            <th className="text-left">Email</th>
+            <th className=""></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="w-full h-auto">
           {
             surveyor.map((data : SurveyData , index : number) => (
               <PropDataSurveyor key={index} data={data} />

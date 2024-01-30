@@ -94,7 +94,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/data"
+                        to="/CarPage"
                       >
                         Car
                       </NavLink>
@@ -102,7 +102,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/data"
+                        to="/InsurancePage"
                       >
                         Insurance
                       </NavLink>
@@ -110,7 +110,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/data"
+                        to="/CasePage"
                       >
                         Case
                       </NavLink>
@@ -118,7 +118,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/data"
+                        to="/CustomerPage"
                       >
                         Customer
                       </NavLink>

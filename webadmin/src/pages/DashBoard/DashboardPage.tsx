@@ -1,8 +1,12 @@
 import Layout from "../../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
  
-
+if (localStorage.getItem("authen") === "false"){
+  navigate("/"); 
+}
 
 
   return (

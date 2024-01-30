@@ -32,6 +32,7 @@ export const Connect = async () => {
     password: Config.DB_PASSWORD,
     database: Config.DB_NAME,
     port: Config.DB_PORT,
+    
   });
   console.log("Database Connected");
 };
