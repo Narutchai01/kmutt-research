@@ -1,6 +1,8 @@
 import 'package:client/presentation/login_screen/login_screen.dart';
+import 'package:client/presentation/model/token_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'core/app_export.dart';
 
@@ -22,11 +24,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          theme: theme,
-          debugShowCheckedModeBanner: false,
-          home: LoginScreen(),
-          routes: AppRoutes.routes,
+        return Provider(
+          create: (_) => TokenModel(token: ''),
+          child: MaterialApp(
+            theme: theme,
+            debugShowCheckedModeBanner: false,
+            home: LoginScreen(),
+            routes: AppRoutes.routes,
+          ),
         );
       },
     );
