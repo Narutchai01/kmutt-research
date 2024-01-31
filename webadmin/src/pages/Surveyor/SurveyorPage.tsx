@@ -29,7 +29,7 @@ const SurveyorPage = () => {
               </div>
             </div>
           </div>
-          <div className="w-ful h my-10 rounded-lg border-2 border-">
+          <div className="w-full my-10 rounded-lg border-2 ">
             <TableSurveyor />
           </div>
         </div>

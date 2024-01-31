@@ -7,6 +7,7 @@ import InsurancePage from "./pages/Insurance/InsurancePage";
 import CasePage from "./pages/Case/CasePage";
 import CustomerPage from "./pages/Customer/CustomerPage";
 import SurveyorByID from "./pages/Surveyor/SurveyorByID";
+import CarPageByCarID from "./pages/Car/CarPageByCarID";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/Dashboards" element={<DashboardPage />} />
         <Route path="/SurveyorPage" element={<SurveyorPage />} />
         <Route path="/CarPage" element={<CarPage />} />
+        <Route path="/CarPage/:id" element={<CarPageByCarID />} />
         <Route path="/InsurancePage" element={<InsurancePage />} />
         <Route path="/CasePage" element={<CasePage />} />
         <Route path="/CustomerPage" element={<CustomerPage/>} />

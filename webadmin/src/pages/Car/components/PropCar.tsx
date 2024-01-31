@@ -1,8 +1,10 @@
 import PropType from "prop-types";
 import { CarData } from "../../../interface/interface";
 import { axiosInstance } from "../../../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 const PropCar = ({ data }: { data: CarData }) => {
+  const navigate = useNavigate();
   const deleteCarByID = async (id: string) => {
     id = id.replace(/ /g, "%20");
     axiosInstance.delete(`/api/cars/deleteCarByID/${id}`).then((res) => {
@@ -25,11 +27,19 @@ const PropCar = ({ data }: { data: CarData }) => {
           <h1>{data.Policy_type}</h1>
         </td>
         <td className="pr-5">
-          <div
-            className="border-primary border-[1px] flex justify-center py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
-            onClick={() => deleteCarByID(data.CarID)}
-          >
-            <button>Delete</button>
+          <div className="flex justify-end gap-2">
+            <div
+              className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
+              onClick={() => navigate(`/CarPage/${data.CarID}`)}
+            >
+              <button>View</button>
+            </div>
+            <div
+              className="border-primary border-[1px] flex justify-center px-3 py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
+              onClick={() => deleteCarByID(data.CarID)}
+            >
+              <button>Delete</button>
+            </div>
           </div>
         </td>
       </tr>
