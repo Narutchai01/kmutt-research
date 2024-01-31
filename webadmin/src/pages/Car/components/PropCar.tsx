@@ -30,7 +30,7 @@ const PropCar = ({ data }: { data: CarData }) => {
           <div className="flex justify-end gap-2">
             <div
               className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
-              onClick={() => navigate(`/CarPage/${data.CarID}`)}
+              onClick={() => navigate(`/CarPage/${data.CarID}/${data.Province}`)}
             >
               <button>View</button>
             </div>

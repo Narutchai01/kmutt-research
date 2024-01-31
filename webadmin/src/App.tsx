@@ -18,7 +18,7 @@ function App() {
         <Route path="/Dashboards" element={<DashboardPage />} />
         <Route path="/SurveyorPage" element={<SurveyorPage />} />
         <Route path="/CarPage" element={<CarPage />} />
-        <Route path="/CarPage/:id" element={<CarPageByCarID />} />
+        <Route path="/CarPage/:id/:province" element={<CarPageByCarID />} />
         <Route path="/InsurancePage" element={<InsurancePage />} />
         <Route path="/CasePage" element={<CasePage />} />
         <Route path="/CustomerPage" element={<CustomerPage/>} />

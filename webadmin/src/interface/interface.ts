@@ -79,3 +79,22 @@ export interface CaseBySurveyorIDData {
   Status: string;
   Description: Date;
 }
+
+export interface CarInfoData {
+  First_name: string;
+  Last_name: string;
+  CarID: string;
+  Customer_image: string;
+  Car_Image: string;
+  Address: string;
+  Model: string;
+  Color: string;
+  Brand: string;
+  Policy_number: string;
+  Policy_type: string;
+  Start_date: string;
+  End_date: string;
+  Email: string;
+  Phone_number: string;
+  Line: string;
+}
