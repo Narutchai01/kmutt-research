@@ -176,7 +176,7 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                                       _buildContactColumn(context),
                                       SizedBox(height: 33.v),
                                       Padding(
-                                        padding: EdgeInsets.only(bottom: 50.h),
+                                        padding: EdgeInsets.only(bottom: 0.h),
                                         child: CustomElevatedButton(
                                             width: 150.h,
                                             text: "New case",

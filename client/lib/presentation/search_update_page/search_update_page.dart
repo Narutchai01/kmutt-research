@@ -181,7 +181,6 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                           fontWeight: FontWeight.bold),
                     ),
                     Expanded(
-                      // Add Expanded widget
                       child: ListView.builder(
                         itemCount: display_list.length,
                         itemBuilder: (context, index) => GestureDetector(
@@ -204,6 +203,14 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                             );
                           },
                           child: ListTile(
+                            leading: CustomImageView(
+                              imagePath: ImageConstant.imgEllipse27,
+                              height: 90.v,
+                              width: 63.h,
+                              radius: BorderRadius.circular(
+                                46.h,
+                              ),
+                            ),
                             title: Text(
                               display_list.isNotEmpty
                                   ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
@@ -212,17 +219,16 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(
                               display_list.isNotEmpty
-                                  ? '${display_list[index].CarID}' // Use display_list instead of searchList
+                                  ? '${display_list[index].CarID}' +
+                                      ' ${display_list[index].Province}' // Use display_list instead of searchList
                                   : '', // Show an empty string if display_list is empty
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
