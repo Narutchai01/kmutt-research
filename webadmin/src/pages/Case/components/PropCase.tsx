@@ -1,8 +1,10 @@
 import PropType from "prop-types";
 import { CaseData } from "../../../interface/interface";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PropCase = ({ data }: { data: CaseData }) => {
+  const navigate = useNavigate();
   const date = new Date(data.Date_opened).toISOString().split("T")[0];
   const checkStatus = useState<boolean>(false);
 
@@ -22,8 +24,18 @@ const PropCase = ({ data }: { data: CaseData }) => {
           <h1>{date}</h1>
         </td>
         <td className="pr-5">
-          <div className="border-primary border-[1px] flex justify-center py-2 rounded-lg font-bold hover:bg-primary hover:text-white">
-            <button>Delete</button>
+         <div className="flex justify-end gap-2">
+            <div
+              className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
+              onClick={() => navigate(`/CasePage/${data.CaseID}`)}
+            >
+              <button>View</button>
+            </div>
+            <div
+              className="border-primary border-[1px] flex justify-center px-3 py-2 rounded-lg font-bold hover:bg-primary hover:text-white"
+            >
+              <button>Delete</button>
+            </div>
           </div>
         </td>
       </tr>
