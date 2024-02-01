@@ -8,7 +8,7 @@ import CasePage from "./pages/Case/CasePage";
 import CustomerPage from "./pages/Customer/CustomerPage";
 import SurveyorByID from "./pages/Surveyor/SurveyorByID";
 import CarPageByCarID from "./pages/Car/CarPageByCarID";
-
+import AdminInfo from "./pages/Admin/AdminInfo";
 function App() {
   return (
     <>
@@ -23,6 +23,7 @@ function App() {
         <Route path="/CasePage" element={<CasePage />} />
         <Route path="/CustomerPage" element={<CustomerPage/>} />
         <Route path="/SurveyorPage/:id" element={<SurveyorByID/>} />
+        <Route path="/AdminInfo" element={<AdminInfo/>} />
       </Routes>
     </>
   );

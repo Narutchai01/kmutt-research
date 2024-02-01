@@ -28,7 +28,6 @@ export interface CarData {
   Policy_type: string;
   image: string;
 }
-
 export interface InsuranceData {
   Policy_number: string;
   CustomerID: number;
@@ -36,6 +35,7 @@ export interface InsuranceData {
   Start_date: string;
   End_date: string;
   CarID: string;
+  Province: string;
 }
 
 export interface CaseData {

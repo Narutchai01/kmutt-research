@@ -144,7 +144,7 @@ const Navbar = () => {
                     <li>
                       <NavLink
                         className="flex items-center space-x-4"
-                        to="/dashboard/account"
+                        to="/AdminInfo"
                       >
                         Inforomation
                       </NavLink>
