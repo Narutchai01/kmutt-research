@@ -171,22 +171,26 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                                         ],
                                       ),
                                       SizedBox(height: 31.v),
-                                      Divider(color: appTheme.blueGray100),
+                                      Divider(
+                                          thickness: 1,
+                                          color: appTheme.blueGray100),
                                       SizedBox(height: 24.v),
                                       _buildContactColumn(context),
                                       SizedBox(height: 33.v),
                                       Padding(
                                         padding: EdgeInsets.only(bottom: 0.h),
                                         child: CustomElevatedButton(
-                                            width: 150.h,
-                                            text: "New case",
-                                            buttonTextStyle: CustomTextStyles
-                                                .titleMediumBluegray50,
-                                            onPressed: () {
-                                              getPageroute(
-                                                  AppRoutes.cameraUpdateScreen);
-                                              gocamrea(context);
-                                            }),
+                                          width: 150.h,
+                                          text: "New case",
+                                          buttonStyle:
+                                              CustomButtonStyles.fillBlue,
+                                          buttonTextStyle: CustomTextStyles
+                                              .titleMediumBluegray50,
+                                          onPressed: () {
+                                            Navigator.pushNamed(context,
+                                                AppRoutes.cameraUpdateScreen);
+                                          },
+                                        ),
                                       ),
                                       SizedBox(height: 4.v)
                                     ]))),
