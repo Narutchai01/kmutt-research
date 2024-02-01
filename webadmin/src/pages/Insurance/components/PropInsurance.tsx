@@ -1,8 +1,9 @@
 import PropType from "prop-types";
 import { InsuranceData } from "../../../interface/interface";
+import { useNavigate } from "react-router-dom";
 
 const PropInsurance = ({ data }: { data: InsuranceData }) => {
-  // Remove unused variable declaration and assignment
+  const navigate = useNavigate();
   const startdate = new Date(data.Start_date).toISOString().split("T")[0];
   const enddate = new Date(data.End_date).toISOString().split("T")[0];
 
@@ -25,6 +26,7 @@ const PropInsurance = ({ data }: { data: InsuranceData }) => {
         <td className="text-right">
           <div className="flex justify-end gap-2">
             <div className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white" 
+              onClick={() => navigate(`/CarPage/${data.CarID}/${data.Province}`)}
             >
               <button>View</button>
             </div>
