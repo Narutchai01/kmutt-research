@@ -9,6 +9,7 @@ import 'package:client/presentation/camera_update_screen/camera_update_screen.da
 import 'package:client/presentation/search_two_screen/search_two_screen.dart';
 import 'package:client/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
+import 'package:client/presentation/changepassword/changepassword.dart';
 
 class AppRoutes {
   static const String loginScreen = '/login_screen';
@@ -38,6 +39,8 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
+  static const String changepassword = '/changepassword';
+
   static Map<String, WidgetBuilder> routes = {
     loginScreen: (context) => LoginScreen(),
     profileUpdateContainerScreen: (context) => ProfileUpdateContainerScreen(),
@@ -49,5 +52,6 @@ class AppRoutes {
     appNavigationScreen: (context) => AppNavigationScreen(),
     homePage: (context) => HomePage(),
     profileUpdatePage: (context) => ProfileUpdatePage(),
+    changepassword: (context) => ChangePassword(),
   };
 }

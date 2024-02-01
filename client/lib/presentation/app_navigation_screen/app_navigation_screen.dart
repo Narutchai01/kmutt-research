@@ -71,6 +71,12 @@ class AppNavigationScreen extends StatelessWidget {
                           onTapScreenTitle: () => onTapScreenTitle(
                               context, AppRoutes.data2UpdatePage),
                         ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "Change Password",
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              context, AppRoutes.changepassword),
+                        ),
                       ],
                     ),
                   ),

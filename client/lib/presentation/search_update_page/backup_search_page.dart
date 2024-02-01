@@ -45,8 +45,6 @@ class SearchUpdatePage extends StatefulWidget {
 }
 
 class _SearchUpdatePageState extends State<SearchUpdatePage> {
-  value() => null;
-
   String formatInfo(String originalInfo) {
     // Add your formatting logic here
     // For example, you can convert the token to uppercase
@@ -134,7 +132,6 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(searchController);
     return Scaffold(
       body: Container(
         color: appTheme.blue900, // Add background color here
@@ -146,12 +143,10 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
-                controller: searchController,
                 onChanged: (value) => updateList(value),
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Enter car ID",
-
                   suffixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.black,
                   border: OutlineInputBorder(
@@ -176,7 +171,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Text(
                       "Search for a car",
@@ -187,93 +182,51 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                     ),
                     Expanded(
                       // Add Expanded widget
-                      child: FutureBuilder<List<SearchModel>>(
-                        // future: Future.delayed(Duration(seconds: 1), () {
-                        //   return display_list;
-                        // }),
-                        future: getSearchModel(),
-                        //                 display_list = searchModels.where((searchModel) => searchModel.CarID.toLowerCase().contains(value.toLowerCase())).toList();
-
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
+                      child: ListView.builder(
+                        itemCount: display_list.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () async {
+                            carToken = carCustomerModel(
+                              CarID: formatInfo(display_list[index].CarID),
+                              Province:
+                                  formatInfo(display_list[index].Province),
                             );
-                          } else if (snapshot.hasError) {
-                            return Center(
-                              child: Text('Error: ${snapshot.error}'),
+
+                            await getCustomer(
+                                context, carToken.CarID, carToken.Province);
+
+                            print('Test 1.1 : ${customer.CarID}');
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Data1UpdateScreen()),
                             );
-                          } else {
-                            List<SearchModel> searchModels = snapshot.data!
-                                .where((searchModel) =>
-                                    searchModel.CarID.toLowerCase().contains(
-                                        searchController.text.toLowerCase()))
-                                .toList();
-
-                            return ListView.builder(
-                              itemCount: searchModels.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: () async {
-                                  carToken = carCustomerModel(
-                                    CarID:
-                                        formatInfo(searchModels[index].CarID),
-                                    Province: formatInfo(
-                                        searchModels[index].Province),
-                                  );
-
-                                  await getCustomer(context, carToken.CarID,
-                                      carToken.Province);
-
-                                  print('Test 1.1 : ${customer.CarID}');
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Data1UpdateScreen()),
-                                  );
-                                },
-                                child: ListTile(
-                                  leading: CustomImageView(
-                                    imagePath: ImageConstant.imgEllipse27,
-                                    height: 72.v,
-                                    width: 63.h,
-                                    radius: BorderRadius.circular(
-                                      46.h,
-                                    ),
-                                  ),
-                                  title: Text(
-                                    searchModels.isNotEmpty
-                                        ? '${searchModels[index].First_name} ${searchModels[index].Last_name}'
-                                        : '',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        searchModels.isNotEmpty
-                                            ? '${searchModels[index].CarID}' +
-                                                ' ${searchModels[index].Province}'
-                                            : '',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: Icon(Icons.arrow_forward),
-                                ),
+                          },
+                          child: ListTile(
+                            title: Text(
+                              display_list.isNotEmpty
+                                  ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
+                                  : '',
+                              // Use searchModels instead of searchList
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          }
-                        },
+                            ),
+                            subtitle: Text(
+                              display_list.isNotEmpty
+                                  ? '${display_list[index].CarID}' // Use display_list instead of searchList
+                                  : '', // Show an empty string if display_list is empty
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
