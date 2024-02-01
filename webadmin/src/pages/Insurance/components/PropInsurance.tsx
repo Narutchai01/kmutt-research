@@ -24,7 +24,8 @@ const PropInsurance = ({ data }: { data: InsuranceData }) => {
         <td className="text-left">{enddate}</td>
         <td className="text-right">
           <div className="flex justify-end gap-2">
-            <div className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white">
+            <div className="border-primary border-[1px] flex justify-center px-5 py-2 rounded-lg font-bold hover:bg-primary hover:text-white" 
+            >
               <button>View</button>
             </div>
             <div className="border-primary border-[1px] flex justify-center px-3 py-2 rounded-lg font-bold hover:bg-primary hover:text-white">

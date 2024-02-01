@@ -3,7 +3,7 @@ import PropType from "prop-types";
 
 const PropAdminInfo = ({ data }: { data: AdminData }) => {
 
-    const Birtth_date = new Date(data.Birth_date).toISOString().slice(0,10).split("-").reverse().join("/");
+    const Birtth_date = new Date(data.Birth_date).toLocaleDateString("en-GB");
 
   return (
     <>
