@@ -15,7 +15,6 @@ const CasePage = () => {
                 className="w-full bg-gray-500 border-2 rounded-xl h-full"
               />
             </div>
-            
           </div>
           <div className="w-ful h my-10 rounded-lg border-2 border-">
             <TableCase />
