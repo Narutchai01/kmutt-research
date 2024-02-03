@@ -1,39 +1,38 @@
 import { Request, Response } from "express";
-import { conn , Connect } from "../../server";
+import { conn, Connect } from "../../server";
+import { CustomerMockData } from "./Data";
 import { upLoadImageCustomer } from "../../utils/UploadImage";
+
+
+
+
+
 
 export const addCustomer = async (req: Request, res: Response) => {
   try {
     await Connect();
-    const { First_name, Last_name, Email, Address, Phone_number, Line } =
-      req.body;
-    const Image = req.files;
-    const addCustomer = `INSERT INTO Customer (First_name , Last_name , Email , Address , Phone_number , Line , Image) VALUES (?,?,?,?,?,?,?)`;
-    const ImageURL = await Promise.all(
-      (Image as Express.Multer.File[]).map(async (file: any) => {
-        const url = await upLoadImageCustomer(file.buffer);
-        return url;
+    const slq =
+      "INSERT INTO Customer (First_name, Last_name, Email, Address, Phone_number, Line , Image) VALUES (?,?,?,?,?,?,?)";
+    const Images = req.files;
+
+    const Image = await Promise.all(
+      (Images as any).map(async (image: any) => {
+        return await upLoadImageCustomer(image);
       })
     );
-    const DataCustomer = {
-      First_name,
-      Last_name,
-      Email,
-      Address,
-      Phone_number,
-      Line,
-      Image: ImageURL[0] || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c",
-    };
-    await conn?.query(addCustomer, [
-      DataCustomer.First_name,
-      DataCustomer.Last_name,
-      DataCustomer.Email,
-      DataCustomer.Address,
-      DataCustomer.Phone_number,
-      DataCustomer.Line,
-      DataCustomer.Image,
-    ]);
-    res.status(200).json({ message: "Add Customer Success" });
+  const result :any [] = await  CustomerMockData.map(async (customer ,index ) => {
+      const data = {
+        First_name: customer.First_name,
+        Last_name: customer.Last_name,
+        Email: customer.Email,
+        Address: customer.Address,
+        Phone_number: customer.Phone_number.replace(/-/g, ""),
+        Line: customer.Line,
+        Image: Image[index],
+      };
+      await conn?.query(slq,[data.First_name, data.Last_name, data.Email, data.Address, data.Phone_number, data.Line, data.Image]);
+    });
+    res.send("Customer Added");
   } catch (error) {
     console.log(error);
   }
