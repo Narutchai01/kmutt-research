@@ -17,7 +17,7 @@ export const addCustomer = async (req: Request, res: Response) => {
 
     const Image = await Promise.all(
       (Images as any).map(async (image: any) => {
-        return await upLoadImageCustomer(image);
+        return await upLoadImageCustomer(image.buffer);
       })
     );
   const result :any [] = await  CustomerMockData.map(async (customer ,index ) => {
@@ -32,7 +32,7 @@ export const addCustomer = async (req: Request, res: Response) => {
       };
       await conn?.query(slq,[data.First_name, data.Last_name, data.Email, data.Address, data.Phone_number, data.Line, data.Image]);
     });
-    res.send("Customer Added");
+    res.send("success");
   } catch (error) {
     console.log(error);
   }

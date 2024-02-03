@@ -33,7 +33,7 @@ export const upLoadImageCar = async (file: File) => {
 
 export const upLoadImageCustomer = async (file: File) => {
     const storage = getStorage(app);
-    const storageRef = ref(storage, `imagesCustomer/${uuidv4()}`);
+    const storageRef = ref(storage, `imagesCustomer/${uuidv4()}.jpg`);
     const snapshot = await uploadBytes(storageRef, file, metadata);
     const url = await getDownloadURL(snapshot.ref);
     return url;
