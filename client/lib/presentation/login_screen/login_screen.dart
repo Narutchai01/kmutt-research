@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:io';
 
 final Dio dio = Dio();
 
@@ -29,11 +30,20 @@ class LoginScreen extends StatelessWidget {
 
   void sentLogin(BuildContext context) async {
     try {
-      final response = await dio.post(
-        'http://localhost:8080/api/surveyor/loginSurveyor',
+      String baseUrl = "";
+      if (Platform.isAndroid) {
+        // Android
+        baseUrl = "http://10.0.2.2:8080/api/surveyor/loginSurveyor";
+      } else if (Platform.isIOS) {
+        // iOS
+        baseUrl = "http://localhost:8080/api/surveyor/loginSurveyor";
+      }
+      Response response = await dio.postUri(
+        // Uri.parse("http://10.0.2.2:8080/api/surveyor/loginSurveyor"),
+        Uri.parse(baseUrl),
         data: {
-          "email": emailController.text,
-          "PassWord": passwordController.text,
+          'email': emailController.text,
+          'PassWord': passwordController.text,
         },
         options: Options(
           responseType: ResponseType.json,
