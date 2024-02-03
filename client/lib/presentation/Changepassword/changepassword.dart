@@ -23,7 +23,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   void ChangePasswordApi() async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/api/surveyor/changePassWord/${GlobalModel.token}',
+        'http://10.0.2.2:8080/api/surveyor/changePassWord/${globalModel.token}',
         data: {
           "oldPassword": currentPasswordController.text,
           "newPassword": newPasswordController.text,
@@ -150,7 +150,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               buttonStyle: CustomButtonStyles.fillBlue,
               buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
               onPressed: () {
-                print(GlobalModel.token);
+                print(globalModel.token);
                 print(newPasswordController.text);
                 print(confirmNewPasswordController.text);
                 CheckPassword();

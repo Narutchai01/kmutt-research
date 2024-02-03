@@ -46,7 +46,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
   Future<StringModel> getSurveyorInfo(BuildContext context) async {
     var response = await dio.get(
-      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${globalModel.token}',
       options: Options(
         responseType: ResponseType.json,
         validateStatus: (statusCode) {

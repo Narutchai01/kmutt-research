@@ -27,7 +27,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
 
   Future<StringModel> getProfileData() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${globalModel.token}',
     );
 
     return StringModel.fromMap(response.data[0]);

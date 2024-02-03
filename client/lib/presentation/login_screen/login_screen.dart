@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
   void sentLogin(BuildContext context) async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/api/surveyor/loginSurveyor',
+        'http://localhost:8080/api/surveyor/loginSurveyor',
         data: {
           "email": emailController.text,
           "PassWord": passwordController.text,

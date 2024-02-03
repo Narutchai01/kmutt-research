@@ -33,7 +33,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
     Response response;
     try {
       response = await Dio().post(
-        'http://10.0.2.2:8080/api/cases/createCase/${GlobalModel.token}',
+        'http://10.0.2.2:8080/api/cases/createCase/${globalModel.token}',
         data: formData,
       );
       if (response.statusCode == 200) {
@@ -46,7 +46,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    print(GlobalModel.token);
+    print(globalModel.token);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appTheme.blue900,
