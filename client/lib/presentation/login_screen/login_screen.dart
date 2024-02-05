@@ -9,7 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final Dio dio = Dio();
 
-TokenModel globalModel = TokenModel(token: '');
+TokenModel GlobalModel = TokenModel(token: '');
 
 class MyCustomException implements Exception {
   final String message;
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
         // Handle incorrect password case, display a message to the user, etc.
       } else {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
-        globalModel = TokenModel(token: formatToken(tokenModel.token));
+        GlobalModel = TokenModel(token: formatToken(tokenModel.token));
         Navigator.pushNamed(context, AppRoutes.homePage);
       }
     } catch (e) {
