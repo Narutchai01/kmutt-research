@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final Dio dio = Dio();
 
@@ -55,6 +56,9 @@ class LoginScreen extends StatelessWidget {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
         GlobalModel = TokenModel(token: formatToken(tokenModel.token));
         Navigator.pushNamed(context, AppRoutes.homePage);
+        final SharedPreferences prefsToken =
+            await SharedPreferences.getInstance();
+        prefsToken.setString('token', GlobalModel.token);
       }
     } catch (e) {
       print("Error: $e");
