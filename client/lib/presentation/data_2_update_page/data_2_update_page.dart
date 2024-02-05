@@ -1,3 +1,5 @@
+import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
+
 import '../data_2_update_page/widgets/listsection_item_widget.dart';
 import 'package:client/core/app_export.dart';
 import 'package:client/widgets/custom_drop_down.dart';
@@ -12,6 +14,7 @@ class Data2UpdatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(
             body: Container(
@@ -26,69 +29,73 @@ class Data2UpdatePage extends StatelessWidget {
                           padding: EdgeInsets.only(left: 37.h, right: 51.h),
                           child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment:MainAxisAlignment.center,
-                                children: [
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "PDN :",
-                                       style: theme.textTheme.titleLarge,
-                                       textAlign: TextAlign.left,
-                                       ),
+                                      style: theme.textTheme.titleLarge,
+                                      textAlign: TextAlign.left,
+                                    ),
                                     Text(
                                       "POL-001",
                                       style: CustomTextStyles.titleLargeBold,
                                       textAlign: TextAlign.right,
-                                        ),
-                                    ],
+                                    ),
+                                  ],
                                 ),
-                                 Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "Claim Info:",
-                                       style: theme.textTheme.titleLarge,
-                                       textAlign: TextAlign.left,
-                                       ),
+                                      style: theme.textTheme.titleLarge,
+                                      textAlign: TextAlign.left,
+                                    ),
                                     Text(
                                       "",
                                       style: CustomTextStyles.titleLargeBold,
                                       textAlign: TextAlign.right,
-                                        ),
-                                    ],
+                                    ),
+                                  ],
                                 ),
-                                 Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "Status :",
-                                       style: theme.textTheme.titleLarge,
-                                       textAlign: TextAlign.left,
-                                       ),
+                                      style: theme.textTheme.titleLarge,
+                                      textAlign: TextAlign.left,
+                                    ),
                                     Text(
                                       "Success",
                                       style: CustomTextStyles.titleLargeBold,
                                       textAlign: TextAlign.right,
-                                        ),
-                                    ],
+                                    ),
+                                  ],
                                 ),
-                                 Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
                                       "Create on :",
-                                       style: theme.textTheme.titleLarge,
-                                       textAlign: TextAlign.left,
-                                       ),
+                                      style: theme.textTheme.titleLarge,
+                                      textAlign: TextAlign.left,
+                                    ),
                                     Text(
                                       "12-10-2023",
                                       style: CustomTextStyles.titleLargeBold,
                                       textAlign: TextAlign.right,
-                                        ),
-                                    ],
+                                    ),
+                                  ],
                                 ),
-                          ]))),
+                              ]))),
                   SizedBox(height: 26.v),
                   CustomImageView(
                       imagePath: ImageConstant.imgRectangle133,
@@ -106,10 +113,10 @@ class Data2UpdatePage extends StatelessWidget {
                   Spacer(),
                   SizedBox(height: 27.v),
                   CustomElevatedButton(
-                      width: 150.h,
-                      text: "Export result",
-                      buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
-                      )
+                    width: 150.h,
+                    text: "Export result",
+                    buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
+                  )
                 ]))));
   }
 

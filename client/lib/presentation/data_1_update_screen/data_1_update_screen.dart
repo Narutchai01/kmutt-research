@@ -1,21 +1,25 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
+import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 // import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
-import 'package:client/presentation/profile_update_page/profile_update_page.dart';
+
 import 'package:client/presentation/search_update_page/search_update_page.dart';
-import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
-import 'package:client/widgets/custom_bottom_bar.dart';
+
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // ignore_for_file: must_be_immutable
-class Data1UpdateScreen extends StatelessWidget {
-  Data1UpdateScreen({Key? key}) : super(key: key);
-
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+class Data1UpdateScreen extends StatefulWidget {
+  const Data1UpdateScreen({super.key});
 
   @override
+  State<Data1UpdateScreen> createState() => _Data1UpdateScreenState();
+}
+
+class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
+  @override
   Widget build(BuildContext context) {
+    print('Test 2 : ${customer.CarID}');
     return SafeArea(
         child: Scaffold(
       extendBody: true,
@@ -72,7 +76,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                           Expanded(
                                             child: Container(
                                               child: Text(
-                                                "50/100 m.1 Bangkaw Nakhon Chaisi Nakhon Pathom 73120",
+                                                "${customer.Address}",
                                                 style:
                                                     theme.textTheme.titleMedium,
                                                 textAlign: TextAlign.right,
@@ -92,7 +96,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "BMW i4",
+                                            "${customer.Model}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -126,7 +130,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "POL-001",
+                                            "${customer.Policy_number}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -143,7 +147,7 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "Auto Insurance",
+                                            "${customer.Policy_type}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
@@ -160,25 +164,34 @@ class Data1UpdateScreen extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           ),
                                           Text(
-                                            "1-1-2023/31-12-2023",
+                                            "${extractDate(customer.Start_date)} / ${extractDate(customer.End_date)}",
                                             style: theme.textTheme.titleMedium,
                                             textAlign: TextAlign.right,
                                           ),
                                         ],
                                       ),
                                       SizedBox(height: 31.v),
-                                      Divider(color: appTheme.blueGray100),
+                                      Divider(
+                                          thickness: 1,
+                                          color: appTheme.blueGray100),
                                       SizedBox(height: 24.v),
                                       _buildContactColumn(context),
                                       SizedBox(height: 33.v),
-                                      CustomElevatedButton(
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 0.h),
+                                        child: CustomElevatedButton(
                                           width: 150.h,
                                           text: "New case",
+                                          buttonStyle:
+                                              CustomButtonStyles.fillBlue,
                                           buttonTextStyle: CustomTextStyles
                                               .titleMediumBluegray50,
                                           onPressed: () {
-                                            onTapNewCase(context);
-                                          }),
+                                            Navigator.pushNamed(context,
+                                                AppRoutes.cameraUpdateScreen);
+                                          },
+                                        ),
+                                      ),
                                       SizedBox(height: 4.v)
                                     ]))),
                         CustomImageView(
@@ -192,7 +205,6 @@ class Data1UpdateScreen extends StatelessWidget {
     ));
   }
 
-  /// Section Widget
   Widget _buildUserRow(BuildContext context) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 20.h),
@@ -209,22 +221,21 @@ class Data1UpdateScreen extends StatelessWidget {
           Container(
               width: 165.h,
               margin: EdgeInsets.only(left: 20.h, top: 21.v, bottom: 8.v),
-              child: Text("Anthony Edward Stark\nYC7I AWH",
+              child: Text(
+                  "${customer.First_name} ${customer.Last_name}\n${customer.CarID}",
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: CustomTextStyles.bodyLargeNunitoBlack900_1))
         ]));
   }
 
-  /// Section Widget
   Widget _buildContactColumn(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 0.h),
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // Center the text horizontally
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "Contact",
@@ -240,7 +251,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "test@gmail.com",
+                  "${customer.Email}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
@@ -255,7 +266,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "087-160-3130",
+                  "${customer.Phone_number}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
@@ -270,7 +281,7 @@ class Data1UpdateScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "Stark0086",
+                  "${customer.Line}",
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
@@ -282,40 +293,16 @@ class Data1UpdateScreen extends StatelessWidget {
     );
   }
 
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return AppRoutes.profileUpdatePage;
-      case BottomBarEnum.Circumsearch:
-        return AppRoutes.searchUpdatePage;
-      case BottomBarEnum.Fluenttasklist20filled:
-        return AppRoutes.statusUpdateScreen;
-      case BottomBarEnum.Lock:
-        return AppRoutes.userProfileUpdatePage;
-      default:
-        return "/";
-    }
-  }
+  // void _navigateToCamera(BuildContext context) {
+  //   getPageroute(AppRoutes.cameraUpdateScreen);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
+  //   );
+  // }
 
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.profileUpdatePage:
-        return ProfileUpdatePage();
-      case AppRoutes.searchUpdatePage:
-        return SearchUpdatePage();
-      case AppRoutes.statusUpdateScreen:
-        return StatusUpdateScreen();
-      case AppRoutes.userProfileUpdatePage:
-        return UserProfileUpdatePage();
-      default:
-        return DefaultWidget();
-    }
-  }
-
-  /// Navigates to the cameraUpdateScreen when the action is triggered.
-  onTapNewCase(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.cameraUpdateScreen);
+  String extractDate(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
   }
 }

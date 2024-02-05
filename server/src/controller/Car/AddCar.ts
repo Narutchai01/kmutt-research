@@ -44,18 +44,18 @@ export const AddCar = async (req: Request, res: Response) => {
       Color,
       Status: "Active",
     };
-    // await conn?.query(sql, [
-    //   data.CarID,
-    //   data.Province,
-    //   data.CustomerID,
-    //   data.Policy_number,
-    //   data.Image,
-    //   data.Brand,
-    //   data.Model,
-    //   data.Color,
-    //   data.Status,
-    // ]);
-    res.status(200).json(data);
+    await conn?.query(sql, [
+      data.CarID,
+      data.Province,
+      data.CustomerID,
+      data.Policy_number,
+      data.Image,
+      data.Brand,
+      data.Model,
+      data.Color,
+      data.Status,
+    ]);
+    res.status(200).json({ message: "Add Car Success" });
   } catch (error) {
     console.log(error);
   }
