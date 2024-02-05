@@ -5,6 +5,9 @@ import 'package:client/presentation/user_profile_update_page/user_profile_update
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:client/core/app_export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String finalToken = '';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,9 +24,18 @@ class _HomePageState extends State<HomePage> {
     StatusUpdateScreen(),
     UserProfileUpdatePage(),
   ];
+  Future getToken() async {
+    final SharedPreferences prefsToken = await SharedPreferences.getInstance();
+    var finalToken = prefsToken.getString('token');
+    setState(() {
+      finalToken = finalToken.toString();
+    });
+    print(finalToken);
+  }
 
   @override
   Widget build(BuildContext context) {
+    getToken();
     return SafeArea(
       child: Scaffold(
         body: Menupage[currentPageIndex],
