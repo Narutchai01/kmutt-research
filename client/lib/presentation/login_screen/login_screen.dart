@@ -19,7 +19,7 @@ class MyCustomException implements Exception {
   MyCustomException(this.message);
 }
 
-String get baseURL {
+get baseURL {
   String baseUrl = "";
   if (Platform.isAndroid) {
     // Android
