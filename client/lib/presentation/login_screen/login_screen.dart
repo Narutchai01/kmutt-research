@@ -42,17 +42,9 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> sentLogin(BuildContext context) async {
-    String baseUrl = "";
-    if (Platform.isAndroid) {
-      // Android
-      baseUrl = "http://10.0.2.2:8080/api";
-    } else if (Platform.isIOS) {
-      // iOS
-      baseUrl = "http://localhost:8080/api";
-    }
     try {
       final response = await dio.post(
-        '$baseUrl/surveyor/loginSurveyor',
+        '$baseURL/surveyor/loginSurveyor',
         data: {
           "email": emailController.text,
           "PassWord": passwordController.text,
