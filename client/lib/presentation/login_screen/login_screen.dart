@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 final Dio dio = Dio();
 
@@ -18,7 +19,17 @@ class MyCustomException implements Exception {
   MyCustomException(this.message);
 }
 
-get baseURL => 'http://192.168.1.20:8080/api';
+String get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -31,9 +42,17 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> sentLogin(BuildContext context) async {
+    String baseUrl = "";
+    if (Platform.isAndroid) {
+      // Android
+      baseUrl = "http://10.0.2.2:8080/api";
+    } else if (Platform.isIOS) {
+      // iOS
+      baseUrl = "http://localhost:8080/api";
+    }
     try {
       final response = await dio.post(
-        '$baseURL/surveyor/loginSurveyor',
+        '$baseUrl/surveyor/loginSurveyor',
         data: {
           "email": emailController.text,
           "PassWord": passwordController.text,
