@@ -17,6 +17,8 @@ class MyCustomException implements Exception {
   MyCustomException(this.message);
 }
 
+get baseURL => 'http://192.168.1.20:8080/api';
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
@@ -27,10 +29,10 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void sentLogin(BuildContext context) async {
+  Future<void> sentLogin(BuildContext context) async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/api/surveyor/loginSurveyor',
+        '$baseURL/surveyor/loginSurveyor',
         data: {
           "email": emailController.text,
           "PassWord": passwordController.text,
