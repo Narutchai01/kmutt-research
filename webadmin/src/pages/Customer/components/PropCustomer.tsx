@@ -1,7 +1,9 @@
 import PropType from "prop-types";
 import { CustomerData } from "../../../interface/interface";
+import { useNavigate } from "react-router-dom";
 
 const PropCustomer = ({ data }: { data: CustomerData }) => {
+  const navigate = useNavigate();
   return (
     <>
       <tr className=" h-16 border-t-2">
@@ -20,9 +22,16 @@ const PropCustomer = ({ data }: { data: CustomerData }) => {
           <h1>{data.Address}</h1>
         </td>
         <td className="pr-5">
-          <div className="border-primary border-[1px] flex justify-center py-2 rounded-lg font-bold hover:bg-primary hover:text-white">
-            <button>Delete</button>
-          </div>
+        
+       <div className="flex justify-end gap-2">
+        <div className="border-primary border-[1px] flex justify-center py-2 rounded-lg font-bold hover:bg-primary hover:text-white">
+              <button
+              onClick={() => navigate(`/CustomerPage/${data.CustomerID}`)}>View</button>
+            </div>
+            <div className="border-primary border-[1px] flex justify-center py-2 rounded-lg font-bold hover:bg-primary hover:text-white">
+              <button>Delete</button>
+            </div>
+       </div>
         </td>
       </tr>
     </>

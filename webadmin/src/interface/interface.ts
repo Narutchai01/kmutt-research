@@ -98,3 +98,12 @@ export interface CarInfoData {
   Phone_number: string;
   Line: string;
 }
+
+
+export interface CustomerCarData {
+  CarID: string;
+  Brand: string;
+  Model: string;
+  Color: string;
+  Province: string;
+}
