@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosInstance } from "../../lib/axios";
 import { CustomerData } from "../../interface/interface";
-import PropCustomer from "./components/PropCustomer";
 import TableDataCarByCustomer from "./components/TableCustomerCar";
+import PropCustomerbyID from "./components/PropCustomerbyID";
 
 
 const CustomerByIdPage = () => {
@@ -13,7 +13,7 @@ const CustomerByIdPage = () => {
   const [data, setData] = useState([]);
   const getCustomerID = async () => {
     try {
-      axiosInstance.get(`/api/admin/getcustomer/${id}`).then((res) => {
+      axiosInstance.get(`/api/admin/getCustomerByCustomerID/${id}`).then((res) => {
         setData(res.data);
       });
     } catch (err) {
@@ -24,6 +24,9 @@ const CustomerByIdPage = () => {
     getCustomerID();
   }, []);
 
+
+
+
   return (
     <>
       <Layout>
@@ -31,7 +34,7 @@ const CustomerByIdPage = () => {
           <h1 className="text-5xl font-bold">Customer {id}</h1>
           
           {data.map((item: CustomerData, index: number) => (
-            <PropCustomer key={index} data={item} />
+            <PropCustomerbyID key={index} data={item} />
           ))}
           <div className="w-full my-10 rounded-lg border-2 ">
              <TableDataCarByCustomer  /> 

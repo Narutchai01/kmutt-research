@@ -11,7 +11,7 @@ const TableDataCarByCustomer = () => {
 
     const getCarByCustomer = async () => {
         try {
-            axiosInstance.get(`/api/admin/getCaseBySurveyorID/${id}`).then((res) => {
+            axiosInstance.get(`/api/admin/getCarbyCustomerId/${id}`).then((res) => {
                 setData(res.data);
             });
         } catch (err) {

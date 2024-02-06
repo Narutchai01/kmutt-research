@@ -7,11 +7,10 @@ import PropCustomer from "./PropCustomer";
 const TableCustomer = () => {
 
     const [customer,setCustomer] = useState([])
-
-
+    
     const getCustomer = async () => {
         try {
-            axiosInstance.get("/api/customer/getcustomer").then((res) => {
+            axiosInstance.get(`/api/customer/getcustomer`).then((res) => {
                 setCustomer(res.data)
             })
         } catch (error) {
