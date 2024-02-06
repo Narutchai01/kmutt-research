@@ -7,6 +7,7 @@ import { getCaseBySurveyorID } from '../controller/admin/Case/getCaseBySurveyorI
 import { getCaseByCaseID } from '../controller/admin/Case/getCaseByCaseID';
 import { EditSurveyor } from '../controller/admin/Surveyor/EditSurveyor';
 import { getCarByCustomerID } from '../controller/admin/Car/GetCarByCustomerID';
+import { GetCustomerByCustomerID } from '../controller/admin/Customer/GetCustomerByCustomerID';
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.get('/getCaseBySurveyorID/:surveyorID',getCaseBySurveyorID);
 router.get('/getCaseByCaseID/:caseId',getCaseByCaseID);
 router.put('/updateSurveyor/:id',EditSurveyor);
 router.get("/getCarByCustomerID/:CustomerID",getCarByCustomerID);
+router.get("/getCustomerByCustomerID/:CustomerID",GetCustomerByCustomerID)
 
 
 
