@@ -31,9 +31,9 @@ const CustomerPage = () => {
               />
             </div>
             <div className="w-full flex justify-end">
-              <div className="bg-primary flex text-white px-3 py-2 rounded-xl gap-2">
+              <div className="bg-primary flex text-white px-3 py-2 rounded-xl gap-2" onClick={() => setOpenModal(true)} >
                 <FaPlus className="text-2xl" />
-                <button onClick={() => setOpenModal(true)}>Add Customer</button>
+                <button >Add Customer</button>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@ const CustomerPage = () => {
                 type="text"
                 name="Firstname"
                 placeholder=" "
-                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
+                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
               </div>
              
@@ -94,7 +94,7 @@ const CustomerPage = () => {
                 type="text"
                 name="Surname"
                 placeholder=" "
-                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
+                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
               </div>
             
@@ -106,7 +106,7 @@ const CustomerPage = () => {
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Address</label>
+              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Address</label>
               
             </div>
             <div className="flex flex-row gap-3">
@@ -117,7 +117,7 @@ const CustomerPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="phonenumber" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Phone number</label>
+                <label htmlFor="phonenumber" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Phone number</label>
                 
               </div>
               <div className="relative z-0 w-full ">
@@ -127,7 +127,7 @@ const CustomerPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="lineid" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Line ID</label>    
+                <label htmlFor="lineid" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Line ID</label>    
               </div>
             </div>
             <div className="relative z-0 w-full">
@@ -137,7 +137,7 @@ const CustomerPage = () => {
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Address</label>
+              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Address</label>
               
             </div>
             <div className="flex justify-center">
