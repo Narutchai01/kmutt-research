@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -16,6 +18,18 @@ StringModel Profile1 = StringModel(
   Phone_number: '',
   Password: '',
 );
+
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 class ProfileUpdatePage extends StatefulWidget {
   const ProfileUpdatePage({super.key});
@@ -46,7 +60,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
   Future<StringModel> getSurveyorInfo(BuildContext context) async {
     var response = await dio.get(
-      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+      '$baseURL/surveyor/findSurveyorByID/${GlobalModel.token}',
       options: Options(
         responseType: ResponseType.json,
         validateStatus: (statusCode) {

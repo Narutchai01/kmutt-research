@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,18 @@ import 'package:dio/dio.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/theme/custom_button_style.dart';
+
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -23,7 +37,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   void ChangePasswordApi() async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/api/surveyor/changePassWord/${GlobalModel.token}',
+        '$baseURL/surveyor/changePassWord/${GlobalModel.token}',
         data: {
           "oldPassword": currentPasswordController.text,
           "newPassword": newPasswordController.text,

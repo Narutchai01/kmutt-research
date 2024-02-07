@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/Changepassword/changepassword.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,17 @@ StringModel Profile1 = StringModel(
   Phone_number: '',
   Password: '',
 );
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 // ignore_for_file: must_be_immutable
 class UserProfileUpdatePage extends StatefulWidget {
@@ -27,7 +40,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
 
   Future<StringModel> getProfileData() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
+      '$baseURL/surveyor/findSurveyorByID/${GlobalModel.token}',
     );
 
     return StringModel.fromMap(response.data[0]);

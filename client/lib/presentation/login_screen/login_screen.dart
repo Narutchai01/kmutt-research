@@ -9,7 +9,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
-final Dio dio = Dio();
+final Dio dio = Dio(BaseOptions(
+  connectTimeout: Duration(
+      milliseconds:
+          10000), // Set the connection timeout to 10 seconds (adjust as needed)
+));
 
 TokenModel GlobalModel = TokenModel(token: '');
 
