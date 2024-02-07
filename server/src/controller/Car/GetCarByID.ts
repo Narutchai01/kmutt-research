@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
-import { conn } from "../../server";
+import { conn ,Connect} from "../../server";
 
 export const getCarByID = async (req: Request, res: Response) => {
   try {
+    await Connect();
     const { CarID, Province } = req.query;
     const sql = `
-    SELECT Cus.First_name , Cus.Last_name 
+SELECT Cus.First_name , Cus.Last_name 
 , C.CarID 
 , Cus.image as Customer_image 
 , C.image as Car_Image, Cus.Address 
 , C.Model 
-, C.Brand 
+, C.Brand
+, C.Color 
 , Insu.Policy_number 
 , Insu.Policy_type 
 , Insu.Start_date
@@ -20,14 +22,10 @@ export const getCarByID = async (req: Request, res: Response) => {
 ,Cus.Line
 FROM Car AS C
 JOIN Customer AS Cus ON C.CustomerID = Cus.CustomerID
-JOIN Insurance AS Insu ON Cus.CustomerID = Insu.CustomerID
-WHERE C.CarID LIKE ? AND C.Province LIKE ?
+JOIN Insurance AS Insu ON C.Policy_number = Insu.Policy_number
+WHERE C.CarID = ? AND C.Province = ? 
     `;
     const result: any = await conn?.query(sql, [CarID, Province]);
-    if (!result[0]) {
-      res.status(400).json({ message: "ไม่พบข้อมูลรถ" });
-      return false;
-    }
     res.status(200).json(result[0]);
   } catch (error) {
     console.log(error);
