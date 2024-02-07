@@ -7,6 +7,7 @@ import TableDataCarByCustomer from "./components/TableCustomerCar";
 import PropCustomerbyID from "./components/PropCustomerbyID";
 
 
+
 const CustomerByIdPage = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -41,6 +42,7 @@ const CustomerByIdPage = () => {
           </div>
         </div>
       </Layout>
+      
     </>
   );
 };
