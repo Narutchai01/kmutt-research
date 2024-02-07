@@ -1,5 +1,7 @@
 // import 'dart:js';
 
+import 'dart:io';
+
 import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/CarID_model.dart';
@@ -17,6 +19,17 @@ carCustomerModel carToken = carCustomerModel(
   CarID: '',
   Province: '',
 );
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 CustomerModel customer = CustomerModel(
   First_name: '',
@@ -73,7 +86,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
   Future<List<SearchModel>> getSearchModel() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/cars/getCars',
+      '$baseURL/cars/getCars',
     );
 
     // Check if response.data is a List<dynamic>
@@ -100,7 +113,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
     print("Test 1: $Car $Province1");
 
     var response = await dio.get(
-      'http://10.0.2.2:8080/api/cars/getCarByID?CarID=$Car&Province=$Province1',
+      '$baseURL/cars/getCarByID?CarID=$Car&Province=$Province1',
       options: Options(
         responseType: ResponseType.json,
         validateStatus: (statusCode) {
