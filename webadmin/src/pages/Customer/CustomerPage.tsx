@@ -1,7 +1,7 @@
 import Layout from "../../components/Layout";
 import { FaPlus } from "react-icons/fa6";
 import TableCustomer from "./components/TableCustomer"
-import { Button, Checkbox, Label, Modal, TextInput, FileInput } from 'flowbite-react';
+import { Label, Modal,FileInput } from 'flowbite-react';
 import { useState } from "react";
 
 
