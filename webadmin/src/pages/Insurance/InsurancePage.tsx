@@ -48,32 +48,32 @@ const InsurancePage = () => {
             <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name=""
+                name="pn"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Policy number</label>
+              <label htmlFor="pn" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Policy number</label>
               
             </div>
             <div className="flex justify-between gap-3">
             <div className="relative z-0 w-full">
               <input
                 type="text"
-                name=""
+                name="cusid"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Customer ID</label>
+              <label htmlFor="cusid" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Customer ID</label>
               
             </div>
             <div className="relative z-0 w-full ">
               <input
                 type="text"
-                name=""
+                name="pt"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Policy type</label>
+              <label htmlFor="pt" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Policy type</label>
               
             </div>
              </div>
@@ -81,21 +81,21 @@ const InsurancePage = () => {
             <div className="relative z-0 w-full ">
               <input
                 type="text"
-                name=""
+                name="sd"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Start date</label>
+              <label htmlFor="sd" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Start date</label>
               
             </div>
             <div className="relative z-0 w-full ">
               <input
                 type="text"
-                name=""
+                name="ed"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">End date</label>
+              <label htmlFor="ed" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">End date</label>
               
             </div>
              </div>

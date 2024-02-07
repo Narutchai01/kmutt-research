@@ -52,53 +52,53 @@ const SurveyorPage = () => {
             <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name=""
+                name="fn"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Firstname</label>
+              <label htmlFor="fn" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Firstname</label>
               
             </div>
             <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name=""
+                name="sn"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Surname</label>
+              <label htmlFor="sn" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Surname</label>
               
             </div>
              </div>
              <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name=""
+                name="bd"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Birthday</label>
+              <label htmlFor="bd" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Birthday</label>
               
             </div>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
-                  name=""
+                  name="em"
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
                 />
-                <label htmlFor="" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Email</label>
+                <label htmlFor="em" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Email</label>
                 
               </div>
               <div className="relative z-0 w-full ">
                 <input
                   type="text"
-                  name=""
+                  name="tel"
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
                 />
-                <label htmlFor="lineid" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 ">Telephone</label>    
+                <label htmlFor="tel" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 ">Telephone</label>    
               </div>
             </div>
             <div className="relative z-0 w-full ">

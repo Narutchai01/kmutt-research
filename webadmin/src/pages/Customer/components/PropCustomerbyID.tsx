@@ -99,7 +99,7 @@ const PropCustomerbyID = ({ data }: { data: CustomerData }) => {
                       </div>
               </div>
               <div className="mb-2 flex flex-col">
-                <label htmlFor="" className="text-[12px] text-gray-300">Firstname</label>
+                <label htmlFor="Firstname" className="text-[12px] text-gray-300">Firstname</label>
                 <input
                 type="text"
                 name="Firstname"
@@ -109,7 +109,7 @@ const PropCustomerbyID = ({ data }: { data: CustomerData }) => {
               </div>
              
               <div className="mb-2 flex flex-col">
-                <label htmlFor="" className="text-[12px] text-gray-300">Surname</label>
+                <label htmlFor="Surname" className="text-[12px] text-gray-300">Surname</label>
                 <input
                 type="text"
                 name="Surname"
@@ -122,11 +122,11 @@ const PropCustomerbyID = ({ data }: { data: CustomerData }) => {
              <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name="email"
+                name="address"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Address</label>
+              <label htmlFor="address" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Address</label>
               
             </div>
             <div className="flex flex-row gap-3">
@@ -157,7 +157,7 @@ const PropCustomerbyID = ({ data }: { data: CustomerData }) => {
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Address</label>
+              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">email</label>
               
             </div>
             <div className="flex justify-center">
