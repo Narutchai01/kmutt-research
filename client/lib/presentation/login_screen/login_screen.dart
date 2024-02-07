@@ -5,9 +5,9 @@ import 'package:client/widgets/custom_text_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:client/presentation/model/token_model.dart';
+final Dio dio = Dio();
 
 TokenModel GlobalModel = TokenModel(token: '');
 
@@ -18,70 +18,47 @@ class MyCustomException implements Exception {
 }
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key})
-      : super(
-          key: key,
-        );
+  LoginScreen({Key? key}) : super(key: key);
+
   String formatToken(String originalToken) {
-    // Add your formatting logic here
-    // For example, you can convert the token to uppercase
     return originalToken;
   }
 
-  TextEditingController EmailController = TextEditingController();
-
-  TextEditingController passwordController = TextEditingController();
-  final dio = Dio();
-
-// Your request code here
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   void sentLogin(BuildContext context) async {
     try {
       final response = await dio.post(
         'http://10.0.2.2:8080/api/surveyor/loginSurveyor',
         data: {
-          "email": EmailController.text,
+          "email": emailController.text,
           "PassWord": passwordController.text,
         },
         options: Options(
           responseType: ResponseType.json,
           validateStatus: (statusCode) {
-            if (statusCode == null) {
-              return false;
-            }
-            if (statusCode == 400) {
-              // your http status code
-              return true;
-            } else {
-              return statusCode >= 200 && statusCode < 300;
-            }
+            return statusCode == null ||
+                (statusCode >= 200 && statusCode < 300);
           },
         ),
       );
+
       print(response.data['message']);
+
       if (response.data['message'] == 'Password is incorrect') {
         print('Password is incorrect');
+        // Handle incorrect password case, display a message to the user, etc.
       } else {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
         GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-        Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
+        Navigator.pushNamed(context, AppRoutes.homePage);
       }
-    } on Exception catch (_) {
-      print("throwing new error");
+    } catch (e) {
+      print("Error: $e");
+      // Handle Dio-specific errors or other exceptions
       throw Exception("Error on server");
     }
-    // if (response.statusCode == 200) {
-    // TokenModel tokenModel = TokenModel.fromMap(response.data);
-    // GlobalModel = TokenModel(token: formatToken(tokenModel.token));
-
-    // print(tokenModel.token);
-
-    //   Navigator.pushNamed(context, AppRoutes.profileUpdateContainerScreen);
-    // } else {
-    //   // Handle other status codes here
-    //   print(
-    //       'Server returned a non-successful status code: ${response.statusCode}');
-    // }
   }
 
   @override
@@ -148,54 +125,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  // Widget _buildRowWithImages(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.only(
-  //       left: 25.h,
-  //       right: 20.h,
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Padding(
-  //           padding: EdgeInsets.only(top: 3.v),
-  //           child: Text(
-  //             "15:05 Fri 6 Oct",
-  //             style: CustomTextStyles.bodyLargeBlack900,
-  //           ),
-  //         ),
-  //         Spacer(),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettings,
-  //           height: 19.v,
-  //           width: 27.h,
-  //           margin: EdgeInsets.only(bottom: 4.v),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgSettingsBlack900,
-  //           height: 18.v,
-  //           width: 25.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             bottom: 4.v,
-  //           ),
-  //         ),
-  //         CustomImageView(
-  //           imagePath: ImageConstant.imgVectorBlack900,
-  //           height: 19.v,
-  //           width: 39.h,
-  //           margin: EdgeInsets.only(
-  //             left: 7.h,
-  //             bottom: 3.v,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  /// Section Widget
   Widget _buildEmailSection(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 69.h),
@@ -214,7 +143,7 @@ class LoginScreen extends StatelessWidget {
             padding: EdgeInsets.only(left: 1.h),
             child: CustomTextFormField(
               textStyle: const TextStyle(color: Colors.black),
-              controller: EmailController,
+              controller: emailController,
             ),
           ),
         ],

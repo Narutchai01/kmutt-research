@@ -32,6 +32,7 @@ class _ImagePreviewState extends State<ImagePreview> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: "btn_cancel",
             onPressed: () {
               go_back();
             },
@@ -40,6 +41,7 @@ class _ImagePreviewState extends State<ImagePreview> {
           ),
           SizedBox(width: 50),
           FloatingActionButton(
+            heroTag: "btn_confirm",
             onPressed: () {
               saveImage();
               go_back();

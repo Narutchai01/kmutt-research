@@ -1,12 +1,23 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'dart:async' show Completer, Future;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show  rootBundle;
 import 'dart:convert';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'pdf.dart';
 void main() => runApp(MyApp());
 Future<String> getJson(String imagePath) async {
   return await rootBundle.loadString('assets/$imagePath.json');
+}
+Future<Uint8List> getImage(String imagePath) async {
+  try {
+    final data = await rootBundle.load('assets/$imagePath.jpg');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  } catch (error) {
+    print('Error loading image: $error');
+    throw error; 
+  }
 }
 class MyApp extends StatelessWidget {
   @override
@@ -17,30 +28,52 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<String> carPartList;
   final List<String> selectedFilters;
   final Function(List<String>) onFiltersChanged;
-
-   MyAppBar({
+ 
+  MyAppBar({
     required this.carPartList,
     required this.selectedFilters,
     required this.onFiltersChanged,
+   
   });
+
   @override
   Widget build(BuildContext context) {
     carPartList.sort();
+    bool isAllSelected = selectedFilters.contains('All');
+
     return AppBar(
       actions: [
+        Row(
+          children: [
+            ElevatedButton(
+               onPressed: () {
+                List<String> newFilters = List.from(selectedFilters);
+                if (isAllSelected) {
+                  newFilters.remove('All');
+                } else {
+                  newFilters.add('All');
+                }
+                onFiltersChanged(newFilters);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isAllSelected ? Colors.grey : Colors.blue,
+              ),
+              child: Text(isAllSelected ? 'Clear All' : 'All'),
+            ),
+          ],
+        ),
         MultiSelectDialogField(
           buttonText: Text("Filter"),
           title: Text("Select Filters"),
           items: carPartList
               .map((carPart) => MultiSelectItem<String>(
-                carPart, 
-                carPart,
-                ))
+                    carPart,
+                    carPart,
+                  ))
               .toList(),
           listType: MultiSelectListType.CHIP,
           selectedItemsTextStyle: TextStyle(color: Colors.black),
@@ -54,10 +87,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-  
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -65,11 +99,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> selectedCarParts = ["All"];
-  List<String> imagePaths = ["original", "img-2", "img-1", "img-3"];
-  List<String> selectedFilters = ["All"];
-  List<String> carPartList = ["All"];
-  
+  List<String> selectedCarParts = [];
+  List<String> imagePaths = ["original","img-1","img-2","img-3"];
+  List<String> selectedFilters = [];
+  List<String> carPartList = [];
   @override
   void initState() {
     super.initState();
@@ -95,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     setState(() {
-      selectedFilters = ["All"];
+      selectedFilters = [];
     });
   }
 
@@ -107,13 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-           MyAppBar(
+          MyAppBar(
             carPartList: carPartList,
             selectedFilters: selectedFilters,
             onFiltersChanged: (List<String> newFilters) {
               setState(() {
-                selectedCarParts =
-                    newFilters.contains("All") ? ["All"] : newFilters;
+                    selectedCarParts = newFilters;
               });
             },
           ),
@@ -123,6 +155,9 @@ class _MyHomePageState extends State<MyHomePage> {
               imagePaths: imagePaths,
             ),
           ),
+          PDFProvider(
+            imagePaths: imagePaths, 
+            selectedCarParts: ["All"],),
         ],
       ),
     );
@@ -401,7 +436,144 @@ class PolygonPainter extends CustomPainter {
     return false;
   }
 }
+class PDFProvider extends StatefulWidget {
+  final List<String> imagePaths;
+  final List<String> selectedCarParts;
 
+  PDFProvider({
+    required this.imagePaths,
+    required this.selectedCarParts,
+  });
+
+  @override
+  _PDFProviderState createState() => _PDFProviderState();
+}
+
+class _PDFProviderState extends State<PDFProvider> {
+  late PdfDocument document;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePdfDocument();
+  }
+
+  void _initializePdfDocument() {
+    document = PdfDocument();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        child: Center(
+          child: ElevatedButton(
+            child: Text("Create PDF"),
+            onPressed: () async {
+              await _createPDF(context);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _createPDF(BuildContext context) async {
+    for (var imagePath in widget.imagePaths) {
+      Uint8List imageData = await getImage(imagePath);
+      PdfBitmap baseImage = PdfBitmap(imageData);
+      PdfPage page = document.pages.add();
+      page.graphics.drawImage(
+        baseImage,
+        Rect.fromLTWH(0, 0, 0, 0),
+      );
+      await _overlayPolygonsOnPage(page, imagePath);
+      await _overlayTextOnPage(page, imagePath);
+      page.graphics.drawImage(
+      baseImage,
+      Rect.fromLTWH(0,400, 0, 0),
+    );
+
+    }
+
+    List<int> bytes = document.saveSync();
+    document.dispose();
+    saveAndLaunchFile(bytes, "Output.pdf");
+  }
+  Future<void> _overlayPolygonsOnPage(PdfPage page, String imagePath) async {
+  String jsonContent = await getJson(imagePath);
+  Map<String, dynamic> jsonData = json.decode(jsonContent);
+
+  List<Map<dynamic, dynamic>> predictionsList =
+      (jsonData['predictions'] as List<dynamic>)
+          .cast<Map<dynamic, dynamic>>();
+  List<List<Offset>> pointspolyList = [];
+
+  for (var prediction in predictionsList) {
+    List<Offset> pointsList =
+        (prediction['points'] as List<dynamic>).map((pointObj) {
+      double x = pointObj['x']?.toDouble() / 1.3  ?? 0.0;
+      double y = pointObj['y']?.toDouble() / 1.3 ?? 0.0;
+      return Offset(x, y);
+    }).toList();
+    pointspolyList.add(pointsList);
+  }
+
+  List<List<Offset>> filteredPointspolyList = [];
+
+  pointspolyList.asMap().forEach((i, points) {
+    if (widget.selectedCarParts.contains("All") ||
+        widget.selectedCarParts.contains(predictionsList[i]['class'])) {
+      filteredPointspolyList.add(points);
+    }
+  });
+
+  for (var i = 0; i < filteredPointspolyList.length; i++) {
+    page.graphics.drawPolygon(
+      pointspolyList[i],
+      brush: PdfSolidBrush(getColorPDF(predictionsList[i]['class'])),
+    );
+  }
+}
+  Future<void> _overlayTextOnPage(PdfPage page, String imagePath) async {
+    String jsonContent = await getJson(imagePath);
+    Map<String, dynamic> jsonData = json.decode(jsonContent);
+    List<Map<dynamic, dynamic>> predictionsList =
+        (jsonData['predictions'] as List<dynamic>)
+            .cast<Map<dynamic, dynamic>>();
+    PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
+    for (var prediction in predictionsList) {
+      String carPart = prediction['class'];
+      if (widget.selectedCarParts.contains("All") ||
+          widget.selectedCarParts.contains(carPart)) {
+        double x = prediction['x']?.toDouble() / 1.3 ?? 0.0;
+        double y = prediction['y']?.toDouble() / 1.3 ?? 0.0;
+        double width = prediction['width']?.toDouble() ?? 0.0;
+        double height = prediction['height']?.toDouble() ?? 0.0;
+        double confidence = prediction['confidence']?.toDouble() ?? 0.0;
+        Size textSize = font.measureString(
+        '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
+      );
+       width = width < textSize.width ? textSize.width : width;
+       height = height < textSize.height ? textSize.height : height;
+       page.graphics.drawRectangle(
+        brush: PdfSolidBrush(PdfColor(31, 0, 0,)),
+        bounds: Rect.fromLTWH(x, y, textSize.width, textSize.height)
+      );
+        page.graphics.drawString(
+          '$carPart - ${(confidence * 100).toStringAsFixed(0)}%',
+          PdfStandardFont(PdfFontFamily.helvetica, 12),
+          bounds: Rect.fromPoints(
+            Offset(x, y),
+            Offset(x + 1000, y + 1000),
+          ),
+          brush: PdfSolidBrush(PdfColor(255, 255, 255)),
+        );
+      }
+    }
+  }
+}
 
 const Map<String, Color> carPartColors = {
   "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
@@ -429,8 +601,12 @@ const Map<String, Color> carPartColors = {
 Color getColor(String path) {
   return carPartColors[path] ?? Colors.red;
 }
+PdfColor getColorPDF(String path) {
+  Color color = carPartColors[path] ?? Colors.red;
+  return PdfColor(color.red, color.green, color.blue);
+}
+
 List<String> carPartList = [
-  "All",
   "Back-bumper",
   "Back-door",
   "Back-wheel",

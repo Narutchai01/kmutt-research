@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/Changepassword/changepassword.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
 import 'package:dio/dio.dart';
@@ -16,161 +17,188 @@ StringModel Profile1 = StringModel(
 );
 
 // ignore_for_file: must_be_immutable
-class UserProfileUpdatePage extends StatelessWidget {
-  UserProfileUpdatePage({Key? key})
-      : super(
-          key: key,
-        );
+class UserProfileUpdatePage extends StatefulWidget {
+  @override
+  State<UserProfileUpdatePage> createState() => _UserProfileUpdatePageState();
+}
 
+class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
   final dio = Dio();
-  var data;
 
-  void GetSurveryor(BuildContext context) async {
+  Future<StringModel> getProfileData() async {
     final response = await dio.get(
       'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
     );
 
-    // var data = response.data[0];
-    print(response.data[0]);
-    Profile1 = StringModel.fromMap(response.data[0]);
+    return StringModel.fromMap(response.data[0]);
+  }
+
+  String extractDate(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
   }
 
   @override
   Widget build(BuildContext context) {
-    GetSurveryor(context);
     return SafeArea(
       top: false,
       bottom: false,
       left: false,
       right: false,
       child: Scaffold(
-        body: Container(
-          width: double.maxFinite,
-          decoration: AppDecoration.fillWhiteA,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildProfileStack(context),
-              SizedBox(height: 41.v),
-              Padding(
-                padding: EdgeInsets.only(left: 41.h),
-                child: Row(
+        body: FutureBuilder<StringModel>(
+          future: getProfileData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else {
+              Profile1 = snapshot.data!;
+              return Container(
+                width: double.maxFinite,
+                decoration: AppDecoration.fillWhiteA,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgLockIndigo300,
-                      height: 23.v,
-                      width: 18.h,
-                      margin: EdgeInsets.only(
-                        top: 5.v,
-                        bottom: 6.v,
-                      ),
-                    ),
+                    _buildProfileStack(context),
+                    SizedBox(height: 41.v),
                     Padding(
-                      padding: EdgeInsets.only(left: 31.h),
-                      child: Text(
-                        "${Profile1.SurveyorID}",
-                        style: theme.textTheme.headlineSmall,
+                      padding: EdgeInsets.only(left: 41.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgLockIndigo300,
+                            height: 23.v,
+                            width: 18.h,
+                            margin: EdgeInsets.only(
+                              top: 5.v,
+                              bottom: 6.v,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 31.h),
+                            child: Text(
+                              "${Profile1.SurveyorID}",
+                              style: theme.textTheme.headlineSmall,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    SizedBox(height: 46.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 41.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgThumbsUpIndigo300,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
+                            margin: EdgeInsets.only(
+                              top: 6.v,
+                              bottom: 8.v,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30.h),
+                            child: Text(
+                              extractDate(Profile1.Birth_date),
+                              style: theme.textTheme.headlineSmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 50.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 42.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgLockIndigo30020x23,
+                            height: 20.v,
+                            width: 23.h,
+                            margin: EdgeInsets.only(bottom: 8.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 28.h),
+                            child: Text(
+                              "${Profile1.Email}",
+                              style: theme.textTheme.titleLarge,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 49.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 42.h),
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgCall,
+                            height: 26.v,
+                            width: 23.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 28.h),
+                            child: Text(
+                              "${Profile1.Phone_number}",
+                              style: theme.textTheme.titleLarge,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 47.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 42.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgLocation,
+                            height: 32.v,
+                            width: 25.h,
+                            margin: EdgeInsets.only(bottom: 1.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 27.h,
+                              top: 6.v,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChangePassword(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Edit password",
+                                style: theme.textTheme.titleLarge,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 5.v),
                   ],
                 ),
-              ),
-              SizedBox(height: 46.v),
-              Padding(
-                padding: EdgeInsets.only(left: 41.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgThumbsUpIndigo300,
-                      height: 20.adaptSize,
-                      width: 20.adaptSize,
-                      margin: EdgeInsets.only(
-                        top: 6.v,
-                        bottom: 8.v,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30.h),
-                      child: Text(
-                        "${Profile1.Birth_date}",
-                        style: theme.textTheme.headlineSmall,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 50.v),
-              Padding(
-                padding: EdgeInsets.only(left: 42.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgLockIndigo30020x23,
-                      height: 20.v,
-                      width: 23.h,
-                      margin: EdgeInsets.only(bottom: 8.v),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 28.h),
-                      child: Text(
-                        "${Profile1.Email}",
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 49.v),
-              Padding(
-                padding: EdgeInsets.only(left: 42.h),
-                child: Row(
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgCall,
-                      height: 26.v,
-                      width: 23.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 28.h),
-                      child: Text(
-                        "${Profile1.Phone_number}",
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 47.v),
-              Padding(
-                padding: EdgeInsets.only(left: 42.h),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgLocation,
-                      height: 32.v,
-                      width: 25.h,
-                      margin: EdgeInsets.only(bottom: 1.v),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 27.h,
-                        top: 6.v,
-                      ),
-                      child: Text(
-                        "Edit password",
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5.v),
-            ],
-          ),
+              );
+            }
+          },
         ),
       ),
     );
