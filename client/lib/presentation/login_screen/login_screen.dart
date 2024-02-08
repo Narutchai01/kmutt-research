@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/token_model.dart';
+import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
@@ -35,9 +38,14 @@ get baseURL {
   return baseUrl;
 }
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   String formatToken(String originalToken) {
     return originalToken;
   }
@@ -81,6 +89,25 @@ class LoginScreen extends StatelessWidget {
       throw Exception("Error on server");
     }
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getValidationData().whenComplete(() async {
+  //     Timer(Duration(seconds: 2), () => Get.to(() => prefsToken == null ? LoginScreen() : ProfileUpdatePage()));
+  //   });
+  // }
+
+  // Future<void> getValidationData() async {
+  //   Timer(Duration(seconds: 2), () {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => prefsToken == null ? LoginScreen() : ProfileUpdatePage(),
+  //       ),
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +158,6 @@ class LoginScreen extends StatelessWidget {
                         buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
                         onPressed: () {
                           sentLogin(context);
-                          ;
                         },
                       ),
                       SizedBox(height: 273.v),

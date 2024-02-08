@@ -206,6 +206,41 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 47.v),
+                    Padding(
+                      padding: EdgeInsets.only(left: 42.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgLocation,
+                            height: 32.v,
+                            width: 25.h,
+                            margin: EdgeInsets.only(bottom: 1.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 27.h,
+                              top: 6.v,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChangePassword(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Logout",
+                                style: theme.textTheme.titleLarge,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 5.v),
                   ],
                 ),
