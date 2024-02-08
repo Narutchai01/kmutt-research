@@ -1,7 +1,4 @@
 import 'package:client/core/app_export.dart';
-import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
-import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
-// import 'package:app_design/presentation/data_2_update_page/data_2_update_page.dart';
 
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 
