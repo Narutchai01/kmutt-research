@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
   {
-    origin: true,
+    origin: "http://localhost:5173" || "https://kmutt-research.vercel.app/",
     credentials: true,
   }
 ));
