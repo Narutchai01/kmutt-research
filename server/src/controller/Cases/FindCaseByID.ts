@@ -1,11 +1,10 @@
 import { Request,Response } from "express";
-import { conn , Connect } from "../../server";
+import { conn } from "../../server";
 import jwt from "jsonwebtoken";
 
 
 export const findCaseBySurveyorID = async (req:Request,res:Response) => {
     try {
-        await Connect();
         const token = req.params.token;
         const secert = process.env.JWT_SECRET!;
         const decoded:any= jwt.verify(token, secert) ;

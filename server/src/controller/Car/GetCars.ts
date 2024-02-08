@@ -1,11 +1,10 @@
 import { Request,Response } from "express";
-import {conn , Connect} from '../../server'
+import {conn} from '../../server'
 
 
 export const GetCars = async (req:Request,res:Response) => {
     try {
-        await Connect();
-        const sql = 'SELECT Car.CarID , Car.Province , Customer.First_name , Customer.Last_name , Insurance.Policy_type  ,Car.image  FROM Customer JOIN Car USING(CustomerID) JOIN Insurance USING(Policy_number);';
+        const sql = 'SELECT Cus.First_name , Cus.Last_name , Cus.image ,C.CarID ,C.Province FROM Car as C JOIN Customer as Cus USING(CustomerID)';
         const result:any = await conn?.query(sql);
         if (!result[0]){
             res.status(404).json({message: 'Not Found'})

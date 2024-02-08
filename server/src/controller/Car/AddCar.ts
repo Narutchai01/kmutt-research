@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import { conn,Connect } from "../../server";
+import { conn } from "../../server";
 import { upLoadImageCar } from "../../utils/UploadImage";
 
 export const AddCar = async (req: Request, res: Response) => {
   try {
-    await Connect();
     const {
       CarID,
       Province,
@@ -13,6 +12,7 @@ export const AddCar = async (req: Request, res: Response) => {
       Brand,
       Model,
       Color,
+      Status,
     } = req.body;
     const Image = req.files;
     const ImageURL = Promise.all(
