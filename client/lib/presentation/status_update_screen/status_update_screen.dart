@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
 import 'package:client/presentation/model/case_model.dart';
@@ -7,6 +9,18 @@ import 'package:client/presentation/user_profile_update_page/user_profile_update
 import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
 class StatusUpdateScreen extends StatefulWidget {
   @override
@@ -34,7 +48,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
 
   Future<List<CaseModel>> getCaseModel() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/cases/getCase',
+      '$baseURL/cases/getCase',
     );
 
     // Check if response.data is a List<dynamic>

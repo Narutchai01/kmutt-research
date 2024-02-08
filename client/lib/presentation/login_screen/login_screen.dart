@@ -1,13 +1,22 @@
+import 'dart:async';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/token_model.dart';
+
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final Dio dio = Dio();
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+
+final Dio dio = Dio(BaseOptions(
+  connectTimeout: Duration(
+      milliseconds:
+          10000), // Set the connection timeout to 10 seconds (adjust as needed)
+));
 
 TokenModel GlobalModel = TokenModel(token: '');
 
@@ -17,9 +26,26 @@ class MyCustomException implements Exception {
   MyCustomException(this.message);
 }
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
 
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   String formatToken(String originalToken) {
     return originalToken;
   }
@@ -27,10 +53,10 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void sentLogin(BuildContext context) async {
+  Future<void> sentLogin(BuildContext context) async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/api/surveyor/loginSurveyor',
+        '$baseURL/surveyor/loginSurveyor',
         data: {
           "email": emailController.text,
           "PassWord": passwordController.text,
@@ -53,6 +79,9 @@ class LoginScreen extends StatelessWidget {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
         GlobalModel = TokenModel(token: formatToken(tokenModel.token));
         Navigator.pushNamed(context, AppRoutes.homePage);
+        final SharedPreferences prefsToken =
+            await SharedPreferences.getInstance();
+        prefsToken.setString('token', GlobalModel.token);
       }
     } catch (e) {
       print("Error: $e");
@@ -60,6 +89,25 @@ class LoginScreen extends StatelessWidget {
       throw Exception("Error on server");
     }
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getValidationData().whenComplete(() async {
+  //     Timer(Duration(seconds: 2), () => Get.to(() => prefsToken == null ? LoginScreen() : ProfileUpdatePage()));
+  //   });
+  // }
+
+  // Future<void> getValidationData() async {
+  //   Timer(Duration(seconds: 2), () {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => prefsToken == null ? LoginScreen() : ProfileUpdatePage(),
+  //       ),
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +158,6 @@ class LoginScreen extends StatelessWidget {
                         buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
                         onPressed: () {
                           sentLogin(context);
-                          ;
                         },
                       ),
                       SizedBox(height: 273.v),
