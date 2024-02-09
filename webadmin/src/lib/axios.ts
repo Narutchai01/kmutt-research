@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const api = import.meta.env.VITE_REACT_APP_BACKEND_URL
+// const api = import.meta.env.VITE_REACT_APP_BACKEND_URL
 
 
 
