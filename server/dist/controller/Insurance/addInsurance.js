@@ -13,6 +13,7 @@ exports.addInsurance = void 0;
 const server_1 = require("../../server");
 const addInsurance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const { Policy_number, CustomerID, Policy_type, Start_date, End_date } = req.body;
         const addInsurance = `INSERT INTO Insurance (Policy_number , CustomerID , Policy_type , Start_date , End_date ,Status) VALUES (?,?,?,?,?,?)`;
         const DataInsurance = {

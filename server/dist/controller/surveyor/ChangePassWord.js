@@ -18,6 +18,7 @@ const ManagePassWord_1 = require("../../utils/ManagePassWord");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ChangePassWord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const { oldPassword, newPassword } = req.body;
         const secert = process.env.JWT_SECRET;
         const { token } = req.params;

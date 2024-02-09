@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upLoadImageCustomer = exports.upLoadImageCar = exports.upLoadImageCase = exports.uploadImageSurveyor = void 0;
+exports.upLoadeImageAdmin = exports.upLoadImageCustomer = exports.upLoadImageCar = exports.upLoadImageCase = exports.uploadImageSurveyor = void 0;
 const storage_1 = require("firebase/storage");
 const firebase_1 = require("../lib/firebase");
 const uuid_1 = require("uuid");
@@ -48,3 +48,11 @@ const upLoadImageCustomer = (file) => __awaiter(void 0, void 0, void 0, function
     return url;
 });
 exports.upLoadImageCustomer = upLoadImageCustomer;
+const upLoadeImageAdmin = (file) => __awaiter(void 0, void 0, void 0, function* () {
+    const storage = (0, storage_1.getStorage)(firebase_1.app);
+    const storageRef = (0, storage_1.ref)(storage, `imagesAdmin/${(0, uuid_1.v4)()}`);
+    const snapshot = yield (0, storage_1.uploadBytes)(storageRef, file, metadata);
+    const url = yield (0, storage_1.getDownloadURL)(snapshot.ref);
+    return url;
+});
+exports.upLoadeImageAdmin = upLoadeImageAdmin;

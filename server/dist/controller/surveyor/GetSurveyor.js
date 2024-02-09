@@ -13,7 +13,8 @@ exports.GetSurveyor = void 0;
 const server_1 = require("../../server");
 const GetSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const sql = `SELECT LPAD(SurveyorID, 5, '0') AS PaddedSurveyorID, First_name, Last_name, Birth_date, Phone_number, Email, Password FROM Surveyor;`;
+        yield (0, server_1.Connect)();
+        const sql = `SELECT SurveyorID , First_name , Last_name ,Email FROM Surveyor;`;
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql));
         res.status(200).json(result[0]);
     }

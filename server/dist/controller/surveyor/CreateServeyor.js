@@ -15,6 +15,7 @@ const ManagePassWord_1 = require("../../utils/ManagePassWord");
 const UploadImage_1 = require("../../utils/UploadImage");
 const CreateSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const Images = req.files;
         const { First_name, Last_name, Email, PassWord, Phone_number, Birth_date } = req.body;
         const sql = `INSERT INTO Surveyor ( First_name, Last_name, Image , Birth_date , Phone_number ,Email , Password) VALUES ( ?, ?, ?, ?, ?, ? ,?)`;
