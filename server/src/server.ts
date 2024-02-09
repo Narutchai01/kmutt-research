@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
   {
-    origin: "https://kmutt-research.vercel.app/",
+    origin: true,
     credentials: true,
   }
 ));

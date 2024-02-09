@@ -29,7 +29,7 @@ const PORT = config_1.Config.PORT;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: "https://kmutt-research.vercel.app/",
+    origin: true,
     credentials: true,
 }));
 exports.conn = null;
