@@ -19,6 +19,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const UploadImage_1 = require("../../utils/UploadImage");
 const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const token = req.params.token;
         const secert = process.env.JWT_SECRET;
         const decoded = jsonwebtoken_1.default.verify(token, secert);
@@ -28,13 +29,11 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
         const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
         const date = new Date();
-        const Date_opened = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
         const DataCase = {
             CaseID,
             SurveyorID: decoded.ID,
             CarID,
             Province,
-            Date_opened,
             Description,
         };
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(addCase, [
@@ -42,7 +41,6 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             DataCase.SurveyorID,
             DataCase.CarID,
             DataCase.Province,
-            DataCase.Date_opened,
             DataCase.Description,
         ]));
         yield Promise.all(Images.map((file) => __awaiter(void 0, void 0, void 0, function* () {

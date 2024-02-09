@@ -12,7 +12,7 @@ RUN npm install
 # Bundle app source
 COPY ./dist /user/src/app/dist
 
-
+COPY .env /user/src/app/.env
 
 
 CMD ["node","--watch","./dist/server.js"]

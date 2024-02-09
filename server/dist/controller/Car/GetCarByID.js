@@ -13,14 +13,16 @@ exports.getCarByID = void 0;
 const server_1 = require("../../server");
 const getCarByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const { CarID, Province } = req.query;
         const sql = `
-    SELECT Cus.First_name , Cus.Last_name 
+SELECT Cus.First_name , Cus.Last_name 
 , C.CarID 
 , Cus.image as Customer_image 
 , C.image as Car_Image, Cus.Address 
 , C.Model 
-, C.Brand 
+, C.Brand
+, C.Color 
 , Insu.Policy_number 
 , Insu.Policy_type 
 , Insu.Start_date
@@ -30,14 +32,10 @@ const getCarByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 ,Cus.Line
 FROM Car AS C
 JOIN Customer AS Cus ON C.CustomerID = Cus.CustomerID
-JOIN Insurance AS Insu ON Cus.CustomerID = Insu.CustomerID
-WHERE C.CarID LIKE ? AND C.Province LIKE ?
+JOIN Insurance AS Insu ON C.Policy_number = Insu.Policy_number
+WHERE C.CarID = ? AND C.Province = ? 
     `;
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [CarID, Province]));
-        if (!result[0]) {
-            res.status(400).json({ message: "ไม่พบข้อมูลรถ" });
-            return false;
-        }
         res.status(200).json(result[0]);
     }
     catch (error) {

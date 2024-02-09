@@ -14,6 +14,7 @@ const server_1 = require("../../server");
 const UploadImage_1 = require("../../utils/UploadImage");
 const addCustomer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const { First_name, Last_name, Email, Address, Phone_number, Line } = req.body;
         const Image = req.files;
         const addCustomer = `INSERT INTO Customer (First_name , Last_name , Email , Address , Phone_number , Line , Image) VALUES (?,?,?,?,?,?,?)`;
@@ -28,7 +29,7 @@ const addCustomer = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             Address,
             Phone_number,
             Line,
-            Image: ImageURL[0],
+            Image: ImageURL[0] || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c",
         };
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(addCustomer, [
             DataCustomer.First_name,

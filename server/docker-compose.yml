@@ -9,15 +9,4 @@ services:
     build: . # ตำแหน่ง dockerfile
     restart: always
     ports:
-      - "8080:8080" 
-
-    env_file:
-      - .env
-    environment:
-      - PORT=${PORT}
-      - DBHOST=${DBHOST}
-      - DBUSER=${DBUSER}
-      - DBPASSWORD=${DBPASSWORD}
-      - DBNAME=${DBNAME}
-      - DBPORT=${DBPORT}
-      - JWT_SECRET=${JWT_SECRET}
+      - "8080:8080" # map port ออกมา เหมือน -p ใน docker run

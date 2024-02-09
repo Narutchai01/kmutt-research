@@ -18,6 +18,7 @@ const ManagePassWord_1 = require("../../utils/ManagePassWord");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, server_1.Connect)();
         const { email, PassWord } = req.body;
         const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
         const secret = process.env.JWT_SECRET;
@@ -37,7 +38,7 @@ const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const token = jsonwebtoken_1.default.sign(payLoad, secret, {
             expiresIn: "1h",
         });
-        res.status(200).send({ token });
+        res.status(200).json({ token }); // Add the message field to the response
     }
     catch (error) {
         console.log(error);
