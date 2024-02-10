@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomBar extends StatefulWidget {
@@ -15,67 +16,33 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgHome,
-      activeIcon: ImageConstant.imgHome,
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgCircumSearch,
-      activeIcon: ImageConstant.imgCircumSearch,
       type: BottomBarEnum.Circumsearch,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgFluentTaskList20Filled,
-      activeIcon: ImageConstant.imgFluentTaskList20Filled,
       type: BottomBarEnum.Fluenttasklist20filled,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgLock,
-      activeIcon: ImageConstant.imgLock,
       type: BottomBarEnum.Lock,
-    )
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 68.v,
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedFontSize: 0,
-        elevation: 0,
-        currentIndex: selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        items: List.generate(bottomMenuList.length, (index) {
-          return BottomNavigationBarItem(
-            icon: CustomImageView(
-              imagePath: bottomMenuList[index].icon,
-              height: 50.adaptSize,
-              width: 50.adaptSize,
-              color: appTheme.whiteA700,
-            ),
-            activeIcon: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 50.h,
-                  child: Divider(),
-                ),
-                CustomImageView(
-                  imagePath: bottomMenuList[index].activeIcon,
-                  height: 36.v,
-                  width: 32.h,
-                  color: appTheme.blue100,
-                  margin: EdgeInsets.only(top: 10.v),
-                ),
-              ],
-            ),
-            label: '',
-          );
-        }),
+      child: CurvedNavigationBar(
+        backgroundColor: appTheme.whiteA700,
+        color: appTheme.blue900,
+        animationDuration: Duration(milliseconds: 300),
+        height: 55.0,
+        items: [
+          Icon(Icons.home, color: Colors.white, size: 40),
+          Icon(Icons.search, color: Colors.white, size: 40),
+          Icon(Icons.list, color: Colors.white, size: 40),
+          Icon(Icons.account_circle_outlined, color: Colors.white, size: 40),
+        ],
         onTap: (index) {
           selectedIndex = index;
           widget.onChanged?.call(bottomMenuList[index].type);
@@ -95,15 +62,8 @@ enum BottomBarEnum {
 
 class BottomMenuModel {
   BottomMenuModel({
-    required this.icon,
-    required this.activeIcon,
     required this.type,
   });
-
-  String icon;
-
-  String activeIcon;
-
   BottomBarEnum type;
 }
 

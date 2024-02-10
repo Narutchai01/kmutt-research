@@ -1,7 +1,11 @@
 // import 'dart:js';
 
-// import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+import 'dart:io';
+
+import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/model/CarID_model.dart';
+import 'package:client/presentation/model/customer_model.dart';
 import 'package:dio/dio.dart';
 // import '../search_update_page/widgets/userlist_item_widget.dart';
 // import 'package:client/core/app_export.dart';
@@ -10,6 +14,40 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/model/search_model.dart';
 
 List<SearchModel> searchModels = []; // Declare searchModels list globally
+
+carCustomerModel carToken = carCustomerModel(
+  CarID: '',
+  Province: '',
+);
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
+
+CustomerModel customer = CustomerModel(
+  First_name: '',
+  Last_name: '',
+  CarID: '',
+  Customer_image: '',
+  Car_Image: '',
+  Address: '',
+  Model: '',
+  Brand: '',
+  Policy_number: '',
+  Policy_type: '',
+  Start_date: '',
+  End_date: '',
+  Email: '',
+  Phone_number: '',
+  Line: '',
+);
 
 // ignore_for_file: must_be_immutable
 class SearchUpdatePage extends StatefulWidget {
@@ -20,8 +58,16 @@ class SearchUpdatePage extends StatefulWidget {
 }
 
 class _SearchUpdatePageState extends State<SearchUpdatePage> {
+  value() => null;
+
+  String formatInfo(String originalInfo) {
+    // Add your formatting logic here
+    // For example, you can convert the token to uppercase
+    return originalInfo;
+  }
+
   TextEditingController searchController = TextEditingController();
-  SearchModel _dataFromAPI = SearchModel();
+
   final dio = Dio();
   var data = [];
 
@@ -40,7 +86,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
   Future<List<SearchModel>> getSearchModel() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/cars/getCars',
+      '$baseURL/cars/getCars',
     );
 
     // Check if response.data is a List<dynamic>
@@ -60,6 +106,34 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
     return searchModels;
   }
 
+  Future<CustomerModel> getCustomer(
+      BuildContext context, String carID, String province) async {
+    String Car = carID.replaceAll(" ", "%20");
+    String Province1 = province.replaceAll(" ", "%20");
+    print("Test 1: $Car $Province1");
+
+    var response = await dio.get(
+      '$baseURL/cars/getCarByID?CarID=$Car&Province=$Province1',
+      options: Options(
+        responseType: ResponseType.json,
+        validateStatus: (statusCode) {
+          if (statusCode == null) {
+            return false;
+          }
+          if (statusCode == 400) {
+            // your http status code
+            return true;
+          } else {
+            return statusCode >= 200 && statusCode < 300;
+          }
+        },
+      ),
+    );
+
+    customer = CustomerModel.fromMap(response.data[0]);
+    return customer;
+  }
+
   List<SearchModel> display_list = List.from(searchModels);
 
   void updateList(String value) {
@@ -73,10 +147,8 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(searchController);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search'),
-      ),
       body: Container(
         color: appTheme.blue900, // Add background color here
         child: Column(
@@ -87,10 +159,12 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: searchController,
                 onChanged: (value) => updateList(value),
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Enter car ID",
+
                   suffixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.black,
                   border: OutlineInputBorder(
@@ -115,7 +189,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Text(
                       "Search for a car",
@@ -126,29 +200,93 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                     ),
                     Expanded(
                       // Add Expanded widget
-                      child: ListView.builder(
-                        itemCount: display_list.length,
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                            display_list.isNotEmpty
-                                ? '${display_list[index].First_name} ${display_list[index].Last_name}' // Use display_list instead of searchList
-                                : '',
-                            // Use searchModels instead of searchList
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            display_list.isNotEmpty
-                                ? '${display_list[index].CarID}' // Use display_list instead of searchList
-                                : '', // Show an empty string if display_list is empty
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                      child: FutureBuilder<List<SearchModel>>(
+                        // future: Future.delayed(Duration(seconds: 1), () {
+                        //   return display_list;
+                        // }),
+                        future: getSearchModel(),
+                        //                 display_list = searchModels.where((searchModel) => searchModel.CarID.toLowerCase().contains(value.toLowerCase())).toList();
+
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}'),
+                            );
+                          } else {
+                            List<SearchModel> searchModels = snapshot.data!
+                                .where((searchModel) =>
+                                    searchModel.CarID.toLowerCase().contains(
+                                        searchController.text.toLowerCase()))
+                                .toList();
+
+                            return ListView.builder(
+                              itemCount: searchModels.length,
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () async {
+                                  carToken = carCustomerModel(
+                                    CarID:
+                                        formatInfo(searchModels[index].CarID),
+                                    Province: formatInfo(
+                                        searchModels[index].Province),
+                                  );
+
+                                  await getCustomer(context, carToken.CarID,
+                                      carToken.Province);
+
+                                  print('Test 1.1 : ${customer.CarID}');
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Data1UpdateScreen()),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: CustomImageView(
+                                    imagePath: ImageConstant.imgEllipse27,
+                                    height: 72.v,
+                                    width: 63.h,
+                                    radius: BorderRadius.circular(
+                                      46.h,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    searchModels.isNotEmpty
+                                        ? '${searchModels[index].First_name} ${searchModels[index].Last_name}'
+                                        : '',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        searchModels.isNotEmpty
+                                            ? '${searchModels[index].CarID}' +
+                                                ' ${searchModels[index].Province}'
+                                            : '',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Icon(Icons.arrow_forward),
+                                ),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],

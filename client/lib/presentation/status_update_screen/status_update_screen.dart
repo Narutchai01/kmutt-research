@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
 import 'package:client/presentation/model/case_model.dart';
@@ -5,36 +7,36 @@ import 'package:client/presentation/profile_update_page/profile_update_page.dart
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
-class StatusUpdateScreen extends StatelessWidget {
-  CaseModel _dataFromAPI = CaseModel();
+get baseURL {
+  String baseUrl = "";
+  if (Platform.isAndroid) {
+    // Android
+    baseUrl = "http://10.0.2.2:8080/api";
+  } else if (Platform.isIOS) {
+    // iOS
+    baseUrl = "http://localhost:8080/api";
+  }
+  return baseUrl;
+}
+
+class StatusUpdateScreen extends StatefulWidget {
+  @override
+  _StatusUpdateScreenState createState() => _StatusUpdateScreenState();
+}
+
+class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
   final dio = Dio();
   var data = [];
+  bool isSearch = true;
 
-  // void getCase(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://10.0.2.2:8080/api/cases/getCase',
-  //   );
-  //   data = response.data;
+  TextEditingController searchStatusController = TextEditingController();
 
-  //   caseModels =
-  //       List<CaseModel>.from(data.map((item) => CaseModel.fromMap(item)));
-
-  //   // Print the list of CaseModels
-  //   caseModels.map((caseModel) {
-  //     caseModel.toMap();
-  //   });
-  //   print(data[5]);
-
-  //   print(caseModels.length);
-  // }
   @override
   void initState() {
-    initState();
+    super.initState();
     loadData();
   }
 
@@ -46,7 +48,7 @@ class StatusUpdateScreen extends StatelessWidget {
 
   Future<List<CaseModel>> getCaseModel() async {
     final response = await dio.get(
-      'http://10.0.2.2:8080/api/cases/getCase',
+      '$baseURL/cases/getCase',
     );
 
     // Check if response.data is a List<dynamic>
@@ -68,6 +70,7 @@ class StatusUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(searchStatusController.text);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -129,9 +132,20 @@ class StatusUpdateScreen extends StatelessWidget {
                                     } else if (snapshot.data?.isEmpty ?? true) {
                                       return Text('No data');
                                     } else {
+                                      print(searchStatusController.text);
+
+                                      List<CaseModel> searchData = snapshot
+                                          .data!
+                                          .where((caseModel) =>
+                                              caseModel.CarID.toLowerCase()
+                                                  .contains(
+                                                      searchStatusController
+                                                          .text
+                                                          .toLowerCase()))
+                                          .toList();
+
                                       return Column(
-                                          children:
-                                              snapshot.data!.map((caseModel) {
+                                          children: searchData.map((caseModel) {
                                         return Container(
                                           margin: EdgeInsets.only(bottom: 16.v),
                                           child: _buildThirtyThreeSection(
@@ -173,15 +187,59 @@ class StatusUpdateScreen extends StatelessWidget {
             "Status",
             style: theme.textTheme.displayMedium,
           ),
-          CustomImageView(
-            imagePath: ImageConstant.imgSearch,
-            height: 34.adaptSize,
-            width: 34.adaptSize,
-            margin: EdgeInsets.only(
-              top: 11.v,
-              bottom: 9.v,
+          AnimatedContainer(
+            duration: Duration(milliseconds: 400),
+            width: isSearch ? 56 : 200,
+            height: 56,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32),
+              color: !isSearch ? Colors.white : appTheme.blue900,
             ),
-          ),
+            child: Row(children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 16),
+                  child: !isSearch
+                      ? TextField(
+                          controller: searchStatusController,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Search...', border: InputBorder.none),
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : null,
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 400),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(isSearch ? 32 : 0),
+                        topRight: Radius.circular(32),
+                        bottomLeft: Radius.circular(isSearch ? 32 : 0),
+                        bottomRight: Radius.circular(32),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          isSearch ? Icons.search : Icons.close,
+                          color: isSearch ? Colors.white : Colors.black,
+                          size: 35,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          isSearch = !isSearch;
+                        });
+                      }),
+                ),
+              )
+            ]),
+          )
         ],
       ),
     );

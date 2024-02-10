@@ -22,7 +22,7 @@ export const addCustomer = async (req: Request, res: Response) => {
       Address,
       Phone_number,
       Line,
-      Image: ImageURL[0],
+      Image: ImageURL[0] || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c",
     };
     await conn?.query(addCustomer, [
       DataCustomer.First_name,

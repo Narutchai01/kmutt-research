@@ -11,7 +11,8 @@ SELECT Cus.First_name , Cus.Last_name
 , Cus.image as Customer_image 
 , C.image as Car_Image, Cus.Address 
 , C.Model 
-, C.Brand 
+, C.Brand
+, C.Color 
 , Insu.Policy_number 
 , Insu.Policy_type 
 , Insu.Start_date
