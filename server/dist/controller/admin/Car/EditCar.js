@@ -1,0 +1,53 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EditCar = void 0;
+const ChackDataEdit_1 = require("../../../utils/ChackDataEdit");
+const server_1 = require("./../../../server");
+const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, province } = req.params;
+        const { CustomerID, Policy_number, CarID, Province, Brand, Model, Color } = req.body;
+        const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
+        const updatesql = `UPDATE car SET CustomerID = ?, Policy_number = ?, CarID = ?, Province = ?, Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
+        yield (0, server_1.Connect)();
+        const findCar = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sqlFindCar, [id, province]));
+        if (findCar.length === 0) {
+            res.status(404).json({ message: "Car not found" });
+            return;
+        }
+        const data = {
+            CustomerID: (0, ChackDataEdit_1.CheckDataEdit)(CustomerID) || findCar[0][0].CustomerID,
+            Policy_number: (0, ChackDataEdit_1.CheckDataEdit)(Policy_number) || findCar[0][0].Policy_number,
+            CarID: (0, ChackDataEdit_1.CheckDataEdit)(CarID) || findCar[0][0].CarID,
+            Province: (0, ChackDataEdit_1.CheckDataEdit)(Province) || findCar[0][0].Province,
+            Brand: (0, ChackDataEdit_1.CheckDataEdit)(Brand) || findCar[0][0].Brand,
+            Model: (0, ChackDataEdit_1.CheckDataEdit)(Model) || findCar[0][0].Model,
+            Color: (0, ChackDataEdit_1.CheckDataEdit)(Color) || findCar[0][0].Color,
+        };
+        yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(updatesql, [
+            data.CustomerID,
+            data.Policy_number,
+            data.CarID,
+            data.Province,
+            data.Brand,
+            data.Model,
+            data.Color,
+            id,
+            province,
+        ]));
+        res.status(200).json({ message: "Edit car success" });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.EditCar = EditCar;
