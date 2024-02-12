@@ -27,6 +27,7 @@ const Customer_1 = __importDefault(require("./routers/Customer"));
 const Insurance_1 = __importDefault(require("./routers/Insurance"));
 const Cars_1 = __importDefault(require("./routers/Cars"));
 const Admin_1 = __importDefault(require("./routers/Admin"));
+const Report_1 = __importDefault(require("./routers/Report"));
 const app = (0, express_1.default)();
 const PORT = config_1.Config.PORT;
 app.use(express_1.default.json());
@@ -61,6 +62,7 @@ app.use("/api/cases", Cases_1.default);
 app.use("/api/customer", Customer_1.default);
 app.use("/api/insurance", Insurance_1.default);
 app.use("/api/admin", Admin_1.default);
+app.use("/api/report", Report_1.default);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     // await Connect();
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
