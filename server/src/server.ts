@@ -4,6 +4,8 @@ import mysql from "mysql2/promise";
 import multer from "multer";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { MongoClient } from "mongodb";
+import { configMongoDb } from "./lib/config";
 
 import SurveyorRouter from "./routers/Surveyor";
 import CasesRouter from "./routers/Cases";
@@ -24,6 +26,7 @@ app.use(cors(
   }
 ));
 
+export const client = new MongoClient(configMongoDb);
 export let conn: mysql.Connection | null = null;
 export const Connect = async () => {
   conn = await mysql.createConnection({
