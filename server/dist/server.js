@@ -12,19 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Connect = exports.conn = void 0;
+exports.Connect = exports.conn = exports.client = void 0;
 const express_1 = __importDefault(require("express"));
 const config_1 = require("./lib/config");
 const promise_1 = __importDefault(require("mysql2/promise"));
 const multer_1 = __importDefault(require("multer"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
+const mongodb_1 = require("mongodb");
+const config_2 = require("./lib/config");
 const Surveyor_1 = __importDefault(require("./routers/Surveyor"));
 const Cases_1 = __importDefault(require("./routers/Cases"));
 const Customer_1 = __importDefault(require("./routers/Customer"));
 const Insurance_1 = __importDefault(require("./routers/Insurance"));
 const Cars_1 = __importDefault(require("./routers/Cars"));
 const Admin_1 = __importDefault(require("./routers/Admin"));
+const Report_1 = __importDefault(require("./routers/Report"));
 const app = (0, express_1.default)();
 const PORT = config_1.Config.PORT;
 app.use(express_1.default.json());
@@ -33,6 +36,7 @@ app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
 }));
+exports.client = new mongodb_1.MongoClient(config_2.configMongoDb);
 exports.conn = null;
 const Connect = () => __awaiter(void 0, void 0, void 0, function* () {
     exports.conn = yield promise_1.default.createConnection({
@@ -58,6 +62,7 @@ app.use("/api/cases", Cases_1.default);
 app.use("/api/customer", Customer_1.default);
 app.use("/api/insurance", Insurance_1.default);
 app.use("/api/admin", Admin_1.default);
+app.use("/api/report", Report_1.default);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     // await Connect();
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
