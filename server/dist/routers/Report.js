@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const GetReport_1 = require("../controller/Report/GetReport");
 const router = express_1.default.Router();
-router.get("/get-report", GetReport_1.GetReport);
+router.get("/getreport", GetReport_1.GetReport);
 exports.default = router;

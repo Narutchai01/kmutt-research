@@ -14,13 +14,13 @@ const server_1 = require("../../server");
 const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Connect)();
-        const sql = `SELECT * FROM Image WHERE CaseID = ?`;
+        const sql = `SELECT Image_link FROM Image WHERE CaseID = ?`;
         const { caseID } = req.query;
-        const ImgeArr = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [caseID]));
+        const ImgaeArr = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [caseID]));
         const report = yield server_1.client.db("kmutt").collection("report").findOne({ CaseID: caseID });
-        res.status(200).json({
-            image: ImgeArr,
-            report: report
+        res.status(200).send({
+            ImageArr: ImgaeArr[0], // Fixed the syntax error by removing the unnecessary comma and adding a colon
+            report
         });
     }
     catch (error) {
