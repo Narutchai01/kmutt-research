@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 StringModel Profile1 = StringModel(
   First_name: '',
@@ -49,6 +50,17 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
   String extractDate(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
+  }
+
+  Future<Null> SignOut() async {
+    final SharedPreferences prefsToken = await SharedPreferences.getInstance();
+    prefsToken.remove('token');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -225,12 +237,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChangePassword(),
-                                  ),
-                                );
+                                SignOut();
                               },
                               child: Text(
                                 "Logout",
