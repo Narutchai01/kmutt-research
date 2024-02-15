@@ -10,3 +10,7 @@ export interface ICONFIG {
 export interface PayLoad {
     ID: string;
 }
+
+export interface MongoURI {
+    MongoURI : string
+}

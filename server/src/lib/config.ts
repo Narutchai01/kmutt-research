@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { ICONFIG } from '../interface/Interface';
+import { ICONFIG  ,MongoURI} from '../interface/Interface';
 dotenv.config();
 
 export const Config:ICONFIG= {
@@ -10,3 +10,6 @@ export const Config:ICONFIG= {
     DB_NAME : String(process.env.DBNAME) ,
     DB_PORT : Number(process.env.DBPORT) 
 };
+
+
+export const configMongoDb:string = String(process.env.MONGO_URI) 
