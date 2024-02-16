@@ -20,7 +20,7 @@ StringModel Profile1 = StringModel(
 );
 
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 
@@ -163,8 +163,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                   //   fit: BoxFit.cover,
                                                   // ),
                                                   child: CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgEllipse27,
+                                                    imagePath: Profile1.Image,
                                                     height: 90.v,
                                                     width: 93.h,
                                                     radius:

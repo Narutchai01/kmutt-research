@@ -8,7 +8,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 

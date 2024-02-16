@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
 
   return baseUrl;
 }

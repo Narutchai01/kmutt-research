@@ -27,7 +27,7 @@ class MyCustomException implements Exception {
 }
 
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 

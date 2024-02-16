@@ -33,7 +33,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
     Response response;
     try {
       response = await Dio().post(
-        'https://kmutt-api.onrender.com/cases/createCase/${GlobalModel.token}',
+        'https://kmutt-api.onrender.com/api/cases/createCase/${GlobalModel.token}',
         data: formData,
       );
       if (response.statusCode == 200) {
