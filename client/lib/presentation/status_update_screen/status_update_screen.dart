@@ -11,14 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 get baseURL {
-  String baseUrl = "";
-  if (Platform.isAndroid) {
-    // Android
-    baseUrl = "http://10.0.2.2:8080/api";
-  } else if (Platform.isIOS) {
-    // iOS
-    baseUrl = "http://localhost:8080/api";
-  }
+  String baseUrl = "https://kmutt-api.onrender.com";
+
   return baseUrl;
 }
 
