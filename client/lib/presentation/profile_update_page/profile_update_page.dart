@@ -23,14 +23,7 @@ StringModel Profile1 = StringModel(
 String tokenCheck = "";
 
 get baseURL {
-  String baseUrl = "";
-  if (Platform.isAndroid) {
-    // Android
-    baseUrl = "http://10.0.2.2:8080/api";
-  } else if (Platform.isIOS) {
-    // iOS
-    baseUrl = "http://localhost:8080/api";
-  }
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 
@@ -167,8 +160,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                   //   fit: BoxFit.cover,
                                                   // ),
                                                   child: CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgEllipse27,
+                                                    imagePath: Profile1.Image,
                                                     height: 90.v,
                                                     width: 93.h,
                                                     radius:

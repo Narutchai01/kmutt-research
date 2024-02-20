@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/Changepassword/changepassword.dart';
+import 'package:client/presentation/model/CustomerID_model.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
 import 'package:dio/dio.dart';
@@ -19,14 +20,7 @@ StringModel Profile1 = StringModel(
   Password: '',
 );
 get baseURL {
-  String baseUrl = "";
-  if (Platform.isAndroid) {
-    // Android
-    baseUrl = "http://10.0.2.2:8080/api";
-  } else if (Platform.isIOS) {
-    // iOS
-    baseUrl = "http://localhost:8080/api";
-  }
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 
@@ -224,11 +218,10 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgLocation,
-                            height: 32.v,
-                            width: 25.h,
-                            margin: EdgeInsets.only(bottom: 1.v),
+                          Icon(
+                            Icons.logout,
+                            size: 35,
+                            color: Color.fromRGBO(92, 135, 213, 1),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -237,7 +230,16 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                             ),
                             child: GestureDetector(
                               onTap: () {
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+
                                 SignOut();
+
                               },
                               child: Text(
                                 "Logout",
@@ -304,7 +306,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
             ),
           ),
           CustomImageView(
-            imagePath: ImageConstant.imgEllipse33119x122,
+            imagePath: Profile1.Image,
             height: 119.v,
             width: 122.h,
             radius: BorderRadius.circular(
@@ -317,7 +319,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: EdgeInsets.only(
-                right: 150.h,
+                right: 30.h,
                 bottom: 10.v,
               ),
               child: Text(
