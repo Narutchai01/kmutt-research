@@ -43,6 +43,21 @@ class _LoginScreenState extends State<LoginScreen> {
     return originalToken;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    checkToken();
+  }
+
+  Future<Null> checkToken() async {
+    final SharedPreferences prefsToken = await SharedPreferences.getInstance();
+    final String? token = prefsToken.getString('token');
+    if (token != null) {
+      GlobalModel = TokenModel(token: formatToken(token));
+      Navigator.pushNamed(context, AppRoutes.homePage);
+    }
+  }
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -82,25 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
       throw Exception("Error on server");
     }
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getValidationData().whenComplete(() async {
-  //     Timer(Duration(seconds: 2), () => Get.to(() => prefsToken == null ? LoginScreen() : ProfileUpdatePage()));
-  //   });
-  // }
-
-  // Future<void> getValidationData() async {
-  //   Timer(Duration(seconds: 2), () {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => prefsToken == null ? LoginScreen() : ProfileUpdatePage(),
-  //       ),
-  //     );
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
