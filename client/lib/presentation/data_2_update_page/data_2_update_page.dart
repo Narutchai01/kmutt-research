@@ -13,14 +13,15 @@ get dataImgURL {
   return dataImgURL;
 }
 
+List dataImgLink = [];
+
 // ignore_for_file: must_be_immutable
 class Data2UpdatePage extends StatelessWidget {
   final dio = Dio();
-  List<String> data = [];
+
   Future getDataIMG() async {
     final response = await dio.get(dataImgURL);
-    print(response.data['ImageArr']);
-    // return response.data['ImageArr'];
+    dataImgLink = response.data['ImageArr'];
   }
 
   Data2UpdatePage({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class Data2UpdatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getDataIMG();
+    print(dataImgLink);
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(
