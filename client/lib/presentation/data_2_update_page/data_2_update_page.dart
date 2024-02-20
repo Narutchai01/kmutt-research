@@ -1,4 +1,5 @@
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
+import 'package:dio/dio.dart';
 
 import '../data_2_update_page/widgets/listsection_item_widget.dart';
 import 'package:client/core/app_export.dart';
@@ -6,14 +7,29 @@ import 'package:client/widgets/custom_drop_down.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
+get dataImgURL {
+  String dataImgURL =
+      "http://10.0.2.2:8080/api/report/getreport?caseID=f12d220c-ef64-45e9-a98d-fc61e42823e7";
+  return dataImgURL;
+}
+
 // ignore_for_file: must_be_immutable
 class Data2UpdatePage extends StatelessWidget {
+  final dio = Dio();
+  List<String> data = [];
+  Future getDataIMG() async {
+    final response = await dio.get(dataImgURL);
+    print(response.data['ImageArr']);
+    // return response.data['ImageArr'];
+  }
+
   Data2UpdatePage({Key? key}) : super(key: key);
 
   List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
 
   @override
   Widget build(BuildContext context) {
+    getDataIMG();
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(

@@ -242,7 +242,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                                 },
                                 child: ListTile(
                                   leading: CustomImageView(
-                                    imagePath: customer.Customer_image,
+                                    imagePath: searchModels[index].image,
                                     height: 72.v,
                                     width: 63.h,
                                     radius: BorderRadius.circular(
