@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:client/core/app_export.dart';
@@ -19,15 +20,10 @@ StringModel Profile1 = StringModel(
   Password: '',
 );
 
+String tokenCheck = "";
+
 get baseURL {
-  String baseUrl = "";
-  if (Platform.isAndroid) {
-    // Android
-    baseUrl = "http://10.0.2.2:8080/api";
-  } else if (Platform.isIOS) {
-    // iOS
-    baseUrl = "http://localhost:8080/api";
-  }
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 
@@ -41,22 +37,16 @@ class ProfileUpdatePage extends StatefulWidget {
 class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   @override
   void initState() {
+    // getValidationData().whenComplete(() async {
+    //   Timer(Duration(seconds: 2),
+    //       () => Get.to(tokenCheck == "" ? LoginScreen() : ProfileUpdatePage()));
+    // });
+
     super.initState();
-    getSurveyorInfo(context);
   }
 
   final dio = Dio();
   var data;
-
-  // void GetSurveryor(BuildContext context) async {
-  //   final response = await dio.get(
-  //     'http://10.0.2.2:8080/api/surveyor/findSurveyorByID/${GlobalModel.token}',
-  //   );
-
-  //   // var data = response.data[0];
-  //   print(response.data[0]);
-  //   Profile1 = StringModel.fromMap(response.data[0]);
-  // }
 
   Future<StringModel> getSurveyorInfo(BuildContext context) async {
     var response = await dio.get(
@@ -170,8 +160,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                   //   fit: BoxFit.cover,
                                                   // ),
                                                   child: CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgEllipse27,
+                                                    imagePath: Profile1.Image,
                                                     height: 90.v,
                                                     width: 93.h,
                                                     radius:

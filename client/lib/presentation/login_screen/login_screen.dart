@@ -27,14 +27,7 @@ class MyCustomException implements Exception {
 }
 
 get baseURL {
-  String baseUrl = "";
-  if (Platform.isAndroid) {
-    // Android
-    baseUrl = "http://10.0.2.2:8080/api";
-  } else if (Platform.isIOS) {
-    // iOS
-    baseUrl = "http://localhost:8080/api";
-  }
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
 
@@ -48,6 +41,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String formatToken(String originalToken) {
     return originalToken;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkToken();
+  }
+
+  Future<Null> checkToken() async {
+    final SharedPreferences prefsToken = await SharedPreferences.getInstance();
+    final String? token = prefsToken.getString('token');
+    if (token != null) {
+      GlobalModel = TokenModel(token: formatToken(token));
+      Navigator.pushNamed(context, AppRoutes.homePage);
+    }
   }
 
   final TextEditingController emailController = TextEditingController();
@@ -89,25 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
       throw Exception("Error on server");
     }
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getValidationData().whenComplete(() async {
-  //     Timer(Duration(seconds: 2), () => Get.to(() => prefsToken == null ? LoginScreen() : ProfileUpdatePage()));
-  //   });
-  // }
-
-  // Future<void> getValidationData() async {
-  //   Timer(Duration(seconds: 2), () {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => prefsToken == null ? LoginScreen() : ProfileUpdatePage(),
-  //       ),
-  //     );
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
+import 'package:dio/dio.dart';
 
 import '../data_2_update_page/widgets/listsection_item_widget.dart';
 import 'package:client/core/app_export.dart';
@@ -6,14 +7,39 @@ import 'package:client/widgets/custom_drop_down.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file: must_be_immutable
-class Data2UpdatePage extends StatelessWidget {
+get dataImgURL {
+  String dataImgURL =
+      "http://10.0.2.2:8080/api/report/getreport?caseID=f12d220c-ef64-45e9-a98d-fc61e42823e7";
+  return dataImgURL;
+}
+
+List<dynamic> dataImgLink = [];
+Map<String, dynamic> dataReport = {};
+
+class Data2UpdatePage extends StatefulWidget {
   Data2UpdatePage({Key? key}) : super(key: key);
+
+  @override
+  _Data2UpdatePageState createState() => _Data2UpdatePageState();
+}
+
+// ignore_for_file: must_be_immutable
+class _Data2UpdatePageState extends State<Data2UpdatePage> {
+  int imgpreview = 0;
+  final dio = Dio();
+
+  Future getDataIMG() async {
+    final response = await dio.get(dataImgURL);
+    dataImgLink = response.data['ImageArr'];
+    dataReport = response.data['report'];
+  }
 
   List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
 
   @override
   Widget build(BuildContext context) {
+    getDataIMG();
+    print(dataReport["_id"]);
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(
@@ -98,7 +124,7 @@ class Data2UpdatePage extends StatelessWidget {
                               ]))),
                   SizedBox(height: 26.v),
                   CustomImageView(
-                      imagePath: ImageConstant.imgRectangle133,
+                      imagePath: dataImgLink[imgpreview]["Image_link"],
                       height: 253.v,
                       width: 430.h),
                   SizedBox(height: 9.v),
@@ -144,18 +170,34 @@ class Data2UpdatePage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildListSection(BuildContext context) {
-    return SizedBox(
-        height: 58.v,
-        child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 30.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(width: 20.h);
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30.h),
+      height: 58.adaptSize,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: dataImgLink.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                imgpreview = index;
+              });
             },
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return ListsectionItemWidget();
-            }));
+            child: Container(
+              margin: EdgeInsets.only(right: 8.0), // Adjust as needed
+              width: 58.adaptSize,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.h),
+                image: DecorationImage(
+                  image: NetworkImage(dataImgLink[index]["Image_link"]),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   /// Navigates to the statusUpdateScreen when the action is triggered.

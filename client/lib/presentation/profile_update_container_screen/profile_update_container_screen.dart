@@ -1,14 +1,11 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
-import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
-import 'package:client/presentation/data_2_update_page/data_2_update_page.dart';
 import 'package:client/presentation/profile_update_page/profile_update_page.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
 import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
-import 'package:dio/dio.dart';
 
 class ProfileUpdateContainerScreen extends StatefulWidget {
   ProfileUpdateContainerScreen({Key? key}) : super(key: key);
