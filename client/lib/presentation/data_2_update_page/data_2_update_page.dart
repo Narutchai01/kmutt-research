@@ -14,7 +14,7 @@ get dataImgURL {
 }
 
 List<dynamic> dataImgLink = [];
-List<dynamic> dataReport = [];
+Map<String, dynamic> dataReport = {};
 
 class Data2UpdatePage extends StatefulWidget {
   Data2UpdatePage({Key? key}) : super(key: key);
@@ -39,6 +39,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   @override
   Widget build(BuildContext context) {
     getDataIMG();
+    print(dataReport["_id"]);
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(
