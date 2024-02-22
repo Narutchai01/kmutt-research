@@ -44,121 +44,107 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
         body: FutureBuilder(
             future: getDataIMG(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                return Container(
-                    width: double.maxFinite,
-                    decoration: AppDecoration.fillWhiteA,
-                    child: Column(children: [
-                      _buildMainSection(context),
-                      SizedBox(height: 17.v),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 37.h, right: 51.h),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "PDN :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "POL-001",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Claim Info:",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Status :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "Success",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Create on :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "12-10-2023",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                  ]))),
-                      SizedBox(height: 26.v),
-                      // CustomImageView(
-                      //     imagePath: dataImgLink[imgpreview]["Image_link"],
-                      //     height: 253.v,
-                      //     width: 430.h),
-                      SizedBox(height: 9.v),
-                      _buildListSection(context),
-                      SizedBox(height: 16.v),
-                      Padding(
-                          padding: EdgeInsets.only(left: 28.h, right: 29.h),
-                          child: CustomDropDown(
-                              hintText: "Filters",
-                              items: dropdownItemList,
-                              onChanged: (value) {})),
-                      Spacer(),
-                      SizedBox(height: 27.v),
-                      CustomElevatedButton(
-                        width: 150.h,
-                        text: "Export result",
-                        buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
-                      )
-                    ]));
-              }
+              return Container(
+                  width: double.maxFinite,
+                  decoration: AppDecoration.fillWhiteA,
+                  child: Column(children: [
+                    _buildMainSection(context),
+                    SizedBox(height: 17.v),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 37.h, right: 51.h),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "PDN :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "POL-001",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Claim Info:",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Status :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "Success",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Create on :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "12-10-2023",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                ]))),
+                    SizedBox(height: 26.v),
+                    // CustomImageView(
+                    //     imagePath: dataImgLink[imgpreview]["Image_link"],
+                    //     height: 253.v,
+                    //     width: 430.h),
+                    SizedBox(height: 9.v),
+                    _buildListSection(context),
+                    SizedBox(height: 16.v),
+                    Padding(
+                        padding: EdgeInsets.only(left: 28.h, right: 29.h),
+                        child: CustomDropDown(
+                            hintText: "Filters",
+                            items: dropdownItemList,
+                            onChanged: (value) {})),
+                    Spacer(),
+                    SizedBox(height: 27.v),
+                    CustomElevatedButton(
+                      width: 150.h,
+                      text: "Export result",
+                      buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
+                    )
+                  ]));
             }),
       ),
     );
