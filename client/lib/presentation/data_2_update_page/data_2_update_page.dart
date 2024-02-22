@@ -28,18 +28,35 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
 
-  Future getDataIMG() async {
+  void loadData() async {
+    dataImgLink =
+        await getDataIMG(); // Assign the fetched searchModels to the list
+    dataReport = await getDataReport();
+    // Now you can use the searchModels list as needed
+  }
+
+  Future<List<dynamic>> getDataIMG() async {
     final response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
+    return dataImgLink;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<Map<String, dynamic>> getDataReport() async {
+    final response = await dio.get(dataImgURL);
     dataReport = response.data['report'];
+    return dataReport;
   }
 
   List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
 
   @override
   Widget build(BuildContext context) {
-    getDataIMG();
-    print(dataReport["_id"]);
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
         child: Scaffold(
