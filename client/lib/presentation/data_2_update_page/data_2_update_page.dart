@@ -45,7 +45,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
         body: FutureBuilder(
             future: getDataIMG(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+              if (snapshot.connectionState == ConnectionState.active) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
@@ -53,7 +53,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                 return Center(
                   child: Text('Error: ${snapshot.error}'),
                 );
-              } else {
+              }  
                 return Container(
                     width: double.maxFinite,
                     decoration: AppDecoration.fillWhiteA,
@@ -138,19 +138,32 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                     ),
                                   ]))),
                       SizedBox(height: 26.v),
-                      FutureBuilder(
+                     FutureBuilder(
                           future: getDataIMG(),
-                          builder: (context, snapshot) => Column(
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}'),
+                              );
+                            } else {
+                              return Column(
                                 children: [
-                                  // CustomImageView(
-                                  //     imagePath: dataImgLink[imgpreview]
-                                  //         ["Image_link"],
-                                  //     height: 253.v,
-                                  //     width: 430.h),
+                                   CustomImageView(
+                                       imagePath: dataImgLink[imgpreview]
+                                         ["Image_link"],
+                                       height: 253.v,
+                                       width: 430.h),
                                   SizedBox(height: 9.v),
-                                  _buildListSection(context),
                                 ],
-                              )),
+                              );
+                            }
+                          }),
+                      _buildListSection(context),
                       SizedBox(height: 16.v),
                       Padding(
                           padding: EdgeInsets.only(left: 28.h, right: 29.h),
@@ -166,7 +179,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                         buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
                       )
                     ]));
-              }
+              
             }),
       ),
     );
