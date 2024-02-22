@@ -116,15 +116,15 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgThumbsUpIndigo300,
-                            height: 20.adaptSize,
-                            width: 20.adaptSize,
-                            margin: EdgeInsets.only(
-                              top: 6.v,
-                              bottom: 8.v,
-                            ),
-                          ),
+                          // CustomImageView(
+                          //   imagePath: ImageConstant.imgThumbsUpIndigo300,
+                          //   height: 20.adaptSize,
+                          //   width: 20.adaptSize,
+                          //   margin: EdgeInsets.only(
+                          //     top: 6.v,
+                          //     bottom: 8.v,
+                          //   ),
+                          // ),
                           Padding(
                             padding: EdgeInsets.only(left: 30.h),
                             child: Text(
@@ -230,7 +230,6 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                             ),
                             child: GestureDetector(
                               onTap: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -239,7 +238,6 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                                 );
 
                                 SignOut();
-
                               },
                               child: Text(
                                 "Logout",
