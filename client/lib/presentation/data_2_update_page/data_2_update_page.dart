@@ -2,9 +2,9 @@ import 'package:client/presentation/profile_update_container_screen/profile_upda
 import 'package:dio/dio.dart';
 
 import 'package:client/core/app_export.dart';
-import 'package:client/widgets/custom_drop_down.dart';
 import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
 
 get dataImgURL {
   String dataImgURL =
@@ -138,7 +138,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                     ),
                                   ]))),
                       SizedBox(height: 26.v),
-                     FutureBuilder(
+                      FutureBuilder(
                           future: getDataIMG(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -151,13 +151,24 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 child: Text('Error: ${snapshot.error}'),
                               );
                             } else {
+                              //final dynamic data = snapshot.data;
+                              final List<dynamic>? imageDataList = dataImgLink;
+                              final int nPart = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]["image_meta_data"]["n_car_parts"];
+                              final List<dynamic> reportData = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'];
+                              if (imageDataList == null || imageDataList.isEmpty) {
+                                return Center(
+                                  child: Text('Image data not available.'),
+                                );
+                              }
+                          
+                              final List<dynamic> points = reportData;
                               return Column(
                                 children: [
-                                   CustomImageView(
-                                       imagePath: dataImgLink[imgpreview]
-                                         ["Image_link"],
-                                       height: 253.v,
-                                       width: 430.h),
+                                  ImageOverlay(
+                                    imageUrl: imageDataList[imgpreview]["Image_link"],
+                                    data: points,
+                                    nPart: nPart,
+                                  ),
                                   SizedBox(height: 9.v),
                                 ],
                               );
@@ -165,12 +176,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                           }),
                       _buildListSection(context),
                       SizedBox(height: 16.v),
-                      Padding(
-                          padding: EdgeInsets.only(left: 28.h, right: 29.h),
-                          child: CustomDropDown(
-                              hintText: "Filters",
-                              items: dropdownItemList,
-                              onChanged: (value) {})),
+                      
                       Spacer(),
                       SizedBox(height: 27.v),
                       CustomElevatedButton(
@@ -238,6 +244,4 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
       ),
     );
   }
-
-  /// Navigates to the statusUpdateScreen when the action is triggered.
 }
