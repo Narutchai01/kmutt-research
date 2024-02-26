@@ -1,10 +1,11 @@
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 import 'package:dio/dio.dart';
-
 import 'package:client/core/app_export.dart';
-import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
+import 'package:client/presentation/data_2_update_page/widgets/damage.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 get dataImgURL {
   String dataImgURL =
@@ -14,7 +15,10 @@ get dataImgURL {
 
 List<dynamic> dataImgLink = [];
 Map<String, dynamic> dataReport = {};
-
+class CarPart {
+  final String name;
+  CarPart(this.name);
+}
 class Data2UpdatePage extends StatefulWidget {
   Data2UpdatePage({Key? key}) : super(key: key);
 
@@ -26,18 +30,18 @@ class Data2UpdatePage extends StatefulWidget {
 class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
-
+  bool showDamageOverlay = false;
   Future getDataIMG() async {
     final response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
-    // print(response.data);
   }
-
-  List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
-
+  List<CarPart> carParts = carPartList.map((name) => CarPart(name)).toList();
+  List<CarPart> filteredCarParts = [];
+  List<CarPart> selectedParts = [];
   @override
   Widget build(BuildContext context) {
+
     // getDataIMG();
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
@@ -151,32 +155,69 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 child: Text('Error: ${snapshot.error}'),
                               );
                             } else {
-                              //final dynamic data = snapshot.data;
-                              final List<dynamic>? imageDataList = dataImgLink;
                               final int nPart = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]["image_meta_data"]["n_car_parts"];
+                              final int nDamage = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]["image_meta_data"]["n_car_damages"];
                               final List<dynamic> reportData = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'];
-                              if (imageDataList == null || imageDataList.isEmpty) {
-                                return Center(
-                                  child: Text('Image data not available.'),
-                                );
-                              }
-                          
+                              final List<dynamic> reportDamageData = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_damage_results'];
                               final List<dynamic> points = reportData;
                               return Column(
                                 children: [
-                                  ImageOverlay(
-                                    imageUrl: imageDataList[imgpreview]["Image_link"],
-                                    data: points,
-                                    nPart: nPart,
-                                  ),
-                                  SizedBox(height: 9.v),
-                                ],
+                              if (!showDamageOverlay)
+                                ImageOverlay(
+                                imageUrl:
+                                    dataImgLink[imgpreview]["Image_link"],
+                                data: points,
+                                nPart: nPart,
+                                selectedParts: selectedParts,
+                              ),
+                              if (showDamageOverlay) 
+                                DamageOverlay(
+                                  imageUrl:
+                                      dataImgLink[imgpreview]["Image_link"],
+                                  data: reportDamageData,
+                                  nDamage: nDamage,
+                                ),
+                            ],
                               );
                             }
                           }),
+                          SizedBox(height: 16.v),
                       _buildListSection(context),
                       SizedBox(height: 16.v),
-                      
+                      Row(
+                        children :[
+                           TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: appTheme.whiteA700,
+                              backgroundColor: appTheme.blue900,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showDamageOverlay = !showDamageOverlay;
+                              });
+                            },
+                            child: Text('Damaged'),
+                          ),
+
+                      MultiSelectDialogField<String>(
+                        buttonText: Text("Filter"),
+                        title: Text("Select Filters"),
+                        items: carPartList
+                          .map((partName) => MultiSelectItem<String>(partName, partName))
+                          .toList(),
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          setState(() {
+                            selectedParts = values.map((partName) => CarPart(partName)).toList();
+                          });
+                        },
+                        selectedItemsTextStyle: TextStyle(color: Colors.black),
+                        selectedColor: Color(0XFF4DC3FF),
+                        chipDisplay: MultiSelectChipDisplay.none(),
+                        ),
+                        ] 
+                      ),
+                      SizedBox(height: 16.v),
                       Spacer(),
                       SizedBox(height: 27.v),
                       CustomElevatedButton(

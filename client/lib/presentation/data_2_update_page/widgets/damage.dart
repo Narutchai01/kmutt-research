@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ImageOverlay extends StatelessWidget {
+class DamageOverlay extends StatelessWidget {
   final String imageUrl;
   final List<dynamic> data;
-  final int nPart;
-  final List<dynamic> selectedParts;
+  final int nDamage;
 
-  const ImageOverlay({
+  const DamageOverlay({
     required this.imageUrl,
     required this.data,
-    required this.nPart,
-    required this.selectedParts
+    required this.nDamage,
   });
 
   @override
@@ -32,8 +30,7 @@ class ImageOverlay extends StatelessWidget {
           child: CustomPaint(
             painter: PolygonPainter(
               data: data,
-              nPart: nPart,
-              selectedParts: selectedParts
+              nDamage: nDamage,
             ),
           ),
         ),
@@ -56,21 +53,19 @@ class ImageOverlay extends StatelessWidget {
 
 class PolygonPainter extends CustomPainter {
   final List<dynamic> data;
-  final int nPart;
-  final List<dynamic> selectedParts ;
+  final int nDamage;
   PolygonPainter({
     required this.data,
-    required this.nPart,
-    required this.selectedParts
+    required this.nDamage,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
 
-    for (var i = 0; i < nPart; i++) {
+    for (var i = 0; i < nDamage; i++) {
       final List<dynamic> points = data[i]['points'];
-      final String partName = data[i]['class'];
-      final Color partColor = getColor(partName);
+      final String type = data[i]['class'];
+      final Color typeColor = getColor(type);
       final List<Offset> offsetPoints = points.map<Offset>((point) {
         final x = point['x'] / 2.4;
         final y = point['y'] / 2.4;
@@ -84,7 +79,7 @@ class PolygonPainter extends CustomPainter {
       }
       path.close();
       final paint = Paint()
-        ..color = partColor
+        ..color = typeColor
         ..strokeWidth = 2
         ..strokeCap = StrokeCap.round;
       canvas.drawPath(path, paint);
@@ -114,8 +109,8 @@ class OverlayText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Positioned(
-        top: ((x * 1000) / 2.4),
-        left: ((y * 1000) / 2.4),
+        top: ((x * 100) / 2.4),
+        left: ((y * 100) / 2.4),
         child: Container(
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
@@ -146,40 +141,17 @@ class OverlayText extends StatelessWidget {
   }
 }
 
-const Map<String, Color> carPartColors = {
-  "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
-  "Quarter-panel": Color.fromRGBO(215, 189, 215, 0.502),
-  "Tail-light": Color.fromRGBO(217, 112, 145, 0.502),
-  "Rocker-panel": Color.fromRGBO(255, 20, 145, 0.502),
-  "Front-door": Color.fromRGBO(0, 0, 255, 0.502),
-  "Back-wheel": Color.fromRGBO(0, 181, 233, 0.502),
-  "Back-bumper": Color.fromRGBO(85, 227, 194, 0.749),
-  "Mirror": Color.fromRGBO(0, 255, 255, 0.502),
-  "Front-wheel": Color.fromRGBO(159, 82, 44, 0.502),
-  "Back-window": Color.fromRGBO(255, 255, 0, 0.502),
-  "Fender": Color.fromRGBO(14, 122, 253, 0.502),
-  "Trunk": Color.fromRGBO(221, 183, 133, 0.502),
-  "Roof": Color.fromRGBO(255, 227, 179, 0.502),
-  "Front-window": Color.fromRGBO(128, 128, 0, 0.502),
-  "Back-windshield": Color.fromRGBO(255, 0, 255, 0.502),
-  "Windshield": Color.fromRGBO(100, 147, 235, 128),
-  "Headlight": Color.fromRGBO(137, 0, 137, 128),
-  "Grille": Color.fromRGBO(134, 97, 150, 0.786),
-  "Hood": Color.fromRGBO(255, 68, 0, 128),
-  "License-plate": Color.fromRGBO(147, 99, 108, 0.612),
-  "Back-door": Color.fromRGBO(255, 128, 0, 128),
+const Map<String, Color> damageColors = {
+  "car-part-crack": Color.fromRGBO(0,255,205,12),
+  "deformation": Color.fromRGBO(255, 68, 0, 128),
+  "flat-tire": Color.fromRGBO(255,128,0,128),
+  "glass-crack": Color.fromRGBO(255, 20, 145, 0.502),
+  "lamp-crack": Color.fromRGBO(0, 0, 255, 0.502),
+  "scratch": Color.fromRGBO(197,251,0,128),
+  "side-mirror-crack": Color.fromRGBO(85, 227, 194, 0.749),
 };
 
 Color getColor(String partName) {
-  return carPartColors[partName] ?? Colors.red;
+  return damageColors[partName] ?? Colors.red;
 }
 
-List<String> carPartList = [];
-void fetchAvailablePartsFromData() {
-  List<dynamic> data = [{"name": "Hood"},{"name": "Front-bumper"},];
-  
-  // Extract the part names from the data and add them to the carPartList
-  for (var item in data) {
-    carPartList.add(item["name"]);
-  }
-}
