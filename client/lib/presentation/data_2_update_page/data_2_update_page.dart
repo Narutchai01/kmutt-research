@@ -18,6 +18,10 @@ Map<String, dynamic> dataReport = {};
 class CarPart {
   final String name;
   CarPart(this.name);
+  @override
+  String toString() {
+    return '$name';
+  }
 }
 class Data2UpdatePage extends StatefulWidget {
   Data2UpdatePage({Key? key}) : super(key: key);
@@ -36,13 +40,9 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
   }
-  List<CarPart> carParts = carPartList.map((name) => CarPart(name)).toList();
-  List<CarPart> filteredCarParts = [];
   List<CarPart> selectedParts = [];
   @override
   Widget build(BuildContext context) {
-
-    // getDataIMG();
     getPageroute(AppRoutes.data2UpdatePage);
     return SafeArea(
       child: Scaffold(
@@ -165,7 +165,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               if (!showDamageOverlay)
                                 ImageOverlay(
                                 imageUrl:
-                                    dataImgLink[imgpreview]["Image_link"],
+                                dataImgLink[imgpreview]["Image_link"],
                                 data: points,
                                 nPart: nPart,
                                 selectedParts: selectedParts,
@@ -181,7 +181,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               );
                             }
                           }),
-                          SizedBox(height: 16.v),
+                      SizedBox(height: 16.v),
                       _buildListSection(context),
                       SizedBox(height: 16.v),
                       Row(
@@ -198,17 +198,20 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                             },
                             child: Text('Damaged'),
                           ),
-
                       MultiSelectDialogField<String>(
                         buttonText: Text("Filter"),
                         title: Text("Select Filters"),
-                        items: carPartList
+                        items: dataReport['report'].isNotEmpty && dataReport['report'][0] != null && dataReport['report'][0].containsKey(dataReport['report'][0].keys.toList()[imgpreview]) 
+                          ? (dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'] as List<dynamic>)
+                          .map<String>((entry) => entry['class'] as String)
+                          .toSet()
                           .map((partName) => MultiSelectItem<String>(partName, partName))
-                          .toList(),
+                          .toList()
+                        : [],
                         listType: MultiSelectListType.CHIP,
                         onConfirm: (values) {
                           setState(() {
-                            selectedParts = values.map((partName) => CarPart(partName)).toList();
+                            selectedParts.addAll(values.map((partName) => CarPart(partName)));
                           });
                         },
                         selectedItemsTextStyle: TextStyle(color: Colors.black),

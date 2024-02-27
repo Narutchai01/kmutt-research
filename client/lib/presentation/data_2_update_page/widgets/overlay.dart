@@ -10,85 +10,79 @@ class ImageOverlay extends StatelessWidget {
     required this.imageUrl,
     required this.data,
     required this.nPart,
-    required this.selectedParts
+    required this.selectedParts,
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Display the image
         Image.network(
           imageUrl,
           width: 273,
           height: 180,
           fit: BoxFit.cover,
         ),
-        Positioned(
-          top: -45,
-          left: 3,
-          width: 273,
-          height: 180,
-          child: CustomPaint(
-            painter: PolygonPainter(
-              data: data,
-              nPart: nPart,
-              selectedParts: selectedParts
+        ...data.map((partData) {
+          final String partName = partData['class'];
+          final bool isSelected = selectedParts.any((part) => part.name == partName);
+          if (isSelected) {
+            final List<dynamic> points = partData['points'];
+
+            final List<Offset> offsetPoints = points.map<Offset>((point) {
+              final x = point['x'] / 2.4 ?? 0.0;
+              final y = point['y'] / 2.4 ?? 0.0;
+              return Offset(x.toDouble(), y.toDouble());
+            }).toList();
+            final path = Path();
+            path.moveTo(offsetPoints[0].dx, offsetPoints[0].dy);
+            for (var j = 1; j < offsetPoints.length; j++) {
+              path.lineTo(offsetPoints[j].dx, offsetPoints[j].dy);
+            }
+            path.close();
+            final paint = Paint()
+              ..color = getColor(partName)
+              ..strokeWidth = 2
+              ..strokeCap = StrokeCap.round;
+            return Positioned(
+              top: -44,
+              left:2,
+              child:SizedBox(
+                width: 273,
+                height: 180,
+                child: Stack(
+                children: [
+                CustomPaint(
+                  size: Size(273, 180),
+                  painter: PathPainter(path: path, paintObject: paint),
+                ),
+                OverlayText(
+                  partName: partName, 
+                  confidence: partData['confidence'],
+                  x: partData['x1'],
+                  y: partData['y1']),
+              ],
             ),
-          ),
-        ),
-         ...data.map((partData) {
-            final double x = partData['x1'];
-            final double y = partData['y1'];
-            final double confidence = partData['confidence'];
-            final String partName = partData['class'];
-            return OverlayText(
-              partName: partName,
-              confidence: confidence,
-              x: x,
-              y: y,
-            );
+            ),
+          );
+          } else {
+            return SizedBox(); 
+          }
         }).toList(),
       ],
     );
   }
 }
 
-class PolygonPainter extends CustomPainter {
-  final List<dynamic> data;
-  final int nPart;
-  final List<dynamic> selectedParts ;
-  PolygonPainter({
-    required this.data,
-    required this.nPart,
-    required this.selectedParts
-  });
+class PathPainter extends CustomPainter {
+  final Path path;
+  final Paint paintObject;
+
+  PathPainter({required this.path, required this.paintObject});
 
   @override
   void paint(Canvas canvas, Size size) {
-
-    for (var i = 0; i < nPart; i++) {
-      final List<dynamic> points = data[i]['points'];
-      final String partName = data[i]['class'];
-      final Color partColor = getColor(partName);
-      final List<Offset> offsetPoints = points.map<Offset>((point) {
-        final x = point['x'] / 2.4;
-        final y = point['y'] / 2.4;
-        return Offset(x.toDouble(), y.toDouble());
-      }).toList();
-
-      final path = Path();
-      path.moveTo(offsetPoints[0].dx, offsetPoints[0].dy);
-      for (var j = 1; j < offsetPoints.length; j++) {
-        path.lineTo(offsetPoints[j].dx, offsetPoints[j].dy);
-      }
-      path.close();
-      final paint = Paint()
-        ..color = partColor
-        ..strokeWidth = 2
-        ..strokeCap = StrokeCap.round;
-      canvas.drawPath(path, paint);
-    }
+    canvas.drawPath(path, paintObject);
   }
 
   @override
@@ -96,7 +90,6 @@ class PolygonPainter extends CustomPainter {
     return false;
   }
 }
-
 class OverlayText extends StatelessWidget {
   final String partName;
   final double confidence;
@@ -107,44 +100,43 @@ class OverlayText extends StatelessWidget {
     required this.partName,
     required this.confidence,
     required this.x,
-    required this.y,
+    required this.y
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Positioned(
-        top: ((x * 1000) / 2.4),
-        left: ((y * 1000) / 2.4),
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Color.fromARGB(31, 0, 0, 0),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$partName',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                ),
+    return Positioned(
+      top: y*1000 / 2.4 ,
+      left: x*1000 /2.4,
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(31, 0, 0, 0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '$partName',
+              style: TextStyle(
+                fontSize: 12,
+                color: const Color.fromARGB(255, 255, 255, 255),
               ),
-              Text(
-                '  ${(confidence * 100).toStringAsFixed(0)}%',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
+            ),
+            Text(
+              '  ${(confidence * 100).toStringAsFixed(0)}%',
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
 
 const Map<String, Color> carPartColors = {
   "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
@@ -174,12 +166,9 @@ Color getColor(String partName) {
   return carPartColors[partName] ?? Colors.red;
 }
 
-List<String> carPartList = [];
-void fetchAvailablePartsFromData() {
-  List<dynamic> data = [{"name": "Hood"},{"name": "Front-bumper"},];
-  
-  // Extract the part names from the data and add them to the carPartList
-  for (var item in data) {
-    carPartList.add(item["name"]);
-  }
+class CarPart {
+  final String name;
+  CarPart(this.name);
 }
+
+List<String> carPartList = [];
