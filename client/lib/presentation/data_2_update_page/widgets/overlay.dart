@@ -28,7 +28,6 @@ class ImageOverlay extends StatelessWidget {
           final bool isSelected = selectedParts.any((part) => part.name == partName);
           if (isSelected) {
             final List<dynamic> points = partData['points'];
-
             final List<Offset> offsetPoints = points.map<Offset>((point) {
               final x = point['x'] / 2.4 ?? 0.0;
               final y = point['y'] / 2.4 ?? 0.0;
@@ -49,11 +48,10 @@ class ImageOverlay extends StatelessWidget {
               left:2,
               child:SizedBox(
                 width: 273,
-                height: 180,
+                height: 300,
                 child: Stack(
                 children: [
                 CustomPaint(
-                  size: Size(273, 180),
                   painter: PathPainter(path: path, paintObject: paint),
                 ),
                 OverlayText(

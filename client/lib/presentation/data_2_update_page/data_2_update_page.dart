@@ -2,10 +2,10 @@ import 'package:client/presentation/profile_update_container_screen/profile_upda
 import 'package:dio/dio.dart';
 import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
-import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
 import 'package:client/presentation/data_2_update_page/widgets/damage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
 
 get dataImgURL {
   String dataImgURL =
@@ -211,6 +211,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                         listType: MultiSelectListType.CHIP,
                         onConfirm: (values) {
                           setState(() {
+                            selectedParts.clear();
                             selectedParts.addAll(values.map((partName) => CarPart(partName)));
                           });
                         },
@@ -223,10 +224,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       SizedBox(height: 16.v),
                       Spacer(),
                       SizedBox(height: 27.v),
-                      CustomElevatedButton(
-                        width: 150.h,
-                        text: "Export result",
-                        buttonTextStyle: CustomTextStyles.titleMediumWhiteA700,
+                      PDFProvider(
+                        imageUrl: dataImgLink,
                       )
                     ]));
               
@@ -234,7 +233,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
       ),
     );
   }
-
   /// Section Widget
   Widget _buildMainSection(BuildContext context) {
     return Container(

@@ -61,7 +61,6 @@ class PolygonPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     for (var i = 0; i < nDamage; i++) {
       final List<dynamic> points = data[i]['points'];
       final String type = data[i]['class'];
