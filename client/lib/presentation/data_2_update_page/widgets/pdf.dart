@@ -20,8 +20,13 @@ class PDFProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        shape: const StadiumBorder(),
+        fixedSize: const Size(200, 40),
+      ),
       onPressed: () {
-        generateAndSavePdf(context); 
+        generateAndSavePdf(context);
       },
       child: Text('Export to PDF'),
     );
@@ -29,11 +34,15 @@ class PDFProvider extends StatelessWidget {
 
   Future<void> generateAndSavePdf(BuildContext context) async {
     PdfDocument document = PdfDocument();
-    for(var i = 0; i < imageUrl.length; i++){
-      int nPart = report['report'][0][report['report'][0].keys.toList()[i]]["image_meta_data"]["n_car_parts"];
-      int nDamage = report['report'][0][report['report'][0].keys.toList()[i]]["image_meta_data"]["n_car_damages"];
-      List<dynamic> reportData = report['report'][0][report['report'][0].keys.toList()[i]]['car_part_results'];
-      List<dynamic> reportDamageData = report['report'][0][report['report'][0].keys.toList()[i]]['car_damage_results'];
+    for (var i = 0; i < imageUrl.length; i++) {
+      int nPart = report['report'][0][report['report'][0].keys.toList()[i]]
+          ["image_meta_data"]["n_car_parts"];
+      int nDamage = report['report'][0][report['report'][0].keys.toList()[i]]
+          ["image_meta_data"]["n_car_damages"];
+      List<dynamic> reportData = report['report'][0]
+          [report['report'][0].keys.toList()[i]]['car_part_results'];
+      List<dynamic> reportDamageData = report['report'][0]
+          [report['report'][0].keys.toList()[i]]['car_damage_results'];
       Uint8List imageData = await _getImageData(imageUrl[i]["Image_link"]);
       PdfBitmap image = PdfBitmap(imageData);
       PdfPage page = document.pages.add();
@@ -45,7 +54,7 @@ class PDFProvider extends StatelessWidget {
         image,
         Rect.fromLTWH(125, 200, 273, 180),
       );
-      overlaycarPart(page, nPart,reportData);
+      overlaycarPart(page, nPart, reportData);
       overlaytextcarpart(page, nPart, reportData);
       page.graphics.drawImage(
         image,
@@ -57,6 +66,7 @@ class PDFProvider extends StatelessWidget {
     List<int> bytes = document.saveSync();
     saveAndLaunchFile(bytes, "Example.pdf");
   }
+
   Future<Uint8List> _getImageData(String imageUrl) async {
     try {
       var response = await http.get(Uri.parse(imageUrl));
