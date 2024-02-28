@@ -5,12 +5,16 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'carpart_pdf.dart';
+import 'damaged_pdf.dart';
 
 class PDFProvider extends StatelessWidget {
   final List<dynamic> imageUrl;
+  final Map<String, dynamic> report;
 
   const PDFProvider({
     required this.imageUrl,
+    required this.report,
   });
 
   @override
@@ -26,13 +30,29 @@ class PDFProvider extends StatelessWidget {
   Future<void> generateAndSavePdf(BuildContext context) async {
     PdfDocument document = PdfDocument();
     for(var i = 0; i < imageUrl.length; i++){
+      int nPart = report['report'][0][report['report'][0].keys.toList()[i]]["image_meta_data"]["n_car_parts"];
+      int nDamage = report['report'][0][report['report'][0].keys.toList()[i]]["image_meta_data"]["n_car_damages"];
+      List<dynamic> reportData = report['report'][0][report['report'][0].keys.toList()[i]]['car_part_results'];
+      List<dynamic> reportDamageData = report['report'][0][report['report'][0].keys.toList()[i]]['car_damage_results'];
       Uint8List imageData = await _getImageData(imageUrl[i]["Image_link"]);
       PdfBitmap image = PdfBitmap(imageData);
       PdfPage page = document.pages.add();
       page.graphics.drawImage(
         image,
-        Rect.fromLTWH(0, 0, 0, 0),
+        Rect.fromLTWH(125, 0, 273, 180),
       );
+      page.graphics.drawImage(
+        image,
+        Rect.fromLTWH(125, 200, 273, 180),
+      );
+      overlaycarPart(page, nPart,reportData);
+      overlaytextcarpart(page, nPart, reportData);
+      page.graphics.drawImage(
+        image,
+        Rect.fromLTWH(125, 400, 273, 180),
+      );
+      overlaycardamaged(page, nDamage, reportDamageData);
+      overlaytextdamage(page, nDamage, reportDamageData);
     }
     List<int> bytes = document.saveSync();
     saveAndLaunchFile(bytes, "Example.pdf");

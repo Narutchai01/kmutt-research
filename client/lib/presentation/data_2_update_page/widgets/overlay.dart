@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ImageOverlay extends StatelessWidget {
   final String imageUrl;
@@ -163,7 +164,10 @@ const Map<String, Color> carPartColors = {
 Color getColor(String partName) {
   return carPartColors[partName] ?? Colors.red;
 }
-
+PdfColor getColorPDF(String partName) {
+  Color color = carPartColors[partName] ?? Colors.red;
+  return PdfColor(color.red, color.green, color.blue);
+}
 class CarPart {
   final String name;
   CarPart(this.name);

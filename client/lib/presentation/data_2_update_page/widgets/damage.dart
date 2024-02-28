@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class DamageOverlay extends StatelessWidget {
   final String imageUrl;
@@ -38,9 +39,9 @@ class DamageOverlay extends StatelessWidget {
             final double x = partData['x1'];
             final double y = partData['y1'];
             final double confidence = partData['confidence'];
-            final String partName = partData['class'];
+            final String type = partData['class'];
             return OverlayText(
-              partName: partName,
+              type: type,
               confidence: confidence,
               x: x,
               y: y,
@@ -92,13 +93,13 @@ class PolygonPainter extends CustomPainter {
 }
 
 class OverlayText extends StatelessWidget {
-  final String partName;
+  final String type;
   final double confidence;
   final double x;
   final double y;
 
   OverlayText({
-    required this.partName,
+    required this.type,
     required this.confidence,
     required this.x,
     required this.y,
@@ -119,10 +120,10 @@ class OverlayText extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$partName',
+                '$type',
                 style: TextStyle(
                   fontSize: 12,
-                  color: const Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
               Text(
@@ -150,7 +151,11 @@ const Map<String, Color> damageColors = {
   "side-mirror-crack": Color.fromRGBO(85, 227, 194, 0.749),
 };
 
-Color getColor(String partName) {
-  return damageColors[partName] ?? Colors.red;
+Color getColor(String type) {
+  return damageColors[type] ?? Colors.red;
+}
+PdfColor getColorPDF(String type) {
+  Color color = damageColors[type] ?? Colors.red;
+  return PdfColor(color.red, color.green, color.blue);
 }
 

@@ -226,6 +226,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       SizedBox(height: 27.v),
                       PDFProvider(
                         imageUrl: dataImgLink,
+                        report: dataReport,
                       )
                     ]));
               
