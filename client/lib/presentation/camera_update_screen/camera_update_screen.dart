@@ -103,7 +103,7 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
                                   builder: (context) => ImagePreview(file),
                                 ),
                               );
-                            } on CameraException catch (e) {
+                            } on CameraException {
                               debugPrint("Error while taking picture");
                               return null;
                             }
