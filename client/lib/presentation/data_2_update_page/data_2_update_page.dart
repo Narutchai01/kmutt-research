@@ -35,6 +35,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
   bool showDamageOverlay = false;
+  bool showCarpartOverlay = true;
   Future getDataIMG() async {
     final response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
@@ -162,7 +163,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               final List<dynamic> points = reportData;
                               return Column(
                                 children: [
-                              if (!showDamageOverlay)
+                              if (showCarpartOverlay)
                                 ImageOverlay(
                                 imageUrl:
                                 dataImgLink[imgpreview]["Image_link"],
@@ -185,6 +186,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       _buildListSection(context),
                       SizedBox(height: 16.v),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children :[
                            TextButton(
                             style: TextButton.styleFrom(
@@ -194,10 +196,29 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                             onPressed: () {
                               setState(() {
                                 showDamageOverlay = !showDamageOverlay;
+                                showCarpartOverlay = !showCarpartOverlay;
                               });
                             },
                             child: Text('Damaged'),
                           ),
+                          Padding(padding : EdgeInsets.only(right: 10)),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: appTheme.whiteA700,
+                              backgroundColor: appTheme.blue900,
+                            ),
+                            onPressed: () {
+                            setState(() {
+                              selectedParts.clear();
+                              selectedParts.addAll((dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'] as List<dynamic>)
+                              .map((entry) => CarPart(entry['class'] as String)));
+                              showDamageOverlay = !showDamageOverlay;
+                              showCarpartOverlay = !showCarpartOverlay;
+                            });
+                          },
+                          child: Text('All Parts'),
+                          ),
+                          Padding(padding : EdgeInsets.only(right: 10)),
                       MultiSelectDialogField<String>(
                         buttonText: Text("Filter"),
                         title: Text("Select Filters"),
