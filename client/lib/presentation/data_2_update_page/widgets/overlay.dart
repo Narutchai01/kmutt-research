@@ -26,7 +26,8 @@ class ImageOverlay extends StatelessWidget {
         ),
         ...data.map((partData) {
           final String partName = partData['class'];
-          final bool isSelected = selectedParts.any((part) => part.name == partName);
+          final bool isSelected =
+              selectedParts.any((part) => part.name == partName);
           if (isSelected) {
             final List<dynamic> points = partData['points'];
             final List<Offset> offsetPoints = points.map<Offset>((point) {
@@ -34,6 +35,20 @@ class ImageOverlay extends StatelessWidget {
               final y = point['y'] / 2.4 ?? 0.0;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
+
+            final List xpoints = offsetPoints.map((point) => point.dx).toList();
+            final List ypoints = offsetPoints.map((point) => point.dy).toList();
+            double sum(List<dynamic> list) {
+              double total = 0.0;
+              for (double value in list) {
+                total += value;
+              }
+              return total;
+            }
+
+            double dxpoint = sum(xpoints) / xpoints.length;
+            double dypoint = sum(ypoints) / ypoints.length;
+
             final path = Path();
             path.moveTo(offsetPoints[0].dx, offsetPoints[0].dy);
             for (var j = 1; j < offsetPoints.length; j++) {
@@ -46,26 +61,26 @@ class ImageOverlay extends StatelessWidget {
               ..strokeCap = StrokeCap.round;
             return Positioned(
               top: -44,
-              left:2,
-              child:SizedBox(
+              left: 2,
+              child: SizedBox(
                 width: 273,
                 height: 300,
                 child: Stack(
-                children: [
-                CustomPaint(
-                  painter: PathPainter(path: path, paintObject: paint),
+                  children: [
+                    CustomPaint(
+                      painter: PathPainter(path: path, paintObject: paint),
+                    ),
+                    OverlayText(
+                        partName: partName,
+                        confidence: partData['confidence'],
+                        x: dxpoint,
+                        y: dypoint),
+                  ],
                 ),
-                OverlayText(
-                  partName: partName, 
-                  confidence: partData['confidence'],
-                  x: partData['x1'],
-                  y: partData['y1']),
-              ],
-            ),
-            ),
-          );
+              ),
+            );
           } else {
-            return SizedBox(); 
+            return SizedBox();
           }
         }).toList(),
       ],
@@ -89,28 +104,28 @@ class PathPainter extends CustomPainter {
     return false;
   }
 }
+
 class OverlayText extends StatelessWidget {
   final String partName;
   final double confidence;
   final double x;
   final double y;
 
-  OverlayText({
-    required this.partName,
-    required this.confidence,
-    required this.x,
-    required this.y
-  });
+  OverlayText(
+      {required this.partName,
+      required this.confidence,
+      required this.x,
+      required this.y});
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: y*1000 / 2.4 ,
-      left: x*1000 /2.4,
+      top: y,
+      left: x,
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Color.fromARGB(31, 0, 0, 0),
+          color: Color.fromARGB(149, 0, 0, 0),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +150,6 @@ class OverlayText extends StatelessWidget {
     );
   }
 }
-
 
 const Map<String, Color> carPartColors = {
   "Front-bumper": Color.fromRGBO(251, 171, 171, 0.5),
@@ -164,10 +178,12 @@ const Map<String, Color> carPartColors = {
 Color getColor(String partName) {
   return carPartColors[partName] ?? Colors.red;
 }
+
 PdfColor getColorPDF(String partName) {
   Color color = carPartColors[partName] ?? Colors.red;
   return PdfColor(color.red, color.green, color.blue);
 }
+
 class CarPart {
   final String name;
   CarPart(this.name);

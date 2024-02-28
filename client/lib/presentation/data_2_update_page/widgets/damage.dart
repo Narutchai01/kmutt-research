@@ -14,6 +14,8 @@ class DamageOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double dxpoint = 0.0;
+    double dypoint = 0.0;
     return Stack(
       children: [
         // Display the image
@@ -35,17 +37,41 @@ class DamageOverlay extends StatelessWidget {
             ),
           ),
         ),
-         ...data.map((partData) {
-            final double x = partData['x1'];
-            final double y = partData['y1'];
-            final double confidence = partData['confidence'];
-            final String type = partData['class'];
-            return OverlayText(
-              type: type,
-              confidence: confidence,
-              x: x,
-              y: y,
-            );
+        ...data.map((partData) {
+          for (var i = 0; i < nDamage; i++) {
+            final List<dynamic> points = partData['points'];
+            final List<Offset> offsetPoints = points.map<Offset>((point) {
+              final x = point['x'] / 2.4;
+              final y = point['y'] / 2.4;
+              return Offset(x.toDouble(), y.toDouble());
+            }).toList();
+            final List<double> xpoints =
+                offsetPoints.map((point) => point.dx).toList();
+            final List<double> ypoints =
+                offsetPoints.map((point) => point.dy).toList();
+
+            double sum(List<double> list) {
+              double total = 0.0;
+              for (double value in list) {
+                total += value;
+              }
+              return total;
+            }
+
+            dxpoint = sum(xpoints) / xpoints.length;
+            dypoint = sum(ypoints) / ypoints.length;
+          }
+
+          final double confidence = partData['confidence'];
+          final String type = partData['class'];
+          print(dxpoint);
+          print(dypoint);
+          return OverlayText(
+            type: type,
+            confidence: confidence,
+            x: dxpoint,
+            y: dypoint,
+          );
         }).toList(),
       ],
     );
@@ -71,7 +97,6 @@ class PolygonPainter extends CustomPainter {
         final y = point['y'] / 2.4;
         return Offset(x.toDouble(), y.toDouble());
       }).toList();
-
       final path = Path();
       path.moveTo(offsetPoints[0].dx, offsetPoints[0].dy);
       for (var j = 1; j < offsetPoints.length; j++) {
@@ -109,12 +134,12 @@ class OverlayText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Positioned(
-        top: ((x * 100) / 2.4),
-        left: ((y * 100) / 2.4),
+        top: y / 1.4,
+        left: x,
         child: Container(
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: Color.fromARGB(31, 0, 0, 0),
+            color: Color.fromARGB(145, 0, 0, 0),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,20 +167,20 @@ class OverlayText extends StatelessWidget {
 }
 
 const Map<String, Color> damageColors = {
-  "car-part-crack": Color.fromRGBO(0,255,205,12),
+  "car-part-crack": Color.fromRGBO(0, 255, 205, 12),
   "deformation": Color.fromRGBO(255, 68, 0, 128),
-  "flat-tire": Color.fromRGBO(255,128,0,128),
+  "flat-tire": Color.fromRGBO(255, 128, 0, 128),
   "glass-crack": Color.fromRGBO(255, 20, 145, 0.502),
   "lamp-crack": Color.fromRGBO(0, 0, 255, 0.502),
-  "scratch": Color.fromRGBO(197,251,0,128),
+  "scratch": Color.fromRGBO(197, 251, 0, 128),
   "side-mirror-crack": Color.fromRGBO(85, 227, 194, 0.749),
 };
 
 Color getColor(String type) {
   return damageColors[type] ?? Colors.red;
 }
+
 PdfColor getColorPDF(String type) {
   Color color = damageColors[type] ?? Colors.red;
   return PdfColor(color.red, color.green, color.blue);
 }
-

@@ -79,7 +79,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
     return SafeArea(
       child: Scaffold(
-          backgroundColor: appTheme.blue900,
+          backgroundColor: appTheme.whiteA700,
           resizeToAvoidBottomInset: false,
           body: FutureBuilder<StringModel>(
               future: getSurveyorInfo(context),

@@ -15,6 +15,7 @@ get dataImgURL {
 
 List<dynamic> dataImgLink = [];
 Map<String, dynamic> dataReport = {};
+
 class CarPart {
   final String name;
   CarPart(this.name);
@@ -23,6 +24,7 @@ class CarPart {
     return '$name';
   }
 }
+
 class Data2UpdatePage extends StatefulWidget {
   Data2UpdatePage({Key? key}) : super(key: key);
 
@@ -35,12 +37,13 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
   bool showDamageOverlay = false;
-  bool showCarpartOverlay = true;
+  bool showCarpartOverlay = false;
   Future getDataIMG() async {
     final response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
   }
+
   List<CarPart> selectedParts = [];
   @override
   Widget build(BuildContext context) {
@@ -58,92 +61,91 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                 return Center(
                   child: Text('Error: ${snapshot.error}'),
                 );
-              }  
-                return Container(
-                    width: double.maxFinite,
-                    decoration: AppDecoration.fillWhiteA,
-                    child: Column(children: [
-                      _buildMainSection(context),
-                      SizedBox(height: 17.v),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 37.h, right: 51.h),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "PDN :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "POL-001",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Claim Info:",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Status :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "Success",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Create on :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "12-10-2023",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
-                                    ),
-                                  ]))),
-                      SizedBox(height: 26.v),
-                      FutureBuilder(
+              }
+              return Container(
+                  width: double.maxFinite,
+                  decoration: AppDecoration.fillWhiteA,
+                  child: Column(children: [
+                    _buildMainSection(context),
+                    SizedBox(height: 17.v),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 37.h, right: 51.h),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "PDN :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "POL-001",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Claim Info:",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Status :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "Success",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Create on :",
+                                        style: theme.textTheme.titleLarge,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        "12-10-2023",
+                                        style: CustomTextStyles.titleLargeBold,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                ]))),
+                    SizedBox(height: 26.v),
+                    Container(
+                      width: 273,
+                      height: 190,
+                      child: FutureBuilder(
                           future: getDataIMG(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -156,105 +158,151 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 child: Text('Error: ${snapshot.error}'),
                               );
                             } else {
-                              final int nPart = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]["image_meta_data"]["n_car_parts"];
-                              final int nDamage = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]["image_meta_data"]["n_car_damages"];
-                              final List<dynamic> reportData = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'];
-                              final List<dynamic> reportDamageData = dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_damage_results'];
+                              final int nPart = dataReport['report'][0][
+                                      dataReport['report'][0]
+                                          .keys
+                                          .toList()[imgpreview]]
+                                  ["image_meta_data"]["n_car_parts"];
+                              final int nDamage = dataReport['report'][0][
+                                      dataReport['report'][0]
+                                          .keys
+                                          .toList()[imgpreview]]
+                                  ["image_meta_data"]["n_car_damages"];
+                              final List<dynamic> reportData =
+                                  dataReport['report'][0][dataReport['report']
+                                              [0]
+                                          .keys
+                                          .toList()[imgpreview]]
+                                      ['car_part_results'];
+                              final List<dynamic> reportDamageData =
+                                  dataReport['report'][0][dataReport['report']
+                                              [0]
+                                          .keys
+                                          .toList()[imgpreview]]
+                                      ['car_damage_results'];
                               final List<dynamic> points = reportData;
                               return Column(
                                 children: [
-                              if (showCarpartOverlay)
-                                ImageOverlay(
-                                imageUrl:
-                                dataImgLink[imgpreview]["Image_link"],
-                                data: points,
-                                nPart: nPart,
-                                selectedParts: selectedParts,
-                              ),
-                              if (showDamageOverlay) 
-                                DamageOverlay(
-                                  imageUrl:
+                                  if (showCarpartOverlay)
+                                    ImageOverlay(
+                                      imageUrl: dataImgLink[imgpreview]
+                                          ["Image_link"],
+                                      data: points,
+                                      nPart: nPart,
+                                      selectedParts: selectedParts,
+                                    )
+                                  else if (showDamageOverlay)
+                                    DamageOverlay(
+                                      imageUrl: dataImgLink[imgpreview]
+                                          ["Image_link"],
+                                      data: reportDamageData,
+                                      nDamage: nDamage,
+                                    )
+                                  else
+                                    Image.network(
                                       dataImgLink[imgpreview]["Image_link"],
-                                  data: reportDamageData,
-                                  nDamage: nDamage,
-                                ),
-                            ],
+                                    ),
+                                ],
                               );
                             }
                           }),
-                      SizedBox(height: 16.v),
-                      _buildListSection(context),
-                      SizedBox(height: 16.v),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children :[
-                           TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: appTheme.whiteA700,
-                              backgroundColor: appTheme.blue900,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                showDamageOverlay = !showDamageOverlay;
-                                showCarpartOverlay = !showCarpartOverlay;
-                              });
-                            },
-                            child: Text('Damaged'),
-                          ),
-                          Padding(padding : EdgeInsets.only(right: 10)),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: appTheme.whiteA700,
-                              backgroundColor: appTheme.blue900,
-                            ),
-                            onPressed: () {
-                            setState(() {
-                              selectedParts.clear();
-                              selectedParts.addAll((dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'] as List<dynamic>)
-                              .map((entry) => CarPart(entry['class'] as String)));
-                              showDamageOverlay = !showDamageOverlay;
-                              showCarpartOverlay = !showCarpartOverlay;
-                            });
-                          },
-                          child: Text('All Parts'),
-                          ),
-                          Padding(padding : EdgeInsets.only(right: 10)),
-                      MultiSelectDialogField<String>(
-                        buttonText: Text("Filter"),
-                        title: Text("Select Filters"),
-                        items: dataReport['report'].isNotEmpty && dataReport['report'][0] != null && dataReport['report'][0].containsKey(dataReport['report'][0].keys.toList()[imgpreview]) 
-                          ? (dataReport['report'][0][dataReport['report'][0].keys.toList()[imgpreview]]['car_part_results'] as List<dynamic>)
-                          .map<String>((entry) => entry['class'] as String)
-                          .toSet()
-                          .map((partName) => MultiSelectItem<String>(partName, partName))
-                          .toList()
-                        : [],
-                        listType: MultiSelectListType.CHIP,
-                        onConfirm: (values) {
+                    ),
+                    SizedBox(height: 16.v),
+                    _buildListSection(context),
+                    SizedBox(height: 16.v),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                            foregroundColor: showDamageOverlay
+                                ? appTheme.whiteA700
+                                : appTheme.blue900,
+                            backgroundColor: showDamageOverlay
+                                ? appTheme.blue900
+                                : appTheme.whiteA700,
+                            side: BorderSide(color: appTheme.blue900)),
+                        onPressed: () {
                           setState(() {
-                            selectedParts.clear();
-                            selectedParts.addAll(values.map((partName) => CarPart(partName)));
+                            showDamageOverlay = !showDamageOverlay;
+                            showCarpartOverlay = false;
                           });
                         },
-                        selectedItemsTextStyle: TextStyle(color: Colors.black),
-                        selectedColor: Color(0XFF4DC3FF),
-                        chipDisplay: MultiSelectChipDisplay.none(),
-                        ),
-                        ] 
+                        child: Text('Damaged'),
                       ),
-                      SizedBox(height: 16.v),
-                      Spacer(),
-                      SizedBox(height: 27.v),
-                      PDFProvider(
-                        imageUrl: dataImgLink,
-                        report: dataReport,
-                      )
-                    ]));
-              
+                      Padding(padding: EdgeInsets.only(right: 10)),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                            foregroundColor: showCarpartOverlay
+                                ? appTheme.whiteA700
+                                : appTheme.blue900,
+                            backgroundColor: showCarpartOverlay
+                                ? appTheme.blue900
+                                : appTheme.whiteA700,
+                            side: BorderSide(color: appTheme.blue900)),
+                        onPressed: () {
+                          setState(() {
+                            selectedParts.clear();
+                            selectedParts.addAll((dataReport['report'][0][
+                                        dataReport['report'][0]
+                                            .keys
+                                            .toList()[imgpreview]]
+                                    ['car_part_results'] as List<dynamic>)
+                                .map((entry) =>
+                                    CarPart(entry['class'] as String)));
+                            showDamageOverlay = false;
+                            showCarpartOverlay = !showCarpartOverlay;
+                          });
+                        },
+                        child: Text('All Parts'),
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 10)),
+                      if (showCarpartOverlay)
+                        MultiSelectDialogField<String>(
+                          buttonText: Text("Filter"),
+                          title: Text("Select Filters"),
+                          items: dataReport['report'].isNotEmpty &&
+                                  dataReport['report'][0] != null &&
+                                  dataReport['report'][0].containsKey(
+                                      dataReport['report'][0]
+                                          .keys
+                                          .toList()[imgpreview])
+                              ? (dataReport['report'][0]
+                                          [dataReport['report'][0].keys.toList()[imgpreview]]
+                                      ['car_part_results'] as List<dynamic>)
+                                  .map<String>(
+                                      (entry) => entry['class'] as String)
+                                  .toSet()
+                                  .map((partName) =>
+                                      MultiSelectItem<String>(partName, partName))
+                                  .toList()
+                              : [],
+                          listType: MultiSelectListType.CHIP,
+                          onConfirm: (values) {
+                            setState(() {
+                              selectedParts.clear();
+                              selectedParts.addAll(
+                                  values.map((partName) => CarPart(partName)));
+                            });
+                          },
+                          selectedItemsTextStyle:
+                              TextStyle(color: Colors.black),
+                          selectedColor: Color(0XFF4DC3FF),
+                          chipDisplay: MultiSelectChipDisplay.none(),
+                        ),
+                    ]),
+                    SizedBox(height: 16.v),
+                    Spacer(),
+                    SizedBox(height: 27.v),
+                    PDFProvider(
+                      imageUrl: dataImgLink,
+                      report: dataReport,
+                    ),
+                    SizedBox(height: 27.v),
+                  ]));
             }),
       ),
     );
   }
+
   /// Section Widget
   Widget _buildMainSection(BuildContext context) {
     return Container(
