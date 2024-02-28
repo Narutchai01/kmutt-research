@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/Changepassword/changepassword.dart';
-import 'package:client/presentation/model/CustomerID_model.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/profile_update_page/User_model.dart';
 import 'package:dio/dio.dart';
