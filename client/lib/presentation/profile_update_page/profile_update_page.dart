@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:client/core/app_export.dart';
@@ -81,8 +82,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
   @override
   Widget build(BuildContext context) {
-    getCase();
-    print(caseList);
     return SafeArea(
       child: Scaffold(
           backgroundColor: appTheme.whiteA700,
@@ -278,25 +277,24 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                               .headlineLarge,
                                                         ),
                                                       ),
-                                                      _buildChart(data),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(height: 6.v),
                                                 Container(
-                                                  height: 160.v,
-                                                  width: 361.h,
-                                                  decoration: BoxDecoration(
-                                                      color: appTheme.blue100,
-                                                      borderRadius: BorderRadius
-                                                          .horizontal(
-                                                              right: Radius
-                                                                  .circular(
-                                                                      10.h),
-                                                              left: Radius
-                                                                  .circular(
-                                                                      10.h))),
-                                                ),
+                                                    height: 160.v,
+                                                    width: 361.h,
+                                                    decoration: BoxDecoration(
+                                                        color: appTheme.blue100,
+                                                        borderRadius: BorderRadius
+                                                            .horizontal(
+                                                                right: Radius
+                                                                    .circular(
+                                                                        10.h),
+                                                                left: Radius
+                                                                    .circular(
+                                                                        10.h))),
+                                                    child: _chart(data)),
                                                 SizedBox(height: 38.v),
                                                 Align(
                                                   alignment:
@@ -441,24 +439,34 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
               })),
     );
   }
+}
 
-  Widget _buildChart(List<dynamic> data) {
-    Map<DateTime, int> casesPerDay = _countCasesPerDay(data);
+Widget _chart(List<dynamic> data) {
+  Map<DateTime, int> casesPerDay = _countCasesPerDay(data);
+  print(casesPerDay);
+  return SfCartesianChart(
+    primaryXAxis: DateTimeAxis(),
+    series: <CartesianSeries>[
+      LineSeries<MapEntry<DateTime, int>, DateTime>(
+        dataSource: casesPerDay.entries.toList(),
+        xValueMapper: (MapEntry<DateTime, int> entry, _) => entry.key,
+        yValueMapper: (MapEntry<DateTime, int> entry, _) => entry.value,
+      ),
+    ],
+  );
+}
 
-    List<ChartSampleData> chartData = [];
-    casesPerDay.forEach((key, value) {
-      chartData.add(ChartSampleData(date: key, count: value));
-    });
+Map<DateTime, int> _countCasesPerDay(List<dynamic> caseList) {
+  Map<DateTime, int> casesPerDay = {};
 
-    return SfCartesianChart(
-      primaryXAxis: DateTimeAxis(),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
-        LineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.date,
-          yValueMapper: (ChartSampleData sales, _) => sales.count,
-        ),
-      ],
-    );
-  }
+  caseList.forEach((data) {
+    DateTime dateOpened = DateTime.parse(data['Date_opened']).toLocal();
+
+    DateTime dateOnly = DateTime(
+        dateOpened.year, dateOpened.month, dateOpened.day); // Extract date only
+    int count = casesPerDay[dateOnly] ?? 0;
+    casesPerDay[dateOnly] = count + 1;
+  });
+
+  return casesPerDay;
 }
