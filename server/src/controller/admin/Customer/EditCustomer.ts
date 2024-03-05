@@ -24,6 +24,7 @@ export const EditCustomer = async (req: Request, res: Response) => {
       Address: CheckDataEdit(Address) || findCustomer[0][0].Address,
       Line: CheckDataEdit(Line) || findCustomer[0][0].Line,
     };
+    await conn?.query("UPDATE Customer SET ? WHERE id = ?", [data, id]);
     res.status(200).json({ message: "Edit Customer Success" });
   } catch (error) {
     console.log(error);
