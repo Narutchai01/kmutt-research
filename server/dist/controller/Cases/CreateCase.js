@@ -58,7 +58,7 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 DataImageCase.Image_link,
             ]));
         })));
-        yield axios_1.default.post("http://car-project-lb-233444268.ap-southeast-1.elb.amazonaws.com/predict", {
+        yield axios_1.default.post(`http://car-service-elb-1427198968.ap-southeast-1.elb.amazonaws.com/predict`, {
             urls: ImageArr,
             car_part_conf_thres: 0.3,
             car_part_iou_thres: 0.5,
@@ -76,7 +76,10 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             report: reportArr
         };
         yield server_1.client.db("kmutt").collection("report").insertOne(data);
-        res.status(200).json({ message: "Create case suc" });
+        res.status(200).json({
+            ImageArr,
+            data
+        });
     }
     catch (error) {
         console.log(error);

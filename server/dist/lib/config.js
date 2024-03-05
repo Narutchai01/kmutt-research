@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.configMongoDb = exports.Config = void 0;
+exports.configMongoDb = exports.AI_URL = exports.Config = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 exports.Config = {
@@ -14,4 +14,5 @@ exports.Config = {
     DB_NAME: String(process.env.DBNAME),
     DB_PORT: Number(process.env.DBPORT)
 };
+exports.AI_URL = String(process.env.AI_URL);
 exports.configMongoDb = String(process.env.MONGO_URI);

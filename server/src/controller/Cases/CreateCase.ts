@@ -1,10 +1,10 @@
-import { report } from 'process';
 import { Request, Response } from "express";
 import { conn, Connect ,client} from "../../server";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { upLoadImageCase } from "../../utils/UploadImage";
 import axios from "axios";
+import { AI_URL } from "../../lib/config";
 
 
 export const CreateCase = async (req: Request, res: Response) => {
@@ -50,8 +50,7 @@ export const CreateCase = async (req: Request, res: Response) => {
       })
     );
 
-    await axios.post(
-      "http://car-project-lb-233444268.ap-southeast-1.elb.amazonaws.com/predict",
+    await axios.post(`http://car-service-elb-1427198968.ap-southeast-1.elb.amazonaws.com/predict`,
       {
         urls: ImageArr,
         car_part_conf_thres: 0.3,
@@ -78,7 +77,10 @@ export const CreateCase = async (req: Request, res: Response) => {
     await client.db("kmutt").collection("report").insertOne(data)
    
 
-    res.status(200).json({message : "Create case suc"});
+    res.status(200).json({
+      ImageArr,
+      data
+    });
   } catch (error) {
     console.log(error);
   }
