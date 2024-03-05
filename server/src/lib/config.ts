@@ -12,4 +12,7 @@ export const Config:ICONFIG= {
 };
 
 
+export const AI_URL:string = String(process.env.AI_URL)
+
+
 export const configMongoDb:string = String(process.env.MONGO_URI) 

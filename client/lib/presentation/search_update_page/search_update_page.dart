@@ -1,7 +1,3 @@
-// import 'dart:js';
-
-import 'dart:io';
-
 import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/CarID_model.dart';

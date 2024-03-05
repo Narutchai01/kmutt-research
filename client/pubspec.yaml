@@ -33,6 +33,10 @@ dependencies:
   google_fonts: ^4.0.4
   syncfusion_flutter_pdf: ^24.2.8
   syncfusion_flutter_charts: ^24.2.8
+  flutter_background_service: ^5.0.5
+  flutter_local_notifications: ^16.3.2
+  device_info_plus: ^9.1.2
+
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
