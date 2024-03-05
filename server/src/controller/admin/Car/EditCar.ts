@@ -5,10 +5,9 @@ import { Connect, conn } from "./../../../server";
 export const EditCar = async (req: Request, res: Response) => {
   try {
     const { id, province } = req.params;
-    const { CustomerID, Policy_number, CarID, Province, Brand, Model, Color } =
-      req.body;
+    const { Brand, Model, Color } = req.body;
     const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
-    const updatesql = `UPDATE car SET CustomerID = ?, Policy_number = ?, CarID = ?, Province = ?, Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
+    const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
     await Connect();
     const findCar: any = await conn?.query(sqlFindCar, [id, province]);
     if (findCar.length === 0) {
@@ -16,20 +15,11 @@ export const EditCar = async (req: Request, res: Response) => {
       return;
     }
     const data = {
-      CustomerID: CheckDataEdit(CustomerID) || findCar[0][0].CustomerID,
-      Policy_number:
-        CheckDataEdit(Policy_number) || findCar[0][0].Policy_number,
-      CarID: CheckDataEdit(CarID) || findCar[0][0].CarID,
-      Province: CheckDataEdit(Province) || findCar[0][0].Province,
       Brand: CheckDataEdit(Brand) || findCar[0][0].Brand,
       Model: CheckDataEdit(Model) || findCar[0][0].Model,
       Color: CheckDataEdit(Color) || findCar[0][0].Color,
     };
     await conn?.query(updatesql, [
-      data.CustomerID,
-      data.Policy_number,
-      data.CarID,
-      data.Province,
       data.Brand,
       data.Model,
       data.Color,

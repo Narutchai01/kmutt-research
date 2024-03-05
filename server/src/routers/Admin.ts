@@ -9,6 +9,7 @@ import { EditSurveyor } from '../controller/admin/Surveyor/EditSurveyor';
 import { getCarByCustomerID } from '../controller/admin/Car/GetCarByCustomerID';
 import { GetCustomerByCustomerID } from '../controller/admin/Customer/GetCustomerByCustomerID';
 import { EditCustomer } from '../controller/admin/Customer/EditCustomer';
+import { EditCaseByID } from '../controller/admin/Case/EditCaseByID';
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.get("/getCarByCustomerID/:CustomerID",getCarByCustomerID);
 router.get("/getCustomerByCustomerID/:CustomerID",GetCustomerByCustomerID)
 router.put('/updateSurveyor/:id',EditSurveyor);
 router.put("/updateCustomer/:id",EditCustomer);
+router.put("/updateCase/:caseID",EditCaseByID);        
 
 
 
