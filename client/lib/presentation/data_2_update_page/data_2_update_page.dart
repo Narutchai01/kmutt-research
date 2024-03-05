@@ -9,7 +9,7 @@ import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
 
 get dataImgURL {
   String dataImgURL =
-      "https://kmutt-api.onrender.com/api/report/getreport?caseID=f12d220c-ef64-45e9-a98d-fc61e42823e7";
+      "https://kmutt-api.onrender.com/api/report/getreport?caseID=1262a448-2c79-4301-b177-d3cae9a1f48a";
   return dataImgURL;
 }
 
