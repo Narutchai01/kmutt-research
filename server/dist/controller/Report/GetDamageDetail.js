@@ -9,22 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetReport = void 0;
+exports.GetDamageDetail = void 0;
 const server_1 = require("../../server");
-const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const GetDamageDetail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
-        const sql = `SELECT Image_link FROM Image WHERE CaseID = ?`;
         const { caseID } = req.query;
-        const ImgaeArr = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [caseID]));
-        const report = yield server_1.client.db("kmutt").collection("report").findOne({ CaseID: caseID });
-        res.status(200).send({
-            ImageArr: ImgaeArr[0], // Fixed the syntax error by removing the unnecessary comma and adding a colon
-            report
-        });
+        yield (0, server_1.Connect)();
+        const getDamageDetail = `SELECT * FROM Damage_detail WHERE CaseID = ?`;
+        const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(getDamageDetail, [caseID]));
+        res.status(200).send(result[0]);
     }
     catch (error) {
         console.log(error);
     }
 });
-exports.GetReport = GetReport;
+exports.GetDamageDetail = GetDamageDetail;

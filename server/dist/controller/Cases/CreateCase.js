@@ -30,6 +30,7 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const Images = req.files;
         const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
         const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
+        const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`;
         let reportArr = [];
         const ImageArr = [];
         const DataCase = {
@@ -58,25 +59,52 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 DataImageCase.Image_link,
             ]));
         })));
-        yield axios_1.default.post("http://car-project-lb-233444268.ap-southeast-1.elb.amazonaws.com/predict", {
+        yield axios_1.default
+            .post(`http://car-service-elb-1427198968.ap-southeast-1.elb.amazonaws.com/predict`, {
             urls: ImageArr,
             car_part_conf_thres: 0.3,
             car_part_iou_thres: 0.5,
             car_damage_conf_thres: 0.3,
             car_damage_iou_thres: 0.5,
-        }).then((response) => {
+        })
+            .then((response) => {
             reportArr.push(response.data);
-        }).catch((error) => { console.log(error); });
+        })
+            .catch((error) => {
+            console.log(error);
+        });
+        yield Promise.all(ImageArr.map((image) => __awaiter(void 0, void 0, void 0, function* () {
+            const Arr = reportArr[0][image].report;
+            const damgeArr = Arr.damage;
+            const CarPart = Arr.car_part;
+            const split = damgeArr.map((item) => item.split(", ").map((i) => i.split(" ")));
+            yield Promise.all(split.map((item, index) => __awaiter(void 0, void 0, void 0, function* () {
+                for (let i = 0; i < item.length; i++) {
+                    const dataDetail = {
+                        CaseID: CaseID,
+                        CarPart: CarPart[index],
+                        DamageType: item[i][1] || "None",
+                        DamageSeverity: item[i][0] || "None",
+                    };
+                    yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(addDamageDetails, [
+                        dataDetail.CaseID,
+                        dataDetail.CarPart,
+                        dataDetail.DamageType,
+                        dataDetail.DamageSeverity,
+                    ]));
+                }
+            })));
+        })));
         if (reportArr.length != 0) {
             const updateSQL = `UPDATE Cases SET Status = 'Success' WHERE CaseID = ?`;
             yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(updateSQL, [CaseID]));
         }
         const data = {
             CaseID: CaseID,
-            report: reportArr
+            report: reportArr,
         };
         yield server_1.client.db("kmutt").collection("report").insertOne(data);
-        res.status(200).json({ message: "Create case suc" });
+        res.status(200).json("Create case Suc");
     }
     catch (error) {
         console.log(error);
