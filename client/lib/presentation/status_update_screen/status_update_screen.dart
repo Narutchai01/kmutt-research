@@ -54,7 +54,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
 
   Future<List<CaseModel>> getCaseModel() async {
     final response = await dio.get(
-      '$baseURL/cases/getCase',
+      '$baseURL/admin/getCaseBySurveyorID/${Profile1.SurveyorID}',
     );
 
     // Check if response.data is a List<dynamic>

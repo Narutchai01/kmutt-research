@@ -1,12 +1,12 @@
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/Changepassword/changepassword.dart';
 import 'package:flutter/material.dart';
-import 'package:client/presentation/profile_update_page/User_model.dart';
+import 'package:client/presentation/model/User_model.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-StringModel Profile1 = StringModel(
+StringModel UserProfile = StringModel(
   First_name: '',
   Last_name: '',
   SurveyorID: '',
@@ -79,7 +79,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else {
-              Profile1 = snapshot.data!;
+              UserProfile = snapshot.data!;
               return Container(
                 width: double.maxFinite,
                 decoration: AppDecoration.fillWhiteA,
@@ -105,7 +105,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 31.h),
                             child: Text(
-                              "${Profile1.SurveyorID}",
+                              "${UserProfile.SurveyorID}",
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -130,7 +130,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 30.h),
                             child: Text(
-                              extractDate(Profile1.Birth_date),
+                              extractDate(UserProfile.Birth_date),
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -152,7 +152,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 28.h),
                             child: Text(
-                              "${Profile1.Email}",
+                              "${UserProfile.Email}",
                               style: theme.textTheme.titleLarge,
                             ),
                           ),
@@ -172,7 +172,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 28.h),
                             child: Text(
-                              "${Profile1.Phone_number}",
+                              "${UserProfile.Phone_number}",
                               style: theme.textTheme.titleLarge,
                             ),
                           ),
@@ -306,7 +306,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
             ),
           ),
           CustomImageView(
-            imagePath: Profile1.Image,
+            imagePath: UserProfile.Image,
             height: 119.v,
             width: 122.h,
             radius: BorderRadius.circular(
@@ -323,7 +323,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                 bottom: 10.v,
               ),
               child: Text(
-                "${Profile1.First_name} ${Profile1.Last_name}",
+                "${UserProfile.First_name} ${UserProfile.Last_name}",
                 style: theme.textTheme.headlineSmall,
               ),
             ),

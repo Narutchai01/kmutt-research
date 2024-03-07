@@ -7,7 +7,7 @@ import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
-import 'package:client/presentation/profile_update_page/User_model.dart';
+import 'package:client/presentation/model/User_model.dart';
 
 // ignore_for_file: must_be_immutable
 
