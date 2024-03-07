@@ -15,9 +15,9 @@ const server_1 = require("./../../../server");
 const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id, province } = req.params;
-        const { CustomerID, Policy_number, CarID, Province, Brand, Model, Color } = req.body;
+        const { Brand, Model, Color } = req.body;
         const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
-        const updatesql = `UPDATE car SET CustomerID = ?, Policy_number = ?, CarID = ?, Province = ?, Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
+        const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
         yield (0, server_1.Connect)();
         const findCar = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sqlFindCar, [id, province]));
         if (findCar.length === 0) {
@@ -25,19 +25,11 @@ const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         const data = {
-            CustomerID: (0, ChackDataEdit_1.CheckDataEdit)(CustomerID) || findCar[0][0].CustomerID,
-            Policy_number: (0, ChackDataEdit_1.CheckDataEdit)(Policy_number) || findCar[0][0].Policy_number,
-            CarID: (0, ChackDataEdit_1.CheckDataEdit)(CarID) || findCar[0][0].CarID,
-            Province: (0, ChackDataEdit_1.CheckDataEdit)(Province) || findCar[0][0].Province,
             Brand: (0, ChackDataEdit_1.CheckDataEdit)(Brand) || findCar[0][0].Brand,
             Model: (0, ChackDataEdit_1.CheckDataEdit)(Model) || findCar[0][0].Model,
             Color: (0, ChackDataEdit_1.CheckDataEdit)(Color) || findCar[0][0].Color,
         };
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(updatesql, [
-            data.CustomerID,
-            data.Policy_number,
-            data.CarID,
-            data.Province,
             data.Brand,
             data.Model,
             data.Color,

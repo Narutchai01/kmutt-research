@@ -14,6 +14,7 @@ const EditSurveyor_1 = require("../controller/admin/Surveyor/EditSurveyor");
 const GetCarByCustomerID_1 = require("../controller/admin/Car/GetCarByCustomerID");
 const GetCustomerByCustomerID_1 = require("../controller/admin/Customer/GetCustomerByCustomerID");
 const EditCustomer_1 = require("../controller/admin/Customer/EditCustomer");
+const EditCaseByID_1 = require("../controller/admin/Case/EditCaseByID");
 const router = express_1.default.Router();
 router.post('/createadmin', CreateAdmin_1.CreateAdmin);
 router.post('/loginadmin', LoginAdmin_1.loginAdmin);
@@ -26,4 +27,5 @@ router.get("/getCarByCustomerID/:CustomerID", GetCarByCustomerID_1.getCarByCusto
 router.get("/getCustomerByCustomerID/:CustomerID", GetCustomerByCustomerID_1.GetCustomerByCustomerID);
 router.put('/updateSurveyor/:id', EditSurveyor_1.EditSurveyor);
 router.put("/updateCustomer/:id", EditCustomer_1.EditCustomer);
+router.put("/updateCase/:caseID", EditCaseByID_1.EditCaseByID);
 exports.default = router;

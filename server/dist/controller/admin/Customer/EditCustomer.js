@@ -29,6 +29,7 @@ const EditCustomer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             Address: (0, ChackDataEdit_1.CheckDataEdit)(Address) || findCustomer[0][0].Address,
             Line: (0, ChackDataEdit_1.CheckDataEdit)(Line) || findCustomer[0][0].Line,
         };
+        yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query("UPDATE Customer SET ? WHERE id = ?", [data, id]));
         res.status(200).json({ message: "Edit Customer Success" });
     }
     catch (error) {

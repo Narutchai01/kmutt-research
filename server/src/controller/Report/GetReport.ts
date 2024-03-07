@@ -9,9 +9,6 @@ export const GetReport = async (req: Request, res: Response) => {
         const { caseID } = req.query;
         const ImgaeArr: any = await conn?.query(sql, [caseID]);
         const report = await client.db("kmutt").collection("report").findOne({ CaseID: caseID });
-
-       
-
         res.status(200).send({
             ImageArr: ImgaeArr[0], // Fixed the syntax error by removing the unnecessary comma and adding a colon
             report
