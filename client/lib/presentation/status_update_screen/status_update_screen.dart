@@ -8,9 +8,13 @@ import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com/api";
+// get baseURL {
+//   String baseUrl = "https://kmutt-api.onrender.com/api";
+//   return baseUrl;
+// }
 
+get baseURL {
+  String baseUrl = "http://localhost:8080/api";
   return baseUrl;
 }
 
