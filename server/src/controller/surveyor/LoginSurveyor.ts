@@ -24,9 +24,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     const payLoad: PayLoad = {
       ID: findSurveyor[0][0].SurveyorID,
     };
-    const token = jwt.sign(payLoad, secret as Secret, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(payLoad, secret as Secret);
     res.status(200).json({ token }); // Add the message field to the response
   } catch (error) {
     console.log(error);
