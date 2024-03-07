@@ -462,6 +462,7 @@ Widget _TableColumn(BuildContext context) {
         ),
         Text(
           "Damage Severity",
+
           style: TextStyle(
             color: Colors.white,
             fontSize: 15,
@@ -489,6 +490,7 @@ Widget _dataTable(BuildContext context, List<TableModel> tableData, int n) {
         ),
         Text(
           tableData.isNotEmpty ? tableData[n].Damage_type : 'No data',
+          textAlign: TextAlign.right,
           style: TextStyle(
             color: Colors.black,
             fontSize: 15,
