@@ -13,6 +13,16 @@ import 'package:dio/dio.dart';
 //   return baseUrl;
 // }
 
+CaseModel caseInfo = CaseModel(
+  CaseID: '',
+  SurveyorID: 0,
+  CarID: '',
+  Date_opened: '',
+  Status: '',
+  Description: '',
+  Province: '',
+);
+
 get baseURL {
   String baseUrl = "http://localhost:8080/api";
   return baseUrl;
@@ -59,9 +69,31 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
 
     // Map each item in the list to a CaseModel instance
     List<CaseModel> caseModels =
-        responseDataList.map((map) => CaseModel.fromJson(map)).toList();
+        responseDataList.map((map) => CaseModel.fromMap(map)).toList();
 
     return caseModels;
+  }
+
+  Future<CaseModel> getCaseInfo(BuildContext context, String CaseID) async {
+    var response = await dio.get(
+      '$baseURL/cases/getCaseByCaseID?caseID=$CaseID',
+      options: Options(
+        responseType: ResponseType.json,
+        validateStatus: (statusCode) {
+          if (statusCode == null) {
+            return false;
+          }
+          if (statusCode == 400) {
+            // your http status code
+            return true;
+          } else {
+            return statusCode >= 200 && statusCode < 300;
+          }
+        },
+      ),
+    );
+    caseInfo = CaseModel.fromMap(response.data[0]);
+    return caseInfo;
   }
 
   @override
@@ -283,7 +315,13 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
   Widget _buildThirtyThreeSection(
       BuildContext context, List<CaseModel> caseModels, int n) {
     return GestureDetector(
-      onTap: () => onTapCases(context),
+      onTap: () async {
+        await getCaseInfo(context, caseModels[n].CaseID);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Data2UpdatePage()),
+        );
+      },
       child: Container(
         height: 68.v,
         width: MediaQuery.of(context).size.width - 16.h,
@@ -330,12 +368,13 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
     return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
   }
 
-  void onTapCases(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Data2UpdatePage()),
-    );
-  }
+  // void onTapCases(BuildContext context) {
+
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => Data2UpdatePage()),
+  //   );
+  // }
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {

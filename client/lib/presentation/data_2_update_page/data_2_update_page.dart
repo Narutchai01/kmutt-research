@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
 import 'package:client/presentation/data_2_update_page/widgets/damage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
+import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // get dataImgURL {
 //   String dataImgURL =
@@ -14,13 +16,13 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 // }
 get dataImgURL {
   String dataImgURL =
-      "http://localhost:8080/api/report/getreport?caseID=fe227580-da12-42b8-9170-c603f25f1ed2";
+      "http://localhost:8080/api/report/getreport?caseID=${caseInfo.CaseID}";
   return dataImgURL;
 }
 
 get dataTable {
   String dataTable =
-      "http://localhost:8080/api/report/getdamagedetail?caseID=fe227580-da12-42b8-9170-c603f25f1ed2";
+      "http://localhost:8080/api/report/getdamagedetail?caseID=${caseInfo.CaseID}";
   return dataTable;
 }
 
@@ -51,13 +53,13 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   bool showCarpartOverlay = false;
 
   Future getDataIMG() async {
-    final response = await dio.get(dataImgURL);
+    var response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
   }
 
   Future<List<TableModel>> getTableData() async {
-    final table = await dio.get(dataTable);
+    var table = await dio.get(dataTable);
     print(table.data);
 
     List<Map<String, dynamic>> responseDataList =
@@ -82,6 +84,25 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 2.v),
+            child: Text('Result'),
+          ),
+          titleTextStyle: theme.textTheme.displayMedium,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileUpdateContainerScreen(),
+                ),
+              );
+            },
+          ),
+          backgroundColor: AppDecoration.fillBlue.color,
+        ),
         body: FutureBuilder(
             future: getDataIMG(),
             builder: (context, snapshot) {
@@ -100,7 +121,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(children: [
-                      _buildMainSection(context),
                       SizedBox(height: 17.v),
                       Container(
                           alignment: Alignment.centerLeft,
@@ -115,15 +135,9 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "PDN :",
+                                          "Case ID :",
                                           style: theme.textTheme.titleLarge,
                                           textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          "POL-001",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
-                                          textAlign: TextAlign.right,
                                         ),
                                       ],
                                     ),
@@ -132,14 +146,25 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Claim Info:",
+                                          caseInfo.CaseID,
+                                          style: theme.textTheme.titleLarge,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Car ID : ",
                                           style: theme.textTheme.titleLarge,
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                          "",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
+                                          caseInfo.CarID +
+                                              " " +
+                                              caseInfo.Province,
                                           textAlign: TextAlign.right,
                                         ),
                                       ],
@@ -154,9 +179,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                          "Success",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
+                                          caseInfo.Status,
                                           textAlign: TextAlign.right,
                                         ),
                                       ],
@@ -166,15 +189,35 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Create on :",
+                                          "Date Opened :",
                                           style: theme.textTheme.titleLarge,
                                           textAlign: TextAlign.left,
                                         ),
                                         Text(
-                                          "12-10-2023",
-                                          style:
-                                              CustomTextStyles.titleLargeBold,
+                                          extractDate(caseInfo.Date_opened),
                                           textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Description :",
+                                          style: theme.textTheme.titleLarge,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          caseInfo.Description,
+                                          style: theme.textTheme.titleLarge,
+                                          textAlign: TextAlign.left,
                                         ),
                                       ],
                                     ),
@@ -331,6 +374,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               ),
                           ]),
                       SizedBox(height: 16.v),
+                      PDFProvider(
+                        imageUrl: dataImgLink,
+                        report: dataReport,
+                      ),
+                      SizedBox(height: 16.v),
                       _TableColumn(context),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 30.h),
@@ -363,15 +411,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               }
                             }),
                       ),
-
-                      // SizedBox(height: 16.v),
-                      // Spacer(),
-                      // SizedBox(height: 27.v),
-                      // PDFProvider(
-                      //   imageUrl: dataImgLink,
-                      //   report: dataReport,
-                      // ),
-                      // SizedBox(height: 27.v),
                     ]),
                   ));
             }),
@@ -437,37 +476,41 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
 Widget _TableColumn(BuildContext context) {
   return Container(
     height: 68.v,
-    width: MediaQuery.of(context).size.width -
-        16.h, // Adjust width according to screen size
-    padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 18.v),
-    decoration: AppDecoration.gradientBlueToBlue900.copyWith(
-      borderRadius: BorderRadiusStyle.roundedBorder10,
-    ),
-    child: const Row(
+    padding: EdgeInsets.symmetric(horizontal: 40.h),
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "Car Part",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
+        Container(
+          width: 90.h,
+          child: Text(
+            "Car Part",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
           ),
         ),
-        Text(
-          "Damage Type",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
+        Container(
+          width: 85.h,
+          child: Text(
+            "Damage Type",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
           ),
         ),
-        Text(
-          "Damage Severity",
-
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
+        Container(
+          width: 70.h,
+          child: Text(
+            "Damege Severity",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
           ),
-          // Keep "Status" text slightly larger
         ),
       ],
     ),
@@ -476,34 +519,53 @@ Widget _TableColumn(BuildContext context) {
 
 Widget _dataTable(BuildContext context, List<TableModel> tableData, int n) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 30.h),
+    padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 3.v),
+    decoration: BoxDecoration(
+      border: Border(
+          bottom: BorderSide(
+              color: Color.fromARGB(255, 201, 201, 201), width: 1.5)),
+    ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          tableData.isNotEmpty ? tableData[n].Car_part : 'No data',
-          // tableData.isNotEmpty ? tableData[n].Date_opened : 'No data',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
+        Container(
+          width: 90.h, // Replace 100 with your desired width
+          child: Text(
+            tableData.isNotEmpty ? tableData[n].Car_part : 'No data',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
           ),
         ),
-        Text(
-          tableData.isNotEmpty ? tableData[n].Damage_type : 'No data',
-          textAlign: TextAlign.right,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
+        Container(
+          width: 85.h, // Replace 100 with your desired width
+          child: Text(
+            tableData.isNotEmpty ? tableData[n].Damage_type : 'No data',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
           ),
         ),
-        Text(
-          tableData.isNotEmpty ? tableData[n].Damage_severity : 'No data',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
+        Container(
+          width: 70.h, // Replace 100 with your desired width
+          child: Text(
+            tableData.isNotEmpty ? tableData[n].Damage_severity : 'No data',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
           ),
         ),
       ],
     ),
   );
+}
+
+String extractDate(String dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+  return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 }
