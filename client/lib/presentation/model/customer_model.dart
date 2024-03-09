@@ -17,6 +17,7 @@ class CustomerModel {
   final String Email;
   final String Phone_number;
   final String Line;
+  final String Color;
 
   CustomerModel({
     required this.First_name,
@@ -34,6 +35,7 @@ class CustomerModel {
     required this.Email,
     required this.Phone_number,
     required this.Line,
+    required this.Color,
   });
 
   Map<String, dynamic> toMap() {
@@ -53,6 +55,7 @@ class CustomerModel {
       'Email': Email,
       'Phone_number': Phone_number,
       'Line': Line,
+      'Color': Color,
     };
   }
 
@@ -73,6 +76,7 @@ class CustomerModel {
       Email: map['Email'] as String,
       Phone_number: map['Phone_number'] as String,
       Line: map['Line'] as String,
+      Color: map['Color'] as String,
     );
   }
 

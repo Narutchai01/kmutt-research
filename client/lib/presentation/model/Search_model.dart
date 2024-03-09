@@ -1,38 +1,41 @@
 import 'dart:convert';
 
-SearchModel SearchModelFromJson(String str) =>
-    SearchModel.fromJson(json.decode(str));
-
-String SearchModelToJson(SearchModel data) => json.encode(data.toJson());
-
 class SearchModel {
+  final String First_name;
+  final String Last_name;
+  final String image;
+  final String CarID;
+  final String Province;
+
   SearchModel({
-    this.First_name = '',
-    this.Last_name = '',
-    this.image = '',
-    this.CarID = '',
-    this.Province = '',
+    required this.First_name,
+    required this.Last_name,
+    required this.image,
+    required this.CarID,
+    required this.Province,
   });
 
-  String First_name;
-  String Last_name;
-  String image;
-  String CarID;
-  String Province;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'First_name': First_name,
+      'Last_name': Last_name,
+      'image': image,
+      'CarID': CarID,
+      'Province': Province,
+    };
+  }
 
-  factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
-        First_name: json["First_name"] == null ? null : json["First_name"],
-        Last_name: json["Last_name"] == null ? null : json["Last_name"],
-        image: json["image"] == null ? null : json["image"],
-        CarID: json["CarID"] == null ? null : json["CarID"],
-        Province: json["Province"] == null ? null : json["Province"],
-      );
+  factory SearchModel.fromMap(Map<String, dynamic> map) {
+    return SearchModel(
+      First_name: map['First_name'] as String,
+      Last_name: map['Last_name'] as String,
+      image: map['image'] as String,
+      CarID: map['CarID'] as String,
+      Province: map['Province'] as String,
+    );
+  }
+  String toJson() => json.encode(toMap());
 
-  Map<String, dynamic> toJson() => {
-        "First_name": First_name == null ? null : First_name,
-        "Last_name": Last_name == null ? null : Last_name,
-        "image": image == null ? null : image,
-        "CarID": CarID == null ? null : CarID,
-        "Province": Province == null ? null : Province,
-      };
+  factory SearchModel.fromJson(String source) =>
+      SearchModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/Home_page/hom_page.dart';
 
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 
@@ -19,12 +20,27 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     print('Test 2 : ${customer.CarID}');
     return SafeArea(
         child: Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.h, vertical: 5.v),
+          child: Text('Customer'),
+        ),
+        titleTextStyle: theme.textTheme.displayMedium,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: AppDecoration.fillBlue.color,
+      ),
+
+      // extendBody: true,
+
+      // extendBodyBehindAppBar: true,
+
+      // resizeToAvoidBottomInset: false,
       body: Container(
-          width: SizeUtils.width,
-          height: SizeUtils.height,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment(0.5, 0),
@@ -35,169 +51,58 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
               child: Column(children: [
                 SizedBox(height: 5.v),
                 Expanded(
-                    child: SingleChildScrollView(
+                    child: Container(
                         child: Column(children: [
                   // _buildHeadRow(context),
-                  SizedBox(height: 22.v),
+                  SizedBox(height: 15.v),
                   _buildUserRow(context),
-                  SizedBox(height: 36.v),
-                  SizedBox(
-                      height: 910.v,
-                      width: double.maxFinite,
-                      child: Stack(alignment: Alignment.topCenter, children: [
-                        Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 36.h, vertical: 236.v),
-                                decoration: AppDecoration.outlineBlack900
-                                    .copyWith(
-                                        borderRadius:
-                                            BorderRadiusStyle.roundedBorder20),
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Address :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "${customer.Address}",
-                                                style:
-                                                    theme.textTheme.titleMedium,
-                                                textAlign: TextAlign.right,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Model :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "${customer.Model}",
-                                            style: theme.textTheme.titleMedium,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Color :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "White",
-                                            style: theme.textTheme.titleMedium,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Policy Document Number :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "${customer.Policy_number}",
-                                            style: theme.textTheme.titleMedium,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Type of Insurance :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "${customer.Policy_type}",
-                                            style: theme.textTheme.titleMedium,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Start /End :",
-                                            style: CustomTextStyles
-                                                .bodyLargeNunitoBlack900,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "${extractDate(customer.Start_date)} / ${extractDate(customer.End_date)}",
-                                            style: theme.textTheme.titleMedium,
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 31.v),
-                                      Divider(
-                                          thickness: 1,
-                                          color: appTheme.blueGray100),
-                                      SizedBox(height: 24.v),
-                                      _buildContactColumn(context),
-                                      SizedBox(height: 33.v),
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 0.h),
-                                        child: CustomElevatedButton(
-                                          width: 150.h,
-                                          text: "New case",
-                                          buttonStyle:
-                                              CustomButtonStyles.fillBlue,
-                                          buttonTextStyle: CustomTextStyles
-                                              .titleMediumBluegray50,
-                                          onPressed: () {
-                                            Navigator.pushNamed(context,
-                                                AppRoutes.cameraUpdateScreen);
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.v)
-                                    ]))),
-                        CustomImageView(
-                            imagePath: ImageConstant.imgImage7,
-                            height: 209.v,
-                            width: 430.h,
-                            alignment: Alignment.topCenter)
-                      ]))
-                ])))
+                  SizedBox(height: 20.v),
+                  Expanded(
+                      child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.h),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 20.v),
+                                CustomImageView(
+                                    imagePath: ImageConstant.imgImage7,
+                                    height: 200.v,
+                                    width: 430.h,
+                                    alignment: Alignment.topCenter),
+                                SizedBox(height: 10.v),
+                                _buildInformationCar(context),
+                                SizedBox(height: 10.v),
+                                Divider(
+                                    thickness: 1, color: appTheme.blueGray100),
+                                SizedBox(height: 10.v),
+                                _buildContactColumn(context),
+                                SizedBox(height: 20.v),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 0.h),
+                                  child: CustomElevatedButton(
+                                    width: 150.h,
+                                    text: "New case",
+                                    buttonStyle: CustomButtonStyles.fillBlue,
+                                    buttonTextStyle:
+                                        CustomTextStyles.titleMediumBluegray50,
+                                    onPressed: () {
+                                      Navigator.pushNamed(context,
+                                          AppRoutes.cameraUpdateScreen);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )))
+                ]))),
               ]))),
     ));
   }
@@ -230,76 +135,173 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     return Container(
       margin: EdgeInsets.only(right: 0.h),
       padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Contact",
-              style: CustomTextStyles.titleLargeBold,
-              textAlign: TextAlign.center,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Email :",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "${customer.Email}",
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.right,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Phone number :",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "${customer.Phone_number}",
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.right,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Line ID :",
-                  style: CustomTextStyles.bodyLargeNunitoBlack900,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "${customer.Line}",
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.right,
-                ),
-              ],
-            ),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "Contact",
+            style: CustomTextStyles.titleLargeBold,
+            textAlign: TextAlign.center,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Email :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "${customer.Email}",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Phone number :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "${customer.Phone_number}",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Line ID :",
+                style: CustomTextStyles.bodyLargeNunitoBlack900,
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                "${customer.Line}",
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
+}
 
-  // void _navigateToCamera(BuildContext context) {
-  //   getPageroute(AppRoutes.cameraUpdateScreen);
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => CameraUpdateScreen()),
-  //   );
-  // }
+Widget _buildInformationCar(BuildContext context) {
+  return Container(
+    margin: EdgeInsets.only(right: 0.h),
+    padding: EdgeInsets.symmetric(horizontal: 20.h),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "Information",
+          style: CustomTextStyles.titleLargeBold,
+          textAlign: TextAlign.center,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Address ",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${customer.Address}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Model ",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${customer.Model}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Color ",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${customer.Color}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Policy Number",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${customer.Policy_number}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Type of Insurance",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${customer.Policy_type}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Start / End",
+              style: CustomTextStyles.bodyLargeNunitoBlack900,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              "${extractDate(customer.Start_date)} / ${extractDate(customer.End_date)}",
+              style: theme.textTheme.titleMedium,
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 
-  String extractDate(String dateTimeString) {
-    DateTime dateTime = DateTime.parse(dateTimeString);
-    return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
-  }
+String extractDate(String dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString);
+  return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
 }

@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
-import 'package:client/presentation/profile_update_page/User_model.dart';
+import 'package:client/presentation/model/User_model.dart';
 
 // ignore_for_file: must_be_immutable
 
@@ -24,8 +23,13 @@ StringModel Profile1 = StringModel(
 
 String tokenCheck = "";
 
+// get baseURL {
+//   String baseUrl = "https://kmutt-api.onrender.com/api";
+//   return baseUrl;
+// }
+
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com/api";
+  String baseUrl = "http://localhost:8080/api";
   return baseUrl;
 }
 
@@ -107,113 +111,109 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                       children: [
                         SizedBox(height: 10.v),
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                SizedBox(height: 43.v),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    height: 105.v,
-                                    width: double.maxFinite,
-                                    margin: EdgeInsets.only(left: 54.h),
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Container(
-                                            height: 31.v,
-                                            width: 110.h,
-                                            margin: EdgeInsets.only(
-                                              right: 155.h,
-                                              bottom: 19.v,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: appTheme.whiteA700,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                10.h,
-                                              ),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 43.v),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  height: 105.v,
+                                  width: double.maxFinite,
+                                  margin: EdgeInsets.only(left: 54.h),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Container(
+                                          height: 31.v,
+                                          width: 110.h,
+                                          margin: EdgeInsets.only(
+                                            right: 155.h,
+                                            bottom: 19.v,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: appTheme.whiteA700,
+                                            borderRadius: BorderRadius.circular(
+                                              10.h,
                                             ),
                                           ),
                                         ),
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                  border: Border.all(
-                                                    color: const Color.fromARGB(
-                                                        255, 0, 0, 0),
-                                                    width: 2.0,
-                                                  ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50.0),
+                                                border: Border.all(
+                                                  color: const Color.fromARGB(
+                                                      255, 0, 0, 0),
+                                                  width: 2.0,
                                                 ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                  // child: Image.network(
-                                                  //   ImageConstant.imgEllipse27,
-                                                  //   height: 80.0,
-                                                  //   width: 81.0,
-                                                  //   fit: BoxFit.cover,
-                                                  // ),
-                                                  child: CustomImageView(
-                                                    imagePath: Profile1.Image,
-                                                    height: 90.v,
-                                                    width: 93.h,
-                                                    radius:
-                                                        BorderRadius.circular(
-                                                      46.h,
-                                                    ),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(50.0),
+                                                // child: Image.network(
+                                                //   ImageConstant.imgEllipse27,
+                                                //   height: 80.0,
+                                                //   width: 81.0,
+                                                //   fit: BoxFit.cover,
+                                                // ),
+                                                child: CustomImageView(
+                                                  imagePath: Profile1.Image,
+                                                  height: 90.v,
+                                                  width: 93.h,
+                                                  radius: BorderRadius.circular(
+                                                    46.h,
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  top: 20.v,
-                                                  bottom: 15.v,
-                                                  left: 30.h,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${Profile1.First_name} ${Profile1.Last_name}',
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 20.v,
+                                                bottom: 15.v,
+                                                left: 30.h,
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${Profile1.First_name} ${Profile1.Last_name}',
+                                                    style: CustomTextStyles
+                                                        .titleLargeWhiteA700,
+                                                  ),
+                                                  SizedBox(height: 7.v),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.h),
+                                                    child: Text(
+                                                      '${Profile1.SurveyorID}',
                                                       style: CustomTextStyles
-                                                          .titleLargeWhiteA700,
+                                                          .titleLargeBlue900,
                                                     ),
-                                                    SizedBox(height: 7.v),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.h),
-                                                      child: Text(
-                                                        '${Profile1.SurveyorID}',
-                                                        style: CustomTextStyles
-                                                            .titleLargeBlue900,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 52.v),
-                                Container(
-                                    height: 700.h,
+                              ),
+                              SizedBox(height: 52.v),
+                              Expanded(
+                                child: Container(
+                                    height: 600.h,
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 34.h,
                                       vertical: 10.v,
@@ -429,8 +429,8 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                         }
                                       },
                                     )),
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
                       ],

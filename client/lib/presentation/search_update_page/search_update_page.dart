@@ -15,8 +15,13 @@ carCustomerModel carToken = carCustomerModel(
   CarID: '',
   Province: '',
 );
+// get baseURL {
+//   String baseUrl = "https://kmutt-api.onrender.com/api";
+//   return baseUrl;
+// }
+
 get baseURL {
-  String baseUrl = "https://kmutt-api.onrender.com/api";
+  String baseUrl = "http://localhost:8080/api";
   return baseUrl;
 }
 
@@ -29,6 +34,7 @@ CustomerModel customer = CustomerModel(
   Address: '',
   Model: '',
   Brand: '',
+  Color: '',
   Policy_number: '',
   Policy_type: '',
   Start_date: '',
@@ -90,7 +96,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
     // Map each item in the list to a SearchModel instance
     List<SearchModel> searchModels =
-        responseDataList.map((map) => SearchModel.fromJson(map)).toList();
+        responseDataList.map((map) => SearchModel.fromMap(map)).toList();
 
     return searchModels;
   }
@@ -157,9 +163,10 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
                   suffixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.black,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                        color: Colors.white), // Set the border color to white
+                      color: Colors.white,
+                    ),
                   ),
                   filled: true, // Enable filling the TextField with color
                   fillColor: Colors.white, // Set the fill color to white
@@ -173,8 +180,14 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
             Expanded(
               // Add Expanded widget
               child: Container(
-                color: Colors.white,
                 width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
                 child: Column(
                   children: [
                     SizedBox(

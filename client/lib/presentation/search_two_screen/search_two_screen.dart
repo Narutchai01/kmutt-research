@@ -7,6 +7,7 @@ import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:client/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchTwoScreen extends StatelessWidget {
   SearchTwoScreen({Key? key})
       : super(
