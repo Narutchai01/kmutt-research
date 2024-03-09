@@ -217,7 +217,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                 ),
                                 SizedBox(height: 52.v),
                                 Container(
-                                    height: 700.h,
+                                    height: 600.h,
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 34.h,
                                       vertical: 10.v,

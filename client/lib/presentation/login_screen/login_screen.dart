@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:client/core/app_export.dart';
 import 'package:client/presentation/model/token_model.dart';
 
-import 'package:client/widgets/custom_elevated_button.dart';
 import 'package:client/widgets/custom_text_form_field.dart';
 
 import 'package:flutter/material.dart';
@@ -143,15 +142,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 29.v),
                       _buildPasswordSection(context),
                       SizedBox(height: 34.v),
-                      CustomElevatedButton(
-                        height: 53.v,
-                        width: 195.h,
-                        text: "Sign in",
-                        buttonStyle: CustomButtonStyles.fillBlue,
-                        buttonTextStyle: CustomTextStyles.titleLargeWhiteA700_1,
+
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Set the desired border radius value
+                          ),
+                          fixedSize: const Size(195, 53),
+                        ),
                         onPressed: () {
                           sentLogin(context);
                         },
+                        child: Text(
+                          'Sign in',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
                       SizedBox(height: 273.v),
                     ],
