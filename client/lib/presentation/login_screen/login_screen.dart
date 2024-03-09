@@ -30,7 +30,7 @@ class MyCustomException implements Exception {
 // }
 
 get baseURL {
-  String baseUrl = "http://localhost:8080/api";
+  String baseUrl = "http://10.0.2.2:8080/api";
   return baseUrl;
 }
 

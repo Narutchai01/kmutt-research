@@ -1,6 +1,4 @@
 import 'package:client/core/app_export.dart';
-import 'package:client/presentation/Home_page/hom_page.dart';
-
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 
 import 'package:client/widgets/custom_elevated_button.dart';

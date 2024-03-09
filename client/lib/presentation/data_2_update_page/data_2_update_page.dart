@@ -1,4 +1,3 @@
-import 'package:client/presentation/Home_page/hom_page.dart';
 import 'package:client/presentation/model/Table_model.dart';
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 import 'package:dio/dio.dart';
@@ -17,13 +16,13 @@ import 'package:client/presentation/status_update_screen/status_update_screen.da
 // }
 get dataImgURL {
   String dataImgURL =
-      "http://localhost:8080/api/report/getreport?caseID=${caseInfo.CaseID}";
+      "http://10.0.2.2:8080/api/report/getreport?caseID=${caseInfo.CaseID}";
   return dataImgURL;
 }
 
 get dataTable {
   String dataTable =
-      "http://localhost:8080/api/report/getdamagedetail?caseID=${caseInfo.CaseID}";
+      "http://10.0.2.2:8080/api/report/getdamagedetail?caseID=${caseInfo.CaseID}";
   return dataTable;
 }
 
@@ -65,6 +64,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     var response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
+    var tabledata = await dio.get(dataTable);
   }
 
   Future<List<TableModel>> getTableData() async {
@@ -80,10 +80,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
 
     return tableData;
   }
-
-  // Check if response.data is a List<dynamic>
-
-  // Convert the JSON array to a List of Maps
 
   List<CarPart> selectedParts = [];
   @override
@@ -399,28 +395,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
       ),
     );
   }
-
-  /// Section Widget
-  // Widget _buildMainSection(BuildContext context) {
-  //   return Container(
-  //       padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 2.v),
-  //       decoration: AppDecoration.fillBlue,
-  //       child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           mainAxisAlignment: MainAxisAlignment.end,
-  //           children: [
-  //             SizedBox(height: 17.v),
-  //             Padding(
-  //                 padding: EdgeInsets.only(left: 5.h),
-  //                 child: Row(children: [
-  //                   Spacer(),
-  //                 ])),
-  //             SizedBox(height: 10.v),
-  //             Padding(
-  //                 padding: EdgeInsets.only(left: 9.h),
-  //                 child: Text("Result", style: theme.textTheme.displayMedium))
-  //           ]));
-  // }
 
   /// Section Widget
   Widget _buildListSection(BuildContext context) {

@@ -24,7 +24,7 @@ CaseModel caseInfo = CaseModel(
 );
 
 get baseURL {
-  String baseUrl = "http://localhost:8080/api";
+  String baseUrl = "http://10.0.2.2:8080/api";
   return baseUrl;
 }
 
@@ -366,69 +366,10 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
     );
   }
 
-  // Widget _buildThirtyThreeSection(
-  //     BuildContext context, List<CaseModel> caseModels, int n) {
-  //   return GestureDetector(
-  //     onTap: () async {
-  //       await getCaseInfo(context, caseModels[n].CaseID);
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => Data2UpdatePage()),
-  //       );
-  //     },
-  //     child: Container(
-  //       height: 68.v,
-  //       width: MediaQuery.of(context).size.width - 16.h,
-  //       padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 18.v),
-  //       decoration: BoxDecoration(
-  //         color: Color(0xFFF2F2F2),
-  //         borderRadius: BorderRadius.circular(10),
-  //       ),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text(
-  //             caseModels.isNotEmpty
-  //                 ? extractDate(caseModels[n].Date_opened)
-  //                 : 'No data',
-  //             // caseModels.isNotEmpty ? caseModels[n].Date_opened : 'No data',
-  //             style: TextStyle(
-  //               color: Colors.black,
-  //               fontSize: 20,
-  //             ),
-  //           ),
-  //           Text(
-  //             caseModels.isNotEmpty ? caseModels[n].CarID : 'No data',
-  //             style: TextStyle(
-  //               color: Colors.black,
-  //               fontSize: 20,
-  //             ),
-  //           ),
-  //           Text(
-  //             caseModels.isNotEmpty ? caseModels[n].Status : 'No data',
-  //             style: TextStyle(
-  //               color: Colors.black,
-  //               fontSize: 20,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   String extractDate(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
   }
-
-  // void onTapCases(BuildContext context) {
-
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => Data2UpdatePage()),
-  //   );
-  // }
 
   ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
