@@ -47,6 +47,14 @@ class Data2UpdatePage extends StatefulWidget {
 
 // ignore_for_file: must_be_immutable
 class _Data2UpdatePageState extends State<Data2UpdatePage> {
+  late final Future<List<TableModel>> myFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    myFuture = getTableData();
+  }
+
   int imgpreview = 0;
   final dio = Dio();
   bool showDamageOverlay = false;
@@ -67,7 +75,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
 
     // Map each item in the list to a CaseModel instance
     List<TableModel> tableData =
-        responseDataList.map((map) => TableModel.fromJson(map)).toList();
+        responseDataList.map((map) => TableModel.fromMap(map)).toList();
 
     return tableData;
   }
@@ -130,28 +138,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Case ID :",
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          caseInfo.CaseID,
-                                          style: theme.textTheme.titleLarge,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ],
-                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -383,7 +369,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 30.h),
                         child: FutureBuilder<List<TableModel>>(
-                            future: getTableData(),
+                            future: myFuture,
                             builder: (context,
                                 AsyncSnapshot<List<TableModel>?> snapshot) {
                               if (snapshot.connectionState ==
@@ -419,26 +405,26 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   }
 
   /// Section Widget
-  Widget _buildMainSection(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 2.v),
-        decoration: AppDecoration.fillBlue,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(height: 17.v),
-              Padding(
-                  padding: EdgeInsets.only(left: 5.h),
-                  child: Row(children: [
-                    Spacer(),
-                  ])),
-              SizedBox(height: 10.v),
-              Padding(
-                  padding: EdgeInsets.only(left: 9.h),
-                  child: Text("Result", style: theme.textTheme.displayMedium))
-            ]));
-  }
+  // Widget _buildMainSection(BuildContext context) {
+  //   return Container(
+  //       padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 2.v),
+  //       decoration: AppDecoration.fillBlue,
+  //       child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           mainAxisAlignment: MainAxisAlignment.end,
+  //           children: [
+  //             SizedBox(height: 17.v),
+  //             Padding(
+  //                 padding: EdgeInsets.only(left: 5.h),
+  //                 child: Row(children: [
+  //                   Spacer(),
+  //                 ])),
+  //             SizedBox(height: 10.v),
+  //             Padding(
+  //                 padding: EdgeInsets.only(left: 9.h),
+  //                 child: Text("Result", style: theme.textTheme.displayMedium))
+  //           ]));
+  // }
 
   /// Section Widget
   Widget _buildListSection(BuildContext context) {

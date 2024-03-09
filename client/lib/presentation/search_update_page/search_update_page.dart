@@ -95,7 +95,7 @@ class _SearchUpdatePageState extends State<SearchUpdatePage> {
 
     // Map each item in the list to a SearchModel instance
     List<SearchModel> searchModels =
-        responseDataList.map((map) => SearchModel.fromJson(map)).toList();
+        responseDataList.map((map) => SearchModel.fromMap(map)).toList();
 
     return searchModels;
   }

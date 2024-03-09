@@ -1,39 +1,37 @@
 import 'dart:convert';
 
-TableModel TableModelFromJson(String str) =>
-    TableModel.fromJson(json.decode(str));
-
-String TableModelToJson(TableModel data) => json.encode(data.toJson());
-
 class TableModel {
+  final String CaseID;
+  final String Car_part;
+  final String Damage_type;
+  final String Damage_severity;
+
   TableModel({
-    this.CaseID = '',
-    this.Car_part = '',
-    this.Damage_type = '',
-    this.Damage_severity = '',
-    this.DetailID = 0,
+    required this.CaseID,
+    required this.Car_part,
+    required this.Damage_type,
+    required this.Damage_severity,
   });
 
-  String CaseID;
-  String Car_part;
-  String Damage_type;
-  String Damage_severity;
-  int DetailID;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'CaseID': CaseID,
+      'Car_part': Car_part,
+      'Damage_type': Damage_type,
+      'Damage_severity': Damage_severity,
+    };
+  }
 
-  factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
-        CaseID: json["CaseID"] == null ? null : json["CaseID"],
-        Car_part: json["Car_part"] == null ? null : json["Car_part"],
-        Damage_type: json["Damage_type"] == null ? null : json["Damage_type"],
-        Damage_severity:
-            json["Damage_severity"] == null ? null : json["Damage_severity"],
-        DetailID: json["DetailID"] == null ? null : json["DetailID"],
-      );
+  factory TableModel.fromMap(Map<String, dynamic> map) {
+    return TableModel(
+      CaseID: map['CaseID'] as String,
+      Car_part: map['Car_part'] as String,
+      Damage_type: map['Damage_type'] as String,
+      Damage_severity: map['Damage_severity'] as String,
+    );
+  }
+  String toJson() => json.encode(toMap());
 
-  Map<String, dynamic> toJson() => {
-        "CaseID": CaseID == null ? null : CaseID,
-        "Car_part": Car_part == null ? null : Car_part,
-        "Damage_type": Damage_type == null ? null : Damage_type,
-        "Damage_severity": Damage_severity == null ? null : Damage_severity,
-        "DetailID": DetailID == null ? null : DetailID,
-      };
+  factory TableModel.fromJson(String source) =>
+      TableModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
