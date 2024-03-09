@@ -1,3 +1,4 @@
+import 'package:client/presentation/Home_page/hom_page.dart';
 import 'package:client/presentation/model/Table_model.dart';
 import 'package:client/presentation/profile_update_container_screen/profile_update_container_screen.dart';
 import 'package:dio/dio.dart';
@@ -101,12 +102,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileUpdateContainerScreen(),
-                ),
-              );
+              Navigator.pop(context);
             },
           ),
           backgroundColor: AppDecoration.fillBlue.color,

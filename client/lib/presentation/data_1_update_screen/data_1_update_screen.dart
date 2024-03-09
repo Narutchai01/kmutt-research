@@ -1,4 +1,5 @@
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/Home_page/hom_page.dart';
 
 import 'package:client/presentation/search_update_page/search_update_page.dart';
 
@@ -28,12 +29,7 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SearchUpdatePage(),
-              ),
-            );
+            Navigator.pop(context);
           },
         ),
         backgroundColor: AppDecoration.fillBlue.color,
