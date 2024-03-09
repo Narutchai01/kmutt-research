@@ -11,10 +11,11 @@ import 'damaged_pdf.dart';
 class PDFProvider extends StatelessWidget {
   final List<dynamic> imageUrl;
   final Map<String, dynamic> report;
-
+  final List<dynamic> datatable;
   const PDFProvider({
     required this.imageUrl,
     required this.report,
+    required this.datatable
   });
 
   @override
@@ -34,6 +35,58 @@ class PDFProvider extends StatelessWidget {
 
   Future<void> generateAndSavePdf(BuildContext context) async {
     PdfDocument document = PdfDocument();
+    PdfGrid grid = PdfGrid();
+    grid.columns.add(count: 3);
+    grid.headers.add(1);
+    PdfGridRow header = grid.headers[0];
+    header.cells[0].value = 'Car Part';
+    header.cells[0].style = PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        )
+    );
+    header.cells[1].value = 'Damage Type';
+    header.cells[1].style =PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        )
+    );
+    header.cells[2].value = 'Damage Severity';
+    header.cells[2].style = PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        )
+    );
+    for(var i = 0 ; i < datatable.length;i++){
+      PdfGridRow row = grid.rows.add();
+      row.cells[0].value = datatable[i]['Car_part'];
+      row.cells[0].style = PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        ),
+      );
+      row.cells[1].value = datatable[i]['Damage_type'];
+      row.cells[1].style = PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        ),
+      );
+      row.cells[2].value = datatable[i]['Damage_severity'];
+      row.cells[2].style = PdfGridCellStyle(
+        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+        format: PdfStringFormat(
+          alignment: PdfTextAlignment.center,
+        ),
+      );
+    }
+    grid.draw(
+    page: document.pages.add(), 
+    bounds: const Rect.fromLTWH(0, 0, 0, 0));
     for (var i = 0; i < imageUrl.length; i++) {
       int nPart = report['report'][0][report['report'][0].keys.toList()[i]]
           ["image_meta_data"]["n_car_parts"];

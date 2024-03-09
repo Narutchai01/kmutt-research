@@ -28,7 +28,7 @@ get dataTable {
 
 List<dynamic> dataImgLink = [];
 Map<String, dynamic> dataReport = {};
-
+List<dynamic> tabledata = [];
 class CarPart {
   final String name;
   CarPart(this.name);
@@ -64,12 +64,12 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     var response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
     dataReport = response.data['report'];
-    var tabledata = await dio.get(dataTable);
+    var datatable = await dio.get(dataTable);
+    tabledata = datatable.data;
   }
 
   Future<List<TableModel>> getTableData() async {
     var table = await dio.get(dataTable);
-    print(table.data);
 
     List<Map<String, dynamic>> responseDataList =
         List<Map<String, dynamic>>.from(table.data);
@@ -86,7 +86,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   Widget build(BuildContext context) {
     getPageroute(AppRoutes.data2UpdatePage);
     getTableData();
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -355,6 +354,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       PDFProvider(
                         imageUrl: dataImgLink,
                         report: dataReport,
+                        datatable: tabledata,
                       ),
                       SizedBox(height: 16.v),
                       _TableColumn(context),
