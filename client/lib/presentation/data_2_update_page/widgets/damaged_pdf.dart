@@ -9,7 +9,7 @@ Future<void> overlaycardamaged(
     List<dynamic> points = reportDamageData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
       final x = (point['x'] / 2.4) + 125;
-      final y = (point['y'] / 2.4) + 362;
+      final y = (point['y'] / 2.4) + 417;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final path = Path();
@@ -34,7 +34,7 @@ Future<void> overlaytextdamage(
     List<dynamic> points = reportDamageData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
       final x = (point['x'] / 2.4) + 225;
-      final y = (point['y'] / 2.4) + 362;
+      final y = (point['y'] / 2.4) + 417;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final List xpoints = offsetPoints.map((point) => point.dx).toList();
