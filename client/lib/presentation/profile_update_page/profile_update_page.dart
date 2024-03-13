@@ -159,12 +159,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(50.0),
-                                                // child: Image.network(
-                                                //   ImageConstant.imgEllipse27,
-                                                //   height: 80.0,
-                                                //   width: 81.0,
-                                                //   fit: BoxFit.cover,
-                                                // ),
                                                 child: CustomImageView(
                                                   imagePath: Profile1.Image,
                                                   height: 90.v,
