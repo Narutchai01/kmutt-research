@@ -171,10 +171,18 @@ class PDFProvider extends StatelessWidget {
 
   Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
     try {
-      final path = (await getApplicationDocumentsDirectory()).path;
-      final file = File('$path/$fileName');
-      await file.writeAsBytes(bytes, flush: true);
-      OpenFile.open(file.path);
+      if (Platform.isAndroid) {
+        final path = (await getExternalStorageDirectory())?.path;
+        final file = File('$path/$fileName');
+        await file.writeAsBytes(bytes, flush: true);
+        OpenFile.open(file.path);
+      }
+      if (Platform.isIOS) {
+        final path = (await getApplicationDocumentsDirectory()).path;
+        final file = File('$path/$fileName');
+        await file.writeAsBytes(bytes, flush: true);
+        OpenFile.open(file.path);
+      }
     } catch (e) {
       print('Error saving or opening file: $e');
     }
