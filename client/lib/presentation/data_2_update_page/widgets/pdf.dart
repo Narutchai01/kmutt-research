@@ -9,16 +9,12 @@ import 'carpart_pdf.dart';
 import 'damaged_pdf.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
-
 class PDFProvider extends StatelessWidget {
   final List<dynamic> imageUrl;
   final Map<String, dynamic> report;
   final List<dynamic> datatable;
-  const PDFProvider({
-    required this.imageUrl,
-    required this.report,
-    required this.datatable
-  });
+  const PDFProvider(
+      {required this.imageUrl, required this.report, required this.datatable});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +34,8 @@ class PDFProvider extends StatelessWidget {
   Future<void> generateAndSavePdf(BuildContext context) async {
     PdfDocument document = PdfDocument();
     PdfPage page = document.pages.add();
-    page.graphics.drawString('Report : ', 
-      PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold)
-    );
+    page.graphics.drawString('Report : ',
+        PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold));
     PdfGrid grid = PdfGrid();
     grid.columns.add(count: 3);
     grid.headers.add(1);
@@ -51,25 +46,22 @@ class PDFProvider extends StatelessWidget {
         format: PdfStringFormat(
           alignment: PdfTextAlignment.center,
         ),
-        backgroundBrush: PdfSolidBrush(PdfColor(169,169,169))
-    );
+        backgroundBrush: PdfSolidBrush(PdfColor(169, 169, 169)));
     header.cells[1].value = 'Damage Type';
-    header.cells[1].style =PdfGridCellStyle(
+    header.cells[1].style = PdfGridCellStyle(
         font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
         format: PdfStringFormat(
           alignment: PdfTextAlignment.center,
         ),
-        backgroundBrush: PdfSolidBrush(PdfColor(169,169,169))
-    );
+        backgroundBrush: PdfSolidBrush(PdfColor(169, 169, 169)));
     header.cells[2].value = 'Damage Severity';
     header.cells[2].style = PdfGridCellStyle(
         font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
         format: PdfStringFormat(
           alignment: PdfTextAlignment.center,
         ),
-        backgroundBrush: PdfSolidBrush(PdfColor(169,169,169))
-    );
-    for(var i = 0 ; i < datatable.length;i++){
+        backgroundBrush: PdfSolidBrush(PdfColor(169, 169, 169)));
+    for (var i = 0; i < datatable.length; i++) {
       PdfGridRow row = grid.rows.add();
       row.cells[0].value = datatable[i]['Car_part'];
       row.cells[0].style = PdfGridCellStyle(
@@ -93,16 +85,13 @@ class PDFProvider extends StatelessWidget {
         ),
       );
     }
-    grid.draw(
-    page: page, 
-    bounds: const Rect.fromLTWH(0, 50, 0, 0));
+    grid.draw(page: page, bounds: const Rect.fromLTWH(0, 50, 0, 0));
     page.graphics.drawLine(
-      PdfPen(PdfColor(0, 0, 0)), 
-      Offset(0, page.getClientSize().height - 50), 
-      Offset(page.getClientSize().width, page.getClientSize().height - 50)
-    );
+        PdfPen(PdfColor(0, 0, 0)),
+        Offset(0, page.getClientSize().height - 50),
+        Offset(page.getClientSize().width, page.getClientSize().height - 50));
     page.graphics.drawString(
-      'Report Date : ' + extractDate(caseInfo.Date_opened), 
+      'Report Date : ' + extractDate(caseInfo.Date_opened),
       PdfStandardFont(PdfFontFamily.helvetica, 15, style: PdfFontStyle.bold),
       bounds: Rect.fromLTWH(0, 720, page.getClientSize().width, 0),
       format: PdfStringFormat(
@@ -121,21 +110,19 @@ class PDFProvider extends StatelessWidget {
       Uint8List imageData = await _getImageData(imageUrl[i]["Image_link"]);
       PdfBitmap image = PdfBitmap(imageData);
       PdfPage page = document.pages.add();
-      page.graphics.drawString('Car Damage Picture(s) : ', 
-        PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold)
-      );
-      page.graphics.drawString('Car Picture : ', 
-        PdfStandardFont(PdfFontFamily.helvetica, 18),
-        bounds: Rect.fromLTWH(0, 50, 0, 0)
-      );
-      page.graphics.drawString('Car Part : ', 
-        PdfStandardFont(PdfFontFamily.helvetica, 18),
-        bounds: Rect.fromLTWH(0, 250, 0, 0)
-      );
-      page.graphics.drawString('Car Damaged : ', 
-        PdfStandardFont(PdfFontFamily.helvetica, 18),
-        bounds: Rect.fromLTWH(0, 450, 0, 0)
-      );
+      page.graphics.drawString(
+          'Car Damage Picture(s) : ',
+          PdfStandardFont(PdfFontFamily.helvetica, 30,
+              style: PdfFontStyle.bold));
+      page.graphics.drawString(
+          'Car Picture : ', PdfStandardFont(PdfFontFamily.helvetica, 18),
+          bounds: Rect.fromLTWH(0, 50, 0, 0));
+      page.graphics.drawString(
+          'Car Part : ', PdfStandardFont(PdfFontFamily.helvetica, 18),
+          bounds: Rect.fromLTWH(0, 250, 0, 0));
+      page.graphics.drawString(
+          'Car Damaged : ', PdfStandardFont(PdfFontFamily.helvetica, 18),
+          bounds: Rect.fromLTWH(0, 450, 0, 0));
       page.graphics.drawImage(
         image,
         Rect.fromLTWH(125, 55, 273, 180),
@@ -153,12 +140,11 @@ class PDFProvider extends StatelessWidget {
       overlaycardamaged(page, nDamage, reportDamageData);
       overlaytextdamage(page, nDamage, reportDamageData);
       page.graphics.drawLine(
-        PdfPen(PdfColor(0, 0, 0)), 
-        Offset(0, page.getClientSize().height - 50), 
-        Offset(page.getClientSize().width, page.getClientSize().height - 50)
-      );
+          PdfPen(PdfColor(0, 0, 0)),
+          Offset(0, page.getClientSize().height - 50),
+          Offset(page.getClientSize().width, page.getClientSize().height - 50));
       page.graphics.drawString(
-        'Report Date : ' + extractDate(caseInfo.Date_opened), 
+        'Report Date : ' + extractDate(caseInfo.Date_opened),
         PdfStandardFont(PdfFontFamily.helvetica, 15, style: PdfFontStyle.bold),
         bounds: Rect.fromLTWH(0, 720, page.getClientSize().width, 0),
         format: PdfStringFormat(
@@ -167,7 +153,7 @@ class PDFProvider extends StatelessWidget {
       );
     }
     List<int> bytes = document.saveSync();
-    saveAndLaunchFile(bytes,  caseInfo.CarID + " " + caseInfo.Province + ".pdf");
+    saveAndLaunchFile(bytes, caseInfo.CarID + " " + caseInfo.Province + ".pdf");
   }
 
   Future<Uint8List> _getImageData(String imageUrl) async {
@@ -185,7 +171,7 @@ class PDFProvider extends StatelessWidget {
 
   Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
     try {
-      final path = (await getExternalStorageDirectory())?.path;
+      final path = (await getApplicationDocumentsDirectory()).path;
       final file = File('$path/$fileName');
       await file.writeAsBytes(bytes, flush: true);
       OpenFile.open(file.path);
@@ -194,6 +180,7 @@ class PDFProvider extends StatelessWidget {
     }
   }
 }
+
 String extractDate(String dateTimeString) {
   DateTime dateTime = DateTime.parse(dateTimeString);
   return "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";

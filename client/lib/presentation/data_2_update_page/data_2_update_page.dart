@@ -16,19 +16,20 @@ import 'package:client/presentation/status_update_screen/status_update_screen.da
 // }
 get dataImgURL {
   String dataImgURL =
-      "http://10.0.2.2:8080/api/report/getreport?caseID=${caseInfo.CaseID}";
+      "https://kmutt-api.onrender.com/api/report/getreport?caseID=${caseInfo.CaseID}";
   return dataImgURL;
 }
 
 get dataTable {
   String dataTable =
-      "http://10.0.2.2:8080/api/report/getdamagedetail?caseID=${caseInfo.CaseID}";
+      "https://kmutt-api.onrender.com/api/report/getdamagedetail?caseID=${caseInfo.CaseID}";
   return dataTable;
 }
 
 List<dynamic> dataImgLink = [];
 Map<String, dynamic> dataReport = {};
 List<dynamic> tabledata = [];
+
 class CarPart {
   final String name;
   CarPart(this.name);

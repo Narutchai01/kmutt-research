@@ -8,10 +8,10 @@ import 'package:client/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-// get baseURL {
-//   String baseUrl = "https://kmutt-api.onrender.com/api";
-//   return baseUrl;
-// }
+get baseURL {
+  String baseUrl = "https://kmutt-api.onrender.com/api";
+  return baseUrl;
+}
 
 CaseModel caseInfo = CaseModel(
   CaseID: '',
@@ -23,10 +23,10 @@ CaseModel caseInfo = CaseModel(
   Province: '',
 );
 
-get baseURL {
-  String baseUrl = "http://10.0.2.2:8080/api";
-  return baseUrl;
-}
+// get baseURL {
+//   String baseUrl = "http://10.0.2.2:8080/api";
+//   return baseUrl;
+// }
 
 class StatusUpdateScreen extends StatefulWidget {
   @override

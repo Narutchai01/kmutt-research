@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Release-iphoneos/gallery_saver/gallery_saver.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Release-iphoneos/gallery_saver/gallery_saver.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "gallery_saver-Swift.h",
+      'external-contents': "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/unextended-interface-header.h",
+    }]
+    }]
+}
