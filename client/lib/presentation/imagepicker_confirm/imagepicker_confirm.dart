@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:client/presentation/search_update_page/search_update_page.dart';
 import 'package:client/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,13 +17,13 @@ class ImagePickerConfirm extends StatefulWidget {
 }
 
 class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
-  TextEditingController descriptionController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   void submit() async {
     FormData formData = FormData.fromMap({
-      'Description': descriptionController,
-      'Province': 'ชลบุรี',
-      'CarID': 'กอ 9112',
+      'Description': descriptionController.text,
+      'Province': carToken.Province,
+      'CarID': carToken.CarID,
     });
     for (var file in widget.selectedImages) {
       formData.files.add(MapEntry(
