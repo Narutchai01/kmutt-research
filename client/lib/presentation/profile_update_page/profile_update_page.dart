@@ -189,7 +189,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                     padding: EdgeInsets.only(
                                                         left: 8.h),
                                                     child: Text(
-                                                      '${Profile1.SurveyorID}',
+                                                      "${changeFormat(Profile1.SurveyorID)}",
                                                       style: CustomTextStyles
                                                           .titleLargeBlue900,
                                                     ),
@@ -464,4 +464,9 @@ Map<DateTime, int> _countCasesPerDay(List<dynamic> caseList) {
   });
 
   return casesPerDay;
+}
+
+String changeFormat(String surveyorID) {
+  String formattedNumber = surveyorID.toString().padLeft(5, '0');
+  return "${formattedNumber}";
 }

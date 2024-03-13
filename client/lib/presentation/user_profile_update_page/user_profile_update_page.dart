@@ -105,7 +105,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 31.h),
                             child: Text(
-                              "${UserProfile.SurveyorID}",
+                              "${changeFormat(UserProfile.SurveyorID)}",
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -332,4 +332,9 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
       ),
     );
   }
+}
+
+String changeFormat(String surveyorID) {
+  String formattedNumber = surveyorID.toString().padLeft(5, '0');
+  return "${formattedNumber}";
 }
