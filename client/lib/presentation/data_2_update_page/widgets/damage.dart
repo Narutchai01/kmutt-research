@@ -26,7 +26,7 @@ class DamageOverlay extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Positioned(
-          top: -45,
+          top: -2,
           left: 3,
           width: 273,
           height: 180,
