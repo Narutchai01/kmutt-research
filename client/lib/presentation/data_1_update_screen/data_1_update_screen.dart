@@ -70,8 +70,8 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                             child: Column(
                               children: [
                                 SizedBox(height: 20.v),
-                                CustomImageView(
-                                    imagePath: ImageConstant.imgImage7,
+                                Image.network(
+                                    customer.Car_Image,
                                     height: 200.v,
                                     width: 430.h,
                                     alignment: Alignment.topCenter),
@@ -112,12 +112,13 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
         decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder20),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgEllipse33,
-              height: 72.v,
-              width: 74.h,
-              radius: BorderRadius.circular(37.h),
-              margin: EdgeInsets.only(top: 1.v)),
+         ClipOval(
+          child: Image.network(
+            customer.Customer_image,
+            height: 72.v,
+            width: 74.h,
+            ),
+          ),
           Container(
               width: 165.h,
               margin: EdgeInsets.only(left: 20.h, top: 21.v, bottom: 8.v),

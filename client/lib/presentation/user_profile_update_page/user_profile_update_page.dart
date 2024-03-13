@@ -16,15 +16,15 @@ StringModel UserProfile = StringModel(
   Phone_number: '',
   Password: '',
 );
-// get baseURL {
-//   String baseUrl = "https://kmutt-api.onrender.com/api";
-//   return baseUrl;
-// }
-
 get baseURL {
-  String baseUrl = "http://10.0.2.2:8080/api";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
+
+// get baseURL {
+//   String baseUrl = "http://10.0.2.2:8080/api";
+//   return baseUrl;
+// }
 
 // ignore_for_file: must_be_immutable
 class UserProfileUpdatePage extends StatefulWidget {
@@ -105,7 +105,7 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
                           Padding(
                             padding: EdgeInsets.only(left: 31.h),
                             child: Text(
-                              "${UserProfile.SurveyorID}",
+                              "${changeFormat(UserProfile.SurveyorID)}",
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -332,4 +332,9 @@ class _UserProfileUpdatePageState extends State<UserProfileUpdatePage> {
       ),
     );
   }
+}
+
+String changeFormat(String surveyorID) {
+  String formattedNumber = surveyorID.toString().padLeft(5, '0');
+  return "${formattedNumber}";
 }

@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master.swiftconstvalues",
+    "dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master.d",
+    "diagnostics" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master.dia",
+    "emit-module-dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master-emit-module.dia",
+    "swift-dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/gallery_saver-master.swiftdeps"
+  },
+  "/Users/natchapon/.pub-cache/hosted/pub.dev/gallery_saver-2.3.2/ios/Classes/SwiftGallerySaverPlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/SwiftGallerySaverPlugin.o",
+    "llvm-bc" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/SwiftGallerySaverPlugin.bc",
+    "object" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/gallery_saver.build/Objects-normal/arm64/SwiftGallerySaverPlugin.o"
+  }
+}

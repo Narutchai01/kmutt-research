@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master.swiftconstvalues",
+    "dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master.d",
+    "diagnostics" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master.dia",
+    "emit-module-dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master-emit-module.dia",
+    "swift-dependencies" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/flutter_background_service_ios-master.swiftdeps"
+  },
+  "/Users/natchapon/.pub-cache/hosted/pub.dev/flutter_background_service_ios-5.0.0/ios/Classes/SwiftFlutterBackgroundServicePlugin.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/SwiftFlutterBackgroundServicePlugin.o",
+    "llvm-bc" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/SwiftFlutterBackgroundServicePlugin.bc",
+    "object" : "/Users/natchapon/Documents/Flutter-Research/kmutt-research/client/ios/build/Pods.build/Release-iphoneos/flutter_background_service_ios.build/Objects-normal/arm64/SwiftFlutterBackgroundServicePlugin.o"
+  }
+}

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:client/core/app_export.dart';
+import 'package:client/presentation/Home_page/hom_page.dart';
 import 'package:client/presentation/model/token_model.dart';
 
 import 'package:client/widgets/custom_text_form_field.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -24,15 +26,15 @@ class MyCustomException implements Exception {
   MyCustomException(this.message);
 }
 
-// get baseURL {
-//   String baseUrl = "https://kmutt-api.onrender.com/api";
-//   return baseUrl;
-// }
-
 get baseURL {
-  String baseUrl = "http://10.0.2.2:8080/api";
+  String baseUrl = "https://kmutt-api.onrender.com/api";
   return baseUrl;
 }
+
+// get baseURL {
+//   String baseUrl = "http://10.0.2.2:8080/api";
+//   return baseUrl;
+// }
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -58,6 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (token != null) {
       GlobalModel = TokenModel(token: formatToken(token));
       Navigator.pushNamed(context, AppRoutes.homePage);
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => HomePage(),
+      ));
     }
   }
 
@@ -85,6 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.data['message'] == 'Password is incorrect') {
         print('Password is incorrect');
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: 'Oops...',
+          text: 'Email or Password is incorrect',
+          loopAnimation: false,
+        );
         // Handle incorrect password case, display a message to the user, etc.
       } else {
         TokenModel tokenModel = TokenModel.fromMap(response.data);
@@ -96,8 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       print("Error: $e");
-      // Handle Dio-specific errors or other exceptions
-      throw Exception("Error on server");
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Oops...',
+        text: 'Email or Password is incorrect',
+        loopAnimation: false,
+      );
     }
   }
 

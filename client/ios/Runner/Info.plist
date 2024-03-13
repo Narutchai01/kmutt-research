@@ -6,8 +6,8 @@
 	<array>
 		<string>dev.flutter.background.refresh</string>
 	</array>
-
-
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -29,9 +29,29 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
-	<key>NSFileProtectionNone</key>
-	<!-- <string>NSFileProtectionKey</string> -->
-	<!-- <true/> -->
+	<string>NSFileProtectionNone</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	
+
+
+<key>NSMicrophoneUsageDescription</key>
+<string>Need microphone access for uploading audio</string>
+<key>NSCameraUsageDescription</key>
+<string>Need camera access for uploading images</string>
+<key>NSLocationUsageDescription</key>
+<string>Need location access for updating nearby friends</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app will use your location to show features near you.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Need photo library access for saving and uploading images</string>
+
+
+
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -49,9 +69,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>
