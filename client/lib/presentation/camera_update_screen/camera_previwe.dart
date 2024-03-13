@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:client/theme/app_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -24,7 +25,9 @@ class _ImagePreviewState extends State<ImagePreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Image Preview")),
+      appBar: AppBar(
+          title: Text("Image Preview"),
+          backgroundColor: AppDecoration.fillBlue.color),
       body: Center(
         child: Image.file(picture),
       ),

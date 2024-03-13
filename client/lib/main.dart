@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
+import 'package:dio/dio.dart';
+import 'package:client/presentation/Home_page/hom_page.dart';
 import 'package:client/presentation/login_screen/login_screen.dart';
 import 'package:client/presentation/model/token_model.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'core/app_export.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
+var haveToken = false;
+get baseURL {
+  String baseUrl = "https://kmutt-api.onrender.com/api";
+  return baseUrl;
+}
+
+final Dio dio = Dio(BaseOptions(
+  connectTimeout: Duration(
+      milliseconds:
+          10000), // Set the connection timeout to 10 seconds (adjust as needed)
+));
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeService();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
   ///Please update theme as per your need if required.
   ThemeHelper().changeTheme('primary');
 

@@ -1,13 +1,13 @@
 name: client
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
-environment: 
-  sdk: '>=2.17.0 <4.0.0'
+environment:
+  sdk: ">=2.17.0 <4.0.0"
 
-dependencies: 
-  flutter: 
+dependencies:
+  flutter:
     sdk: flutter
   cached_network_image: ^3.2.1
   flutter_svg: ^1.1.6
@@ -37,13 +37,13 @@ dependencies:
   flutter_local_notifications: ^16.3.2
   device_info_plus: ^9.1.2
 
-dev_dependencies: 
-  flutter_test: 
+dev_dependencies:
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
   uses-material-design: true
-  assets: 
+  assets:
     - assets/
     - assets/images/
     - assets/original.jpg
@@ -54,15 +54,15 @@ flutter:
     - assets/img-1.json
     - assets/img-3.jpg
     - assets/img-3.json
-    
-  fonts: 
+
+  fonts:
     - family: Nunito
-      fonts: 
+      fonts:
         - asset: assets/fonts/NunitoRegular.ttf
           weight: 400
         - asset: assets/fonts/NunitoBold.ttf
           weight: 700
     - family: Inter
-      fonts: 
+      fonts:
         - asset: assets/fonts/InterRegular.ttf
           weight: 400

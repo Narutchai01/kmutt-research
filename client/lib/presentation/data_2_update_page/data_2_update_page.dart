@@ -90,19 +90,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 2.v),
-            child: Text('Result'),
-          ),
-          titleTextStyle: theme.textTheme.displayMedium,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: AppDecoration.fillBlue.color,
-        ),
+            title: Text("Result"),
+            backgroundColor: AppDecoration.fillBlue.color),
         body: FutureBuilder(
             future: getDataIMG(),
             builder: (context, snapshot) {
@@ -443,7 +432,7 @@ Widget _TableColumn(BuildContext context) {
             "Car Part",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: 15,
             ),
           ),
         ),
@@ -454,7 +443,7 @@ Widget _TableColumn(BuildContext context) {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: 15,
             ),
           ),
         ),
@@ -465,7 +454,7 @@ Widget _TableColumn(BuildContext context) {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: 15,
             ),
           ),
         ),

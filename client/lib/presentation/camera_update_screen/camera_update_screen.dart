@@ -64,7 +64,12 @@ class _CameraUpdateScreenState extends State<CameraUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Camera")),
+      appBar: AppBar(
+          title: Text(
+            "Camera",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: AppDecoration.fillBlue.color),
       body: _isCameraInitialized
           ? Stack(
               children: [

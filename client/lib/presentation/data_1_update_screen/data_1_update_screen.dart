@@ -19,25 +19,8 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.h, vertical: 5.v),
-          child: Text('Customer'),
-        ),
-        titleTextStyle: theme.textTheme.displayMedium,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: AppDecoration.fillBlue.color,
-      ),
-
-      // extendBody: true,
-
-      // extendBodyBehindAppBar: true,
-
-      // resizeToAvoidBottomInset: false,
+          title: Text("Customer"),
+          backgroundColor: AppDecoration.fillBlue.color),
       body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -70,8 +53,7 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
                             child: Column(
                               children: [
                                 SizedBox(height: 20.v),
-                                Image.network(
-                                    customer.Car_Image,
+                                Image.network(customer.Car_Image,
                                     height: 200.v,
                                     width: 430.h,
                                     alignment: Alignment.topCenter),
@@ -112,11 +94,11 @@ class _Data1UpdateScreenState extends State<Data1UpdateScreen> {
         decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder20),
         child: Row(mainAxisSize: MainAxisSize.max, children: [
-         ClipOval(
-          child: Image.network(
-            customer.Customer_image,
-            height: 72.v,
-            width: 74.h,
+          ClipOval(
+            child: Image.network(
+              customer.Customer_image,
+              height: 72.v,
+              width: 74.h,
             ),
           ),
           Container(

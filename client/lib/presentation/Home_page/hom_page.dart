@@ -36,27 +36,32 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     getToken();
-    return SafeArea(
-      child: Scaffold(
-        body: Menupage[currentPageIndex],
-        backgroundColor: appTheme.whiteA700,
-        bottomNavigationBar: CurvedNavigationBar(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: Menupage[currentPageIndex],
           backgroundColor: appTheme.whiteA700,
-          color: appTheme.blue900,
-          animationDuration: Duration(milliseconds: 300),
-          height: 55.0,
-          items: [
-            Icon(Icons.home, color: Colors.white, size: 40),
-            Icon(Icons.search, color: Colors.white, size: 40),
-            Icon(Icons.list, color: Colors.white, size: 40),
-            Icon(Icons.account_circle_outlined, color: Colors.white, size: 40),
-          ],
-          onTap: (index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-            print(index);
-          },
+          bottomNavigationBar: CurvedNavigationBar(
+            backgroundColor: appTheme.whiteA700,
+            color: appTheme.blue900,
+            animationDuration: Duration(milliseconds: 300),
+            height: 55.0,
+            items: [
+              Icon(Icons.home, color: Colors.white, size: 40),
+              Icon(Icons.search, color: Colors.white, size: 40),
+              Icon(Icons.list, color: Colors.white, size: 40),
+              Icon(Icons.account_circle_outlined,
+                  color: Colors.white, size: 40),
+            ],
+            onTap: (index) {
+              setState(() {
+                currentPageIndex = index;
+              });
+            },
+          ),
         ),
       ),
     );

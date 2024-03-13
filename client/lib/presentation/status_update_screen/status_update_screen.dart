@@ -211,7 +211,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                                                       : 'No data',
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 20,
+                                                    fontSize: 18,
                                                   ),
                                                 ),
                                                 Text(
@@ -220,7 +220,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                                                       : 'No data',
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 20,
+                                                    fontSize: 18,
                                                   ),
                                                 ),
                                                 Text(
@@ -229,7 +229,7 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                                                       : 'No data',
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 20,
+                                                    fontSize: 18,
                                                   ),
                                                 ),
                                               ],
