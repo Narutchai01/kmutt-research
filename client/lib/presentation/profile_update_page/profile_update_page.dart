@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:client/core/app_export.dart';
@@ -438,14 +440,36 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
 Widget _chart(List<dynamic> data) {
   Map<DateTime, int> casesPerDay = _countCasesPerDay(data);
-  print(casesPerDay);
+
+  // Check if there is any data to display
+  if (casesPerDay.isEmpty) {
+    return Center(
+      child: Text('No data available'),
+    );
+  }
+
   return SfCartesianChart(
-    primaryXAxis: DateTimeAxis(),
+    // Customize the appearance of the chart
+    title: ChartTitle(text: 'Cases Per Day'),
+    legend: Legend(isVisible: false),
+    primaryXAxis: DateTimeAxis(
+      // Customize the date time axis
+      title: AxisTitle(text: 'Date'),
+      dateFormat: DateFormat.MMMd(), // Format the date
+      intervalType: DateTimeIntervalType.days, // Set interval to days
+    ),
+    primaryYAxis: NumericAxis(
+      // Customize the numeric axis
+      title: AxisTitle(text: 'Number of Cases'),
+      majorGridLines: MajorGridLines(width: 0), // Hide major gridlines
+    ),
     series: <CartesianSeries>[
       LineSeries<MapEntry<DateTime, int>, DateTime>(
         dataSource: casesPerDay.entries.toList(),
         xValueMapper: (MapEntry<DateTime, int> entry, _) => entry.key,
         yValueMapper: (MapEntry<DateTime, int> entry, _) => entry.value,
+        // Customize the appearance of the series
+        markerSettings: MarkerSettings(isVisible: true),
       ),
     ],
   );
@@ -455,18 +479,17 @@ Map<DateTime, int> _countCasesPerDay(List<dynamic> caseList) {
   Map<DateTime, int> casesPerDay = {};
 
   caseList.forEach((data) {
-    DateTime dateOpened = DateTime.parse(data['Date_opened']).toLocal();
-
-    DateTime dateOnly = DateTime(
-        dateOpened.year, dateOpened.month, dateOpened.day); // Extract date only
-    int count = casesPerDay[dateOnly] ?? 0;
-    casesPerDay[dateOnly] = count + 1;
+    if (data.containsKey('Date_opened')) {
+      DateTime dateOpened = DateTime.parse(data['Date_opened']).toLocal();
+      DateTime dateOnly = DateTime(
+        dateOpened.year,
+        dateOpened.month,
+        dateOpened.day,
+      ); // Extract date only
+      int count = casesPerDay[dateOnly] ?? 0;
+      casesPerDay[dateOnly] = count + 1;
+    }
   });
 
   return casesPerDay;
-}
-
-String changeFormat(String surveyorID) {
-  String formattedNumber = surveyorID.toString().padLeft(5, '0');
-  return "${formattedNumber}";
 }
