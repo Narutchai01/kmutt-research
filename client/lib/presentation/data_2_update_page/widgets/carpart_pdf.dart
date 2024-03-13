@@ -8,8 +8,8 @@ Future<void> overlaycarPart(
     String partName = reportData[i]['class'];
     List<dynamic> points = reportData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
-      final x = (point['x'] / 2.4) + 125;
-      final y = (point['y'] / 2.4) + 217;
+      final x = (point['x'] / 2.3) + 125;
+      final y = (point['y'] / 2.3) + 250;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final path = Path();
@@ -33,8 +33,8 @@ Future<void> overlaytextcarpart(
     double confidence = reportData[i]['confidence'];
     List<dynamic> points = reportData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
-      final x = (point['x'] / 2.4) + 125;
-      final y = (point['y'] / 2.4) + 217;
+      final x = (point['x'] / 2.3) + 125;
+      final y = (point['y'] / 2.3) + 250;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final List xpoints = offsetPoints.map((point) => point.dx).toList();

@@ -23,11 +23,11 @@ class DamageOverlay extends StatelessWidget {
           imageUrl,
           width: 273,
           height: 180,
-          fit: BoxFit.cover,
+          
         ),
         Positioned(
-          top: -2,
-          left: 3,
+          top: -5,
+          left: -2,
           width: 273,
           height: 180,
           child: CustomPaint(
@@ -41,8 +41,8 @@ class DamageOverlay extends StatelessWidget {
           for (var i = 0; i < nDamage; i++) {
             final List<dynamic> points = partData['points'];
             final List<Offset> offsetPoints = points.map<Offset>((point) {
-              final x = point['x'] / 2.4;
-              final y = point['y'] / 2.4;
+              final x = point['x'] / 2.3;
+              final y = point['y'] / 2.3;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
             final List<double> xpoints =
@@ -93,8 +93,8 @@ class PolygonPainter extends CustomPainter {
       final String type = data[i]['class'];
       final Color typeColor = getColor(type);
       final List<Offset> offsetPoints = points.map<Offset>((point) {
-        final x = point['x'] / 2.4;
-        final y = point['y'] / 2.4;
+        final x = point['x'] / 2.3;
+        final y = point['y'] / 2.3;
         return Offset(x.toDouble(), y.toDouble());
       }).toList();
       final path = Path();
