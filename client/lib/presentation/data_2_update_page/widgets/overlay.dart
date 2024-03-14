@@ -6,22 +6,27 @@ class ImageOverlay extends StatelessWidget {
   final List<dynamic> data;
   final int nPart;
   final List<dynamic> selectedParts;
+  final List<dynamic> size;
 
   const ImageOverlay({
     required this.imageUrl,
     required this.data,
     required this.nPart,
-    required this.selectedParts,
+    required this.selectedParts, 
+    required this.size,
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          imageUrl,
+        SizedBox(
           width: 273,
           height: 180,
+          child: Image.network(
+            imageUrl,
+            
+          ),
         ),
         ...data.map((partData) {
           final String partName = partData['class'];
@@ -29,9 +34,12 @@ class ImageOverlay extends StatelessWidget {
               selectedParts.any((part) => part.name == partName);
           if (isSelected) {
             final List<dynamic> points = partData['points'];
+            final double height = size[0] / 180;
+            final double width = size[1] / 273;
+            final double avg = width/height; 
             final List<Offset> offsetPoints = points.map<Offset>((point) {
-              final x = point['x'] / 2.3 ?? 0.0;
-              final y = point['y'] / 2.3 ?? 0.0;
+              final x = ( point['x'] * avg ) / 2.4 ?? 0.0;
+              final y = (( point['y'] * avg ) -5 )  / 2.4 ?? 0.0;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
 
@@ -59,22 +67,23 @@ class ImageOverlay extends StatelessWidget {
               ..strokeWidth = 2
               ..strokeCap = StrokeCap.round;
             return Positioned(
-              top: -5,
-              left: 0,
-              child: SizedBox(
-                width: 273,
-                height: 300,
-                child: Stack(
-                  children: [
-                    CustomPaint(
-                      painter: PathPainter(path: path, paintObject: paint),
-                    ),
-                    OverlayText(
-                        partName: partName,
-                        confidence: partData['confidence'],
-                        x: dxpoint,
-                        y: dypoint),
-                  ],
+              left: 3,
+              child: Center(
+                child: SizedBox(
+                  width: 273,
+                  height: 180,
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        painter: PathPainter(path: path, paintObject: paint),
+                      ),
+                      OverlayText(
+                          partName: partName,
+                          confidence: partData['confidence'],
+                          x: dxpoint,
+                          y: dypoint),
+                    ],
+                  ),
                 ),
               ),
             );

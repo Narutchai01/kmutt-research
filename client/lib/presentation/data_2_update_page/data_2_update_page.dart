@@ -197,7 +197,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       SizedBox(height: 26.v),
                       Container(
                         width: 273,
-                        height: 190,
+                        height: 180,
                         child: FutureBuilder(
                             future: getDataIMG(),
                             builder: (context, snapshot) {
@@ -216,6 +216,12 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                             .keys
                                             .toList()[imgpreview]]
                                     ["image_meta_data"]["n_car_parts"];
+                                final List<dynamic> imagesize = dataReport['report'][0][
+                                        dataReport['report'][0]
+                                            .keys
+                                            .toList()[imgpreview]]
+                                            ["image_meta_data"]["orig_shape"];
+                                      print(imagesize);
                                 final int nDamage = dataReport['report'][0][
                                         dataReport['report'][0]
                                             .keys
@@ -243,6 +249,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                         data: points,
                                         nPart: nPart,
                                         selectedParts: selectedParts,
+                                        size: imagesize
                                       )
                                     else if (showDamageOverlay)
                                       DamageOverlay(
@@ -255,7 +262,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                       Image.network(
                                         dataImgLink[imgpreview]["Image_link"],
                                         width: 273,
-                                        height: 190,
+                                        height: 180,
+                                        fit: BoxFit.fill,
                                       ),
                                   ],
                                 );
