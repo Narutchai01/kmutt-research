@@ -303,11 +303,11 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                     children: [
                                                       CustomImageView(
                                                         imagePath: ImageConstant
-                                                            .imgThumbsUp,
-                                                        height: 20.v,
-                                                        width: 18.h,
+                                                            .summaryIcon,
+                                                        height: 25.v,
+                                                        width: 25.h,
                                                         margin: EdgeInsets.only(
-                                                          top: 2.v,
+                                                          top: 6.v,
                                                           bottom: 8.v,
                                                         ),
                                                       ),
@@ -316,7 +316,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                                             EdgeInsets.only(
                                                                 left: 8.h),
                                                         child: Text(
-                                                          "Today",
+                                                          "Summary",
                                                           style: CustomTextStyles
                                                               .headlineSmallInter,
                                                         ),

@@ -99,4 +99,6 @@ class ImageConstant {
   static String imgRectangle78 = '$imagePath/img_rectangle_78.png';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
+  static String summaryIcon = '$imagePath/summary.svg';
 }

@@ -61,6 +61,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   bool showDamageOverlay = false;
   bool showCarpartOverlay = false;
 
+  // show all table
+  bool showAllTable = false;
+  // show filter talbe
+  bool showFilterTable = true;
+
   Future getDataIMG() async {
     var response = await dio.get(dataImgURL);
     dataImgLink = response.data['ImageArr'];
@@ -375,17 +380,59 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 );
                               } else {
                                 List<TableModel> tableData = snapshot.data!;
-
                                 return Column(
-                                    children: tableData.map((tableData) {
-                                  return Container(
-                                    margin: EdgeInsets.only(bottom: 16.v),
-                                    child: _dataTable(
+                                  children: tableData.map((tableData) {
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 16.v),
+                                      child: _dataTable(
                                         context,
                                         snapshot.data!.toList(),
-                                        snapshot.data!.indexOf(tableData)),
-                                  );
-                                }).toList());
+                                        snapshot.data!.indexOf(tableData),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+
+                                //   if (showAllTable) {
+                                //     List<TableModel> tableData = snapshot.data!;
+                                //     return Column(
+                                //       children: tableData.map((tableData) {
+                                //         return Container(
+                                //           margin: EdgeInsets.only(bottom: 16.v),
+                                //           child: _dataTable(
+                                //             context,
+                                //             snapshot.data!.toList(),
+                                //             snapshot.data!.indexOf(tableData),
+                                //           ),
+                                //         );
+                                //       }).toList(),
+                                //     );
+                                //   } else if (showFilterTable) {
+                                //     if (selectedParts.isNotEmpty) {
+                                //       List<TableModel> tableData = snapshot.data!;
+                                //       return Column(
+                                //         children: tableData
+                                //             .where((tableData) => selectedParts
+                                //                 .map((part) => part.name)
+                                //                 .contains(tableData.Car_part))
+                                //             .map((tableData) {
+                                //           return Container(
+                                //             margin: EdgeInsets.only(bottom: 16.v),
+                                //             child: _dataTable(
+                                //               context,
+                                //               snapshot.data!.toList(),
+                                //               snapshot.data!.indexOf(tableData),
+                                //             ),
+                                //           );
+                                //         }).toList(),
+                                //       );
+                                //     } else {
+                                //       return Container();
+                                //     }
+                                //   } else {
+                                //     return Container(); // or any other widget if needed
+                                //   }
+                                // }
                               }
                             }),
                       ),
@@ -460,7 +507,7 @@ Widget _TableColumn(BuildContext context) {
         Container(
           width: 70.h,
           child: Text(
-            "Damege Severity",
+            "Damage Severity",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
