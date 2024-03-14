@@ -21,7 +21,7 @@ const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         yield (0, server_1.Connect)();
         const { email, PassWord } = req.body;
         const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
-        const secret = process.env.JWT_SECRET;
+        const secret = String(process.env.SECRET);
         const findSurveyor = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(findSurveyorSQL, [email]));
         if (!findSurveyor[0]) {
             res.status(400).json({ message: "Email not found" });
@@ -35,9 +35,7 @@ const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const payLoad = {
             ID: findSurveyor[0][0].SurveyorID,
         };
-        const token = jsonwebtoken_1.default.sign(payLoad, secret, {
-            expiresIn: "1h",
-        });
+        const token = jsonwebtoken_1.default.sign(payLoad, secret, { expiresIn: "1y" });
         res.status(200).json({ token }); // Add the message field to the response
     }
     catch (error) {

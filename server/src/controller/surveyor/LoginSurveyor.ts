@@ -1,4 +1,3 @@
-import { Secret, Jwt } from './../../../node_modules/@types/jsonwebtoken/index.d';
 import { Request, Response } from "express";
 import { conn ,Connect } from "../../server";
 import {comparePassword} from '../../utils/ManagePassWord';
@@ -10,7 +9,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     await Connect();
     const { email, PassWord } = req.body;
     const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
-    const secret = process.env.JWT_SECRET;
+    const secret = String(process.env.SECRET);
     const findSurveyor: any = await conn?.query(findSurveyorSQL, [email]);
     if (!findSurveyor[0]) {
       res.status(400).json({ message: "Email not found" });
@@ -24,7 +23,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     const payLoad: PayLoad = {
       ID: findSurveyor[0][0].SurveyorID,
     };
-    const token = jwt.sign(payLoad, secret as Secret);
+    const token = jwt.sign(payLoad, secret, { expiresIn: "1y" });
     res.status(200).json({ token }); // Add the message field to the response
   } catch (error) {
     console.log(error);
