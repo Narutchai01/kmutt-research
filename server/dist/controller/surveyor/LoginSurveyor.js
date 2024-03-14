@@ -35,7 +35,7 @@ const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const payLoad = {
             ID: findSurveyor[0][0].SurveyorID,
         };
-        const token = jsonwebtoken_1.default.sign(payLoad, "hello", { expiresIn: "1y" });
+        const token = jsonwebtoken_1.default.sign(payLoad, secret, { expiresIn: "1y" });
         res.status(200).json({ token }); // Add the message field to the response
     }
     catch (error) {

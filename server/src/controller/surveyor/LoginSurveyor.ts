@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { conn ,Connect } from "../../server";
 import {comparePassword} from '../../utils/ManagePassWord';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import { PayLoad } from '../../interface/Interface';
 
 export const LoginSurveyor = async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     const payLoad: PayLoad = {
       ID: findSurveyor[0][0].SurveyorID,
     };
-    const token = jwt.sign(payLoad,"hello", { expiresIn: "1y" });
+    const token = jwt.sign(payLoad,secret as Secret, { expiresIn: "1y" });
     res.status(200).json({ token }); // Add the message field to the response
   } catch (error) {
     console.log(error);
