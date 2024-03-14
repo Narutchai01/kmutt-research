@@ -197,6 +197,14 @@ class _StatusUpdateScreenState extends State<StatusUpdateScreen> {
                                               color: Color(0xFFF2F2F2),
                                               borderRadius:
                                                   BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color:
+                                                    searchData[index].Status ==
+                                                            "Success"
+                                                        ? Colors.green
+                                                        : Colors.red,
+                                                width: 2.0,
+                                              ),
                                             ),
                                             child: Row(
                                               mainAxisAlignment:

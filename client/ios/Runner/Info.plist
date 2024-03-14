@@ -47,6 +47,8 @@
 <string>Need photo library access for saving and uploading images</string>
 
 
+	<key>FLTEnableImpeller</key>
+<false />
 
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>

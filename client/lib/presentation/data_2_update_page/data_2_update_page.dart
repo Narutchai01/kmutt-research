@@ -367,7 +367,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 );
                               } else {
                                 List<TableModel> tableData = snapshot.data!;
-
                                 return Column(
                                     children: tableData.map((tableData) {
                                   return Container(
@@ -452,7 +451,7 @@ Widget _TableColumn(BuildContext context) {
         Container(
           width: 70.h,
           child: Text(
-            "Damege Severity",
+            "Damage Severity",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
