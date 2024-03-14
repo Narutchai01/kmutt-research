@@ -21,7 +21,7 @@ const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         yield (0, server_1.Connect)();
         const { email, PassWord } = req.body;
         const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
-        const secret = String(process.env.SECRET);
+        const secret = String(process.env.JWT_SECRET);
         const findSurveyor = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(findSurveyorSQL, [email]));
         if (!findSurveyor[0]) {
             res.status(400).json({ message: "Email not found" });

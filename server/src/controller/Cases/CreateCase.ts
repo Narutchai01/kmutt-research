@@ -10,6 +10,7 @@ export const CreateCase = async (req: Request, res: Response) => {
     await client.connect();
     await Connect();
     const token = req.params.token;
+    const API = String(process.env.AI_URL);
     const secert = process.env.JWT_SECRET!;
     const decoded: any = jwt.verify(token, secert);
     const CaseID = uuidv4();
@@ -51,7 +52,7 @@ export const CreateCase = async (req: Request, res: Response) => {
 
     await axios
       .post(
-        `http://car-service-elb-1427198968.ap-southeast-1.elb.amazonaws.com/predict`,
+        `${API}/predict`,
         {
           urls: ImageArr,
           car_part_conf_thres: 0.3,

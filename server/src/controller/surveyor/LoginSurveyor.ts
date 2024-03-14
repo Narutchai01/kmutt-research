@@ -9,7 +9,7 @@ export const LoginSurveyor = async (req: Request, res: Response) => {
     await Connect();
     const { email, PassWord } = req.body;
     const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
-    const secret = String(process.env.SECRET);
+    const secret = String(process.env.JWT_SECRET);
     const findSurveyor: any = await conn?.query(findSurveyorSQL, [email]);
     if (!findSurveyor[0]) {
       res.status(400).json({ message: "Email not found" });

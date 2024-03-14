@@ -23,6 +23,7 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         yield server_1.client.connect();
         yield (0, server_1.Connect)();
         const token = req.params.token;
+        const API = String(process.env.AI_URL);
         const secert = process.env.JWT_SECRET;
         const decoded = jsonwebtoken_1.default.verify(token, secert);
         const CaseID = (0, uuid_1.v4)();
@@ -60,7 +61,7 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             ]));
         })));
         yield axios_1.default
-            .post(`http://car-service-elb-1427198968.ap-southeast-1.elb.amazonaws.com/predict`, {
+            .post(`${API}/predict`, {
             urls: ImageArr,
             car_part_conf_thres: 0.3,
             car_part_iou_thres: 0.5,
