@@ -25,7 +25,7 @@ class ImageOverlay extends StatelessWidget {
           height: 180,
           child: Image.network(
             imageUrl,
-            
+            fit: BoxFit.cover
           ),
         ),
         ...data.map((partData) {

@@ -264,7 +264,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                         dataImgLink[imgpreview]["Image_link"],
                                         width: 273,
                                         height: 180,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover
                                       ),
                                   ],
                                 );
