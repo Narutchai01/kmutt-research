@@ -384,19 +384,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   child: Text('Error: ${snapshot.error}'),
                                 );
                               } else {
-                                // List<TableModel> tableData = snapshot.data!;
-                                // return Column(
-                                //   children: tableData.map((tableData) {
-                                //     return Container(
-                                //       margin: EdgeInsets.only(bottom: 16.v),
-                                //       child: _dataTable(
-                                //         context,
-                                //         snapshot.data!.toList(),
-                                //         snapshot.data!.indexOf(tableData),
-                                //       ),
-                                //     );
-                                //   }).toList(),
-                                // );
                                 List<TableModel> SnapData = snapshot.data!;
 
                                 if (showAllTable) {
