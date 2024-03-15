@@ -62,9 +62,9 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   bool showCarpartOverlay = false;
 
   // show all table
-  bool showAllTable = false;
+  bool showAllTable = true;
   // show filter talbe
-  bool showFilterTable = true;
+  bool showFilterTable = false;
 
   Future getDataIMG() async {
     var response = await dio.get(dataImgURL);
@@ -216,12 +216,14 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                             .keys
                                             .toList()[imgpreview]]
                                     ["image_meta_data"]["n_car_parts"];
-                                final List<dynamic> imagesize = dataReport['report'][0][
-                                        dataReport['report'][0]
+                                final List<dynamic> imagesize =
+                                    dataReport['report']
+                                            [0][dataReport['report']
+                                                [0]
                                             .keys
                                             .toList()[imgpreview]]
-                                            ["image_meta_data"]["orig_shape"];
-                                      print(imagesize);
+                                        ["image_meta_data"]["orig_shape"];
+                                print(imagesize);
                                 final int nDamage = dataReport['report'][0][
                                         dataReport['report'][0]
                                             .keys
@@ -244,13 +246,12 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   children: [
                                     if (showCarpartOverlay)
                                       ImageOverlay(
-                                        imageUrl: dataImgLink[imgpreview]
-                                            ["Image_link"],
-                                        data: points,
-                                        nPart: nPart,
-                                        selectedParts: selectedParts,
-                                        size: imagesize
-                                      )
+                                          imageUrl: dataImgLink[imgpreview]
+                                              ["Image_link"],
+                                          data: points,
+                                          nPart: nPart,
+                                          selectedParts: selectedParts,
+                                          size: imagesize)
                                     else if (showDamageOverlay)
                                       DamageOverlay(
                                         imageUrl: dataImgLink[imgpreview]
@@ -289,6 +290,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 setState(() {
                                   showDamageOverlay = !showDamageOverlay;
                                   showCarpartOverlay = false;
+                                  showFilterTable = true;
+                                  showAllTable = false;
                                 });
                               },
                               child: Text('Damaged'),
@@ -315,6 +318,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           CarPart(entry['class'] as String)));
                                   showDamageOverlay = false;
                                   showCarpartOverlay = !showCarpartOverlay;
+                                  showAllTable = true;
+                                  showFilterTable = false;
                                 });
                               },
                               child: Text('All Parts'),
@@ -366,7 +371,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 30.h),
                         child: FutureBuilder<List<TableModel>>(
-                            future: myFuture,
+                            future: getTableData(),
                             builder: (context,
                                 AsyncSnapshot<List<TableModel>?> snapshot) {
                               if (snapshot.connectionState ==
@@ -379,60 +384,58 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   child: Text('Error: ${snapshot.error}'),
                                 );
                               } else {
-                                List<TableModel> tableData = snapshot.data!;
-                                return Column(
-                                  children: tableData.map((tableData) {
-                                    return Container(
-                                      margin: EdgeInsets.only(bottom: 16.v),
-                                      child: _dataTable(
-                                        context,
-                                        snapshot.data!.toList(),
-                                        snapshot.data!.indexOf(tableData),
-                                      ),
-                                    );
-                                  }).toList(),
-                                );
-
-                                //   if (showAllTable) {
-                                //     List<TableModel> tableData = snapshot.data!;
-                                //     return Column(
-                                //       children: tableData.map((tableData) {
-                                //         return Container(
-                                //           margin: EdgeInsets.only(bottom: 16.v),
-                                //           child: _dataTable(
-                                //             context,
-                                //             snapshot.data!.toList(),
-                                //             snapshot.data!.indexOf(tableData),
-                                //           ),
-                                //         );
-                                //       }).toList(),
+                                // List<TableModel> tableData = snapshot.data!;
+                                // return Column(
+                                //   children: tableData.map((tableData) {
+                                //     return Container(
+                                //       margin: EdgeInsets.only(bottom: 16.v),
+                                //       child: _dataTable(
+                                //         context,
+                                //         snapshot.data!.toList(),
+                                //         snapshot.data!.indexOf(tableData),
+                                //       ),
                                 //     );
-                                //   } else if (showFilterTable) {
-                                //     if (selectedParts.isNotEmpty) {
-                                //       List<TableModel> tableData = snapshot.data!;
-                                //       return Column(
-                                //         children: tableData
-                                //             .where((tableData) => selectedParts
-                                //                 .map((part) => part.name)
-                                //                 .contains(tableData.Car_part))
-                                //             .map((tableData) {
-                                //           return Container(
-                                //             margin: EdgeInsets.only(bottom: 16.v),
-                                //             child: _dataTable(
-                                //               context,
-                                //               snapshot.data!.toList(),
-                                //               snapshot.data!.indexOf(tableData),
-                                //             ),
-                                //           );
-                                //         }).toList(),
-                                //       );
-                                //     } else {
-                                //       return Container();
-                                //     }
-                                //   } else {
-                                //     return Container(); // or any other widget if needed
-                                //   }
-                                // }
+                                //   }).toList(),
+                                // );
+                                List<TableModel> SnapData = snapshot.data!;
+
+                                if (showAllTable) {
+                                  List<TableModel> tableData = SnapData;
+                                  return Column(
+                                    children: tableData.map((tableData) {
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: 16.v),
+                                        child: _dataTable(
+                                          context,
+                                          snapshot.data!.toList(),
+                                          snapshot.data!.indexOf(tableData),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else if (showFilterTable) {
+                                  List<TableModel> tableData = SnapData;
+                                  Iterable<TableModel> FilterData = tableData
+                                      .where((tableData) =>
+                                          (tableData.Damage_type != "None" ||
+                                              tableData.Damage_severity !=
+                                                  "None"))
+                                      .toList();
+                                  return Column(
+                                    children: FilterData.map((tableData) {
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: 16.v),
+                                        child: _dataTable(
+                                          context,
+                                          snapshot.data!.toList(),
+                                          snapshot.data!.indexOf(tableData),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else {
+                                  return Container();
+                                }
                               }
                             }),
                       ),
