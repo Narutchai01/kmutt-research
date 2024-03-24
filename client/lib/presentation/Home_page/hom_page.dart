@@ -10,7 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 String finalToken = '';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int index;
+  const HomePage({Key? key, required this.index}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,6 +19,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    currentPageIndex = widget.index;
+  }
+
   List<Widget> Menupage = [
     ProfileUpdatePage(),
     SearchUpdatePage(),
