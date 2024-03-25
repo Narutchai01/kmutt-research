@@ -5,7 +5,7 @@ import multer from "multer";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { MongoClient } from "mongodb";
-import { configMongoDb } from "./lib/config";
+import { configMongoDb ,originURL } from "./lib/config";
 
 import SurveyorRouter from "./routers/Surveyor";
 import CasesRouter from "./routers/Cases";
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
   {
-    origin: true,
+    origin:  "http://localhost:5173",
     credentials: true,
   }
 ));
