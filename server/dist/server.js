@@ -33,7 +33,7 @@ const PORT = config_1.Config.PORT;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173" || config_2.originURL,
     credentials: true,
 }));
 exports.client = new mongodb_1.MongoClient(config_2.configMongoDb);
