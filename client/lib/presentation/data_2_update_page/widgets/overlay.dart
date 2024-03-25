@@ -36,10 +36,11 @@ class ImageOverlay extends StatelessWidget {
             final List<dynamic> points = partData['points'];
             final double height = size[0] / 180;
             final double width = size[1] / 273;
-            final double avg = width/height; 
+            final double avg = width / height;
+            
             final List<Offset> offsetPoints = points.map<Offset>((point) {
-              final x = ( point['x'] * avg ) / 2.4 ?? 0.0;
-              final y = (( point['y'] * avg ) -5 )  / 2.4 ?? 0.0;
+              final x = ( point['x'] * avg ) / 2.3 ?? 0.0;
+              final y = ( point['y'] * avg ) / 2 ?? 0.0;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
 
@@ -67,7 +68,8 @@ class ImageOverlay extends StatelessWidget {
               ..strokeWidth = 2
               ..strokeCap = StrokeCap.round;
             return Positioned(
-              left: 3,
+              left: 0,
+              top: -55,
               child: Center(
                 child: SizedBox(
                   width: 273,
