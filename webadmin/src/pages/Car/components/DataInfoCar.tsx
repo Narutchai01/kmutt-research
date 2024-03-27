@@ -98,23 +98,14 @@ const DataInfoCar = ({ data }: { data: CarInfoData }) => {
             <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">Edit Car</h3>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
-                <input
-                  type="text"
-                  name="CusID"
-                  placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
-                />
-                <label htmlFor="CusID" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Customer ID</label>
-                
+               <label >Car ID</label>
+               <h5>show carid</h5>
+               
               </div>
+              
               <div className="relative z-0 w-full ">
-                <input
-                  type="text"
-                  name="PolicyNumber"
-                  placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
-                />
-                <label htmlFor="PolicyNumber" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Policy number</label>    
+              <label >Province</label>
+              <h5>show province</h5>
               </div>
             </div>
             

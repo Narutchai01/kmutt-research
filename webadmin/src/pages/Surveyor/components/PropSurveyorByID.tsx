@@ -1,7 +1,7 @@
 import { SurveyorByIDData } from "../../../interface/interface";
 import PropType from "prop-types";
 import { useState } from "react";
-import { Modal } from "flowbite-react";
+import { FileInput, Label, Modal } from "flowbite-react";
 
 
 const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
@@ -72,67 +72,95 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">Edit Surveyor</h3>
-            <div className="flex justify-between gap-3">
-            <div className="relative z-0 w-full mb-5">
-              <input
+            <div className="flex justify-between ">
+              <div >
+                        <div className="flex w-[99px] h-[99px] items-center justify-center">
+                        <Label
+                          htmlFor="dropzone-file"
+                          className="dark:hover:bg-bray-800 flex  w-full cursor-pointer flex-col items-center justify-center rounded-full border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        >
+                          <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                            <svg
+                              className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 20 8"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                              />
+                            </svg>
+                       
+                          </div>
+                          <FileInput id="dropzone-file" className="hidden" />
+                        </Label>
+                      </div>
+              </div>
+              <div className="mb-2 flex flex-col">
+                <label htmlFor="Firstname" className="text-[12px] text-gray-300">Firstname</label>
+                <input
                 type="text"
                 name="Firstname"
                 placeholder=" "
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="Firstname" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Firstname</label>
-              
-            </div>
-            <div className="relative z-0 w-full mb-5">
-              <input
+              </div>
+             
+              <div className="mb-2 flex flex-col">
+                <label htmlFor="Surname" className="text-[12px] text-gray-300">Surname</label>
+                <input
                 type="text"
                 name="Surname"
-                placeholder=" "
+                placeholder=""
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
               />
-              <label htmlFor="Surname" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Surname</label>
-              
-            </div>
+              </div>
+            
              </div>
              <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name="bd"
-                placeholder=" "
-                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
+                name="birthday"
+                placeholder="dd/mm/yyyy"
+                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="bd" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Birthday</label>
+              <label htmlFor="address" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">BirthDay</label>
               
             </div>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
-                  name="em"
+                  name="email"
                   placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
+                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="em" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1">Email</label>
+                <label htmlFor="phonenumber" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Email</label>
                 
               </div>
               <div className="relative z-0 w-full ">
                 <input
                   type="text"
-                  name="tel"
+                  name="phonenumber"
                   placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
+                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="tel" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 ">Telephone</label>    
+                <label htmlFor="lineid" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Phone number</label>    
               </div>
             </div>
-            <div className="relative z-0 w-full ">
+            <div className="relative z-0 w-full">
               <input
                 type="password"
                 name="password"
                 placeholder=" "
-                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-[#120554] focus:border-2 f"
+                className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
-              <label htmlFor="password" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1  ">Password</label>
+              <label htmlFor="email" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Password</label>
               
             </div>
             <div className="flex justify-center">
@@ -145,7 +173,7 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
           </div>
         </Modal.Body>
       </Modal>
-    </>
+  </>
   );
 };
 
