@@ -50,7 +50,7 @@ class AppRoutes {
     searchTwoScreen: (context) => SearchTwoScreen(),
     data2UpdatePage: (context) => Data2UpdatePage(),
     appNavigationScreen: (context) => AppNavigationScreen(),
-    homePage: (context) => HomePage(),
+    homePage: (context) => HomePage(index: 0),
     profileUpdatePage: (context) => ProfileUpdatePage(),
     changepassword: (context) => ChangePassword(),
   };

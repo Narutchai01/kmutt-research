@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushNamed(context, AppRoutes.homePage);
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomePage(),
+        builder: (BuildContext context) => HomePage(index: 0),
       ));
     }
   }
