@@ -8,13 +8,13 @@ const app_1 = require("firebase/app");
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBk6Cxf8TJGUZ0nMd10WvJI4-j_eCIWu4o",
-    authDomain: "kmutt-v2.firebaseapp.com",
-    projectId: "kmutt-v2",
-    storageBucket: "kmutt-v2.appspot.com",
-    messagingSenderId: "933381195125",
-    appId: "1:933381195125:web:8440cbb2b99ab3b9117f3c",
-    measurementId: "G-RVLHGXD2M5"
+    apiKey: "AIzaSyD42yjFKk5kQGBgO5fV66MuYa3NVBXaixY",
+    authDomain: "kmuttv3.firebaseapp.com",
+    projectId: "kmuttv3",
+    storageBucket: "kmuttv3.appspot.com",
+    messagingSenderId: "533406544389",
+    appId: "1:533406544389:web:7861d1c460cb934885226c",
+    measurementId: "G-RSP7KPBZTJ"
 };
 // Initialize Firebase
 exports.app = (0, app_1.initializeApp)(firebaseConfig);

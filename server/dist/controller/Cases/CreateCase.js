@@ -96,16 +96,16 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 }
             })));
         })));
-        if (reportArr.length != 0) {
+        if (reportArr.length !== 0) {
             const updateSQL = `UPDATE Cases SET Status = 'Success' WHERE CaseID = ?`;
             yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(updateSQL, [CaseID]));
+            const data = {
+                CaseID: CaseID,
+                report: reportArr,
+            };
+            yield server_1.client.db("kmutt").collection("report").insertOne(data);
         }
-        const data = {
-            CaseID: CaseID,
-            report: reportArr,
-        };
-        yield server_1.client.db("kmutt").collection("report").insertOne(data);
-        res.status(200).json("Create case Suc");
+        res.status(200).json({ message: "Create Case Success" });
     }
     catch (error) {
         console.log(error);
