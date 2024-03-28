@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -111,6 +112,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                     decoration: AppDecoration.fillBlue,
                     child: Column(
                       children: [
+                        _testBg(),
                         SizedBox(height: 10.v),
                         Expanded(
                           child: Column(
@@ -492,4 +494,32 @@ Map<DateTime, int> _countCasesPerDay(List<dynamic> caseList) {
   });
 
   return casesPerDay;
+}
+
+Widget _testBg() {
+  return Container(
+    child: Column(children: [
+      ElevatedButton(
+          onPressed: () {
+            FlutterBackgroundService().invoke('setAsForeground');
+          },
+          child: Text('Foreground service')),
+      ElevatedButton(
+          onPressed: () {
+            FlutterBackgroundService().invoke('setAsBackground');
+          },
+          child: Text('Background service')),
+      ElevatedButton(
+          onPressed: () async {
+            final service = FlutterBackgroundService();
+            bool isRunning = await service.isRunning();
+            if (isRunning) {
+              service.invoke('stopService');
+            } else {
+              service.startService();
+            }
+          },
+          child: Text("test")),
+    ]),
+  );
 }
