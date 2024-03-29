@@ -49,7 +49,7 @@ void onStart(ServiceInstance service) {
             title: "BIZ is working", content: "BIZ is working in background");
       }
 
-      /// perfoem some operation on background which in not noticable to the used everyime
+      /// perfoem some operation on background which in not noticable to the used everytime
       print("Service is running");
       service.invoke('update');
     }
