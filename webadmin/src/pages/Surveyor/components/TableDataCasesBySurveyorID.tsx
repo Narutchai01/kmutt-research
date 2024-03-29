@@ -37,8 +37,8 @@ const TableDataCasesBySurveyorID = () => {
           </tr>
         </thead>
         <tbody className="w-full h-auto">
-          {data.map((data : CaseBySurveyorIDData) => (
-            <PropDataCaseBySurveyorID data={data} />
+          {data.map((data : CaseBySurveyorIDData ,index : number) => (
+            <PropDataCaseBySurveyorID data={data} key={index} />
           ))}
         </tbody>
       </table>

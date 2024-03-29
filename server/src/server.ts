@@ -20,6 +20,15 @@ const PORT = Config.PORT;
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(function(_req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use(cors(
   {
     origin:  "http://localhost:5173" || originURL ,

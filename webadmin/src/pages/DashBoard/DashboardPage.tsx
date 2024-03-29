@@ -1,18 +1,12 @@
 import Layout from "../../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { Line } from "react-chartjs-2";
 
 const DashboardPage = () => {
-  const navigate = useNavigate();
  
-if (localStorage.getItem("authen") === "false"){
-  navigate("/"); 
-}
-
 
   return (
     <>
       <Layout>
-        <h1>Dashboard</h1>
       </Layout>
     </>
   );

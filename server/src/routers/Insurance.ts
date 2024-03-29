@@ -1,6 +1,8 @@
 import express from "express";
 import { addInsurance } from "../controller/Insurance/addInsurance";
 import { getInsurance } from "../controller/Insurance/GetInsurance";
+import {auth} from "../middleware/auth";
+
 const router = express.Router();
 
 

@@ -2,24 +2,27 @@ import { useState , useEffect } from "react";
 import { axiosInstance } from "../../../lib/axios";
 import { CaseData } from "../../../interface/interface";
 import PropCase from "./PropCase";
+import { useNavigate } from "react-router-dom";
 
 const TableCase = () => {
 
     const [dataCase, setDataCase] = useState([])
+    const navigate = useNavigate();
 
 
     const getDataCase = async () => {
         try {
-            const res = await axiosInstance.get("/api/cases/getCase");
+            const res = await axiosInstance.get("/api/admin/getCase");
             setDataCase(res.data);
         } catch (error) {
+            navigate("/");
             console.log(error);
         }
     };
 
     useEffect(() => {
         getDataCase();
-    }, []);
+    });
 
 
     console.log(dataCase);

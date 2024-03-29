@@ -10,21 +10,32 @@ import { getCarByCustomerID } from '../controller/admin/Car/GetCarByCustomerID';
 import { GetCustomerByCustomerID } from '../controller/admin/Customer/GetCustomerByCustomerID';
 import { EditCustomer } from '../controller/admin/Customer/EditCustomer';
 import { EditCaseByID } from '../controller/admin/Case/EditCaseByID';
-
+import {auth } from '../middleware/auth';
+import { GetSurveyor } from '../controller/surveyor/GetSurveyor';
+import { GetCars } from '../controller/Car/GetCars';
+import { GetCase } from '../controller/Cases/GetCase';
+import { getCustomer } from '../controller/Customer/getCustomer';
+import { getInsurance } from '../controller/Insurance/GetInsurance';
 const router = express.Router();
 
-router.post('/createadmin',CreateAdmin);
+router.post('/createadmin',auth,CreateAdmin);
 router.post('/loginadmin',loginAdmin);
-router.get('/getadmin',getAdminByID);
-router.get('/getsurveyor/:id',getSurveyorByID);
-router.get('/getCaseBySurveyorID/:surveyorID',getCaseBySurveyorID);
-router.get('/getCaseByCaseID/:caseId',getCaseByCaseID);
-router.put('/updateSurveyor/:id',EditSurveyor);
-router.get("/getCarByCustomerID/:CustomerID",getCarByCustomerID);
-router.get("/getCustomerByCustomerID/:CustomerID",GetCustomerByCustomerID)
-router.put('/updateSurveyor/:id',EditSurveyor);
-router.put("/updateCustomer/:id",EditCustomer);
-router.put("/updateCase/:caseID",EditCaseByID);        
+router.get('/getadmin',auth,getAdminByID);
+router.get('/getsurveyor/:id',auth,getSurveyorByID);
+router.get('/getCaseBySurveyorID/:surveyorID',auth,getCaseBySurveyorID);
+router.get('/getCaseByCaseID/:caseId',auth,getCaseByCaseID);
+router.put('/updateSurveyor/:id',auth,EditSurveyor);
+router.get("/getCarByCustomerID/:CustomerID",auth,getCarByCustomerID);
+router.get("/getCustomerByCustomerID/:CustomerID",auth,GetCustomerByCustomerID)
+router.put('/updateSurveyor/:id',auth,EditSurveyor);
+router.put("/updateCustomer/:id",auth,EditCustomer);
+router.put("/updateCase/:caseID",auth,EditCaseByID);        
+router.get('/getsurveyor',auth,GetSurveyor)
+router.get("/getCars",auth,GetCars);
+router.get("/getCase",auth,GetCase)
+router.get("/getCustomer",auth,getCustomer)
+router.get("/getInsurance",auth,getInsurance)
+
 
 
 

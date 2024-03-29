@@ -99,13 +99,13 @@ const DataInfoCar = ({ data }: { data: CarInfoData }) => {
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                <label >Car ID</label>
-               <h5>show carid</h5>
+               <h5>{data.CarID}</h5>
                
               </div>
               
               <div className="relative z-0 w-full ">
               <label >Province</label>
-              <h5>show province</h5>
+              {/* <h5>{data.}</h5> */}
               </div>
             </div>
             

@@ -2,22 +2,26 @@ import { useState, useEffect } from "react";
 import { InsuranceData } from "../../../interface/interface";
 import { axiosInstance } from "../../../lib/axios";
 import PropInsurance from "./PropInsurance";
+import { useNavigate } from "react-router-dom";
+
 
 const TableInsurance = () => {
   const [dataInsurance, setDataInsurance] = useState([]);
 
+  const navigate = useNavigate();
   const getDataInsurance = async () => {
     try {
-      const res = await axiosInstance.get("/api/insurance/getinsurance");
+      const res = await axiosInstance.get("/api/admin/getinsurance");
       setDataInsurance(res.data);
     } catch (error) {
+      navigate("/");
       console.log(error);
     }
   };
 
   useEffect(() => {
     getDataInsurance();
-  }, []);
+  },);
 
   console.log(dataInsurance);
 

@@ -2,23 +2,24 @@ import { useState, useEffect } from "react";
 import { axiosInstance } from "../../../lib/axios";
 import PropDataSurveyor from "./PropDataSurveyor";
 import { SurveyData } from "../../../interface/interface";
+import { useNavigate } from "react-router-dom";
 
 const TableSurveyor = () => {
   const [surveyor, setSurveyor] = useState([]);
+  const navigate = useNavigate();
 
-  const getSurveyor = async () => {
-    try {
-      axiosInstance.get("/api/surveyor/getsurveyor").then((res) => {
-        setSurveyor(res.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const getSurveyor = async () => {
+  try {
+    const res = await axiosInstance.get("/api/admin/getsurveyor");
+    setSurveyor(res.data);
+  } catch (error) { 
+    navigate('/');
+  }
+};
 
-  useEffect(() => {
-    getSurveyor();
-  }, []);
+useEffect(() => {
+  getSurveyor();
+});
 
   
 

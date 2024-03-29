@@ -1,31 +1,29 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { axiosInstance } from "../../../lib/axios";
 import { CustomerData } from "../../../interface/interface";
 import PropCustomer from "./PropCustomer";
-
+import { useNavigate } from "react-router-dom";
 
 const TableCustomer = () => {
+  const [customer, setCustomer] = useState([]);
+  const navigate = useNavigate();
 
-    const [customer,setCustomer] = useState([])
-    
-    const getCustomer = async () => {
-        try {
-            axiosInstance.get(`/api/customer/getcustomer`).then((res) => {
-                setCustomer(res.data)
-            })
-        } catch (error) {
-            console.log(error);
-            
-        }
+  const getCustomer = async () => {
+    try {
+      axiosInstance.get(`/api/admin/getCustomer`).then((res) => {
+        setCustomer(res.data);
+      });
+    } catch (error) {
+      navigate("/");
+      console.log(error);
     }
+  };
 
+  useEffect(() => {
+    getCustomer();
+  });
 
-    useEffect(() => {
-        getCustomer()
-    },[])
-
-    console.log(customer);
-    
+  console.log(customer);
 
   return (
     <>
@@ -42,9 +40,9 @@ const TableCustomer = () => {
           </tr>
         </thead>
         <tbody className="w-full">
-         {customer.map((item: CustomerData, index: number) => (
+          {customer.map((item: CustomerData, index: number) => (
             <PropCustomer key={index} data={item} />
-            ))}
+          ))}
         </tbody>
       </table>
     </>

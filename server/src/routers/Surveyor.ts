@@ -5,6 +5,7 @@ import { LoginSurveyor } from '../controller/surveyor/LoginSurveyor';
 import { FindSurveyorByID } from '../controller/surveyor/FindSurveyorByID';
 import { ChangePassWord } from '../controller/surveyor/ChangePassWord';
 import { DeleteSurveyorByID } from '../controller/surveyor/DeleteSurveyorByID';
+import { auth } from '../middleware/auth';
 
 const router = express.Router();
 

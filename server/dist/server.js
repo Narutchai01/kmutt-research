@@ -32,6 +32,13 @@ const app = (0, express_1.default)();
 const PORT = config_1.Config.PORT;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+app.use(function (_req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 app.use((0, cors_1.default)({
     origin: "http://localhost:5173" || config_2.originURL,
     credentials: true,
