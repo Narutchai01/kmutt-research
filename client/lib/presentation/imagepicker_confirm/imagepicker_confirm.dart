@@ -1,5 +1,9 @@
 import 'dart:io';
+import 'package:client/presentation/Home_page/hom_page.dart';
+import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
+import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
 import 'package:client/presentation/search_update_page/search_update_page.dart';
+import 'package:client/routes/app_routes.dart';
 import 'package:client/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -111,14 +115,22 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: () {
-                  submit();
-                  CoolAlert.show(
+                onPressed: () async {
+                  bool? isOk = await CoolAlert.show(
                     context: context,
                     type: CoolAlertType.success,
                     text: "Add picture success!",
                   );
+
                   print('Confirmation Button Pressed!');
+                  if (isOk == null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(index: 0),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   'Confirm',
