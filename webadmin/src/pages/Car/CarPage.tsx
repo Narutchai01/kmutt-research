@@ -6,6 +6,33 @@ import { Modal,Label ,FileInput} from "flowbite-react";
 
 const CarPage = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [carData, setCarData] = useState({
+  CarID : "",
+  Province : "",
+  Policy_number : "",
+  CustomerID : "",
+  Brand : "",
+  Model : "",
+  Color : "",
+  });
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCarData({ ...carData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      console.log(carData);
+      
+      setOpenModal(false);
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
 
   function onCloseModal() {
     setOpenModal(false);
@@ -39,13 +66,14 @@ const CarPage = () => {
       <Modal show={openModal} size="xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">Add Car</h3>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
-                  name="CusID"
+                  name="CustomerID"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -55,7 +83,8 @@ const CarPage = () => {
               <div className="relative z-0 w-full ">
                 <input
                   type="text"
-                  name="PolicyNumber"
+                  name="Policy_number"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -68,6 +97,7 @@ const CarPage = () => {
                 <input
                   type="text"
                   name="CarID"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -78,6 +108,7 @@ const CarPage = () => {
                 <input
                   type="text"
                   name="Province"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -92,6 +123,7 @@ const CarPage = () => {
                 <input
                   type="text"
                   name="Model"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -102,6 +134,7 @@ const CarPage = () => {
                 <input
                   type="text"
                   name="Brand"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -112,6 +145,7 @@ const CarPage = () => {
                 <input
                   type="text"
                   name="Color"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -164,7 +198,7 @@ const CarPage = () => {
             
          
           
-          </div>
+          </form>
         </Modal.Body>
       </Modal>
 

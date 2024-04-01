@@ -25,6 +25,7 @@ const CardCounter_1 = require("../controller/admin/Chart/CardCounter");
 const ChartLine_1 = require("../controller/admin/Chart/ChartLine");
 const ChartDoughnut_1 = require("../controller/admin/Chart/ChartDoughnut");
 const ChartBar_1 = require("../controller/admin/Chart/ChartBar");
+const EditCar_1 = require("../controller/admin/Car/EditCar");
 const router = express_1.default.Router();
 router.post('/createadmin', auth_1.auth, CreateAdmin_1.CreateAdmin);
 router.post('/loginadmin', LoginAdmin_1.loginAdmin);
@@ -38,6 +39,7 @@ router.get("/getCustomerByCustomerID/:CustomerID", auth_1.auth, GetCustomerByCus
 router.put('/updateSurveyor/:id', auth_1.auth, EditSurveyor_1.EditSurveyor);
 router.put("/updateCustomer/:id", auth_1.auth, EditCustomer_1.EditCustomer);
 router.put("/updateCase/:caseID", auth_1.auth, EditCaseByID_1.EditCaseByID);
+router.put("/updateCar/:id/:province", auth_1.auth, EditCar_1.EditCar);
 router.get('/getsurveyor', auth_1.auth, GetSurveyor_1.GetSurveyor);
 router.get("/getCars", auth_1.auth, GetCars_1.GetCars);
 router.get("/getCase", auth_1.auth, GetCase_1.GetCase);

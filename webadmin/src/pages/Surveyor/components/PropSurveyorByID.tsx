@@ -1,7 +1,8 @@
 import { SurveyorByIDData } from "../../../interface/interface";
 import PropType from "prop-types";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FileInput, Label, Modal } from "flowbite-react";
+import { axiosInstance } from "../../../lib/axios";
 
 const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
   const Birtth_date = new Date(data.Birth_date)
@@ -12,18 +13,31 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
     .join("/");
 
   const [openModal, setOpenModal] = useState(false);
-  const dataChange = useState({
+  const [changeData, setChangeData] = useState({
     First_name: "",
     Last_name: "",
-    Birth_date: "",
-    Phone_number: "",
+    Birthdaty: "",
     Email: "",
+    Telephone: "",
+    Password: "",
   });
 
-
-  const  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setChangeData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+  try {
+    e.preventDefault(); 
+    await axiosInstance.put(`/api/admin/updateSurveyor/${data.SurveyorID}`,changeData).then((res)=> console.log(res));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   function onCloseModal() {
     setOpenModal(false);
@@ -84,7 +98,7 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
       <Modal show={openModal} size="xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">
               Edit Surveyor
             </h3>
@@ -124,7 +138,8 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
                 </label>
                 <input
                   type="text"
-                  name="Firstname"
+                  onChange={handleChange}
+                  name="First_name"
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
                 />
@@ -132,11 +147,12 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
 
               <div className="mb-2 flex flex-col">
                 <label htmlFor="Surname" className="text-[12px] text-gray-300">
-                  Surname
+                  Lastname
                 </label>
                 <input
                   type="text"
-                  name="Surname"
+                  onChange={handleChange}
+                  name="Last_name"
                   placeholder=""
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300 focus:border-2 focus:border-[#120554]"
                 />
@@ -145,7 +161,8 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
             <div className="relative z-0 w-full mb-5">
               <input
                 type="text"
-                name="birthday"
+                name="Birthday"
+                onChange={handleChange}
                 placeholder="dd/mm/yyyy"
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
@@ -160,7 +177,8 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
-                  name="email"
+                  onChange={handleChange}
+                  name="Email"
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
@@ -174,8 +192,9 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
               <div className="relative z-0 w-full ">
                 <input
                   type="text"
-                  name="phonenumber"
+                  name="Telephone"
                   placeholder=" "
+                  onChange={handleChange}
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
                 <label
@@ -189,8 +208,9 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
             <div className="relative z-0 w-full">
               <input
                 type="password"
-                name="password"
+                name="Password"
                 placeholder=" "
+                onChange={handleChange}
                 className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
               />
               <label
@@ -201,11 +221,14 @@ const PropSurveyorByID = ({ data }: { data: SurveyorByIDData }) => {
               </label>
             </div>
             <div className="flex justify-center">
-              <button className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white">
+              <button
+                type="submit"
+                className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white"
+              >
                 Edit
               </button>
             </div>
-          </div>
+          </form>
         </Modal.Body>
       </Modal>
     </>

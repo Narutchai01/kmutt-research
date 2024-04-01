@@ -14,7 +14,7 @@ export const AddCar = async (req: Request, res: Response) => {
       Model,
       Color,
     } = req.body;
-    const Image = req.files;
+    const Image = req.files || [];
     const ImageURL = Promise.all(
       (Image as any[]).map(async (file: any) => {
         const url = await upLoadImageCar(file.buffer);

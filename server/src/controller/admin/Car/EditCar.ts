@@ -6,8 +6,8 @@ export const EditCar = async (req: Request, res: Response) => {
   try {
     const { id, province } = req.params;
     const { Brand, Model, Color } = req.body;
-    const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
-    const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
+    const sqlFindCar = `SELECT * FROM Car WHERE CarID = ? AND Province = ?`;
+    const updatesql = `UPDATE Car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
     await Connect();
     const findCar: any = await conn?.query(sqlFindCar, [id, province]);
     if (findCar.length === 0) {
@@ -15,9 +15,9 @@ export const EditCar = async (req: Request, res: Response) => {
       return;
     }
     const data = {
-      Brand: CheckDataEdit(Brand) || findCar[0][0].Brand,
-      Model: CheckDataEdit(Model) || findCar[0][0].Model,
-      Color: CheckDataEdit(Color) || findCar[0][0].Color,
+      Brand: CheckDataEdit(Brand) ? Brand : findCar[0][0].Brand,
+      Model: CheckDataEdit(Model) ?  Model :  findCar[0][0].Model,
+      Color: CheckDataEdit(Color) ? Color : findCar[0][0].Color,
     };
     await conn?.query(updatesql, [
       data.Brand,
@@ -26,7 +26,7 @@ export const EditCar = async (req: Request, res: Response) => {
       id,
       province,
     ]);
-    res.status(200).json({ message: "Edit car success" });
+    res.status(200).json({ message: "Edit car success" ,data});
   } catch (error) {
     console.log(error);
   }

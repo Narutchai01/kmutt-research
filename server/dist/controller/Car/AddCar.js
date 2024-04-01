@@ -16,7 +16,7 @@ const AddCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, server_1.Connect)();
         const { CarID, Province, Policy_number, CustomerID, Brand, Model, Color, } = req.body;
-        const Image = req.files;
+        const Image = req.files || [];
         const ImageURL = Promise.all(Image.map((file) => __awaiter(void 0, void 0, void 0, function* () {
             const url = yield (0, UploadImage_1.upLoadImageCar)(file.buffer);
             return url;

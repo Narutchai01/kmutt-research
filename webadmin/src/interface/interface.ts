@@ -97,6 +97,7 @@ export interface CarInfoData {
   Email: string;
   Phone_number: string;
   Line: string;
+  Province : string;
 }
 
 

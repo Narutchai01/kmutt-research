@@ -20,6 +20,7 @@ import { cardCounter } from '../controller/admin/Chart/CardCounter';
 import { ChartLine } from '../controller/admin/Chart/ChartLine';
 import { ChartDoughnut } from '../controller/admin/Chart/ChartDoughnut';
 import { ChartBar } from '../controller/admin/Chart/ChartBar';
+import { EditCar } from '../controller/admin/Car/EditCar';
 
 
 
@@ -37,6 +38,7 @@ router.get("/getCustomerByCustomerID/:CustomerID",auth,GetCustomerByCustomerID)
 router.put('/updateSurveyor/:id',auth,EditSurveyor);
 router.put("/updateCustomer/:id",auth,EditCustomer);
 router.put("/updateCase/:caseID",auth,EditCaseByID);        
+router.put("/updateCar/:id/:province",auth,EditCar);
 router.get('/getsurveyor',auth,GetSurveyor)
 router.get("/getCars",auth,GetCars);
 router.get("/getCase",auth,GetCase)

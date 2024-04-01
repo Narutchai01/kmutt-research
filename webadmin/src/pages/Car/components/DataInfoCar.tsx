@@ -1,17 +1,49 @@
 import { CarInfoData } from "../../../interface/interface";
 import PropTypes from "prop-types";
-import { Modal,Label ,FileInput } from "flowbite-react";
-import { useState } from "react";
-
+import { Modal, Label, FileInput } from "flowbite-react";
+import React, { useState } from "react";
+import { axiosInstance } from "../../../lib/axios";
 
 const DataInfoCar = ({ data }: { data: CarInfoData }) => {
-
   const [openModal, setOpenModal] = useState(false);
+  const [changeData, setChangeData] = useState({
+    Brand: "",
+    Model: "",
+    Color: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setChangeData({ ...changeData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      await axiosInstance.put(`/api/admin/updateCar/${data.CarID}/${data.Province}`, {
+        Brand: changeData.Brand,
+        Model: changeData.Model,
+        Color: changeData.Color,
+      }).then((res) => {
+        window.location.reload();
+        console.log(res.data);
+        
+      })
+      setOpenModal(false);
+    } catch (error) {
+     console.log(error);
+      
+    }
+  };
 
   function onCloseModal() {
     setOpenModal(false);
     // setEmail('');
   }
+  
+
+  
+
   return (
     <>
       <div className="flex flex-col gap-10">
@@ -85,132 +117,125 @@ const DataInfoCar = ({ data }: { data: CarInfoData }) => {
           </div>
         </div>
         <div>
-            <img src={data.Car_Image} alt="" />
+          <img src={data.Car_Image} alt="" />
         </div>
         <div className="flex justify-end">
-          <button className="border-1 border-[#140554] bg-[#140554] text-white rounded-md w-[180px] h-[44px]" onClick={() => setOpenModal(true)}>Edit</button>
+          <button
+            className="border-1 border-[#140554] bg-[#140554] text-white rounded-md w-[180px] h-[44px]"
+            onClick={() => setOpenModal(true)}
+          >
+            Edit
+          </button>
         </div>
       </div>
       <Modal show={openModal} size="xl" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">Edit Car</h3>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">
+              Edit Car
+            </h3>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
-               <label >Car ID</label>
-               <h5>{data.CarID}</h5>
-               
+                <label>Car ID</label>
+                <h5>{data.CarID}</h5>
               </div>
-              
-              <div className="relative z-0 w-full ">
-              <label >Province</label>
-              {/* <h5>{data.}</h5> */}
-              </div>
-            </div>
-            
-            <div className="flex flex-row gap-3">
-              <div className="relative z-0 w-full mb-1">
-                <input
-                  type="text"
-                  name="CarID"
-                  placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
-                />
-                <label htmlFor="CarID" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Car ID</label>
-                
-              </div>
-              <div className="relative z-0 w-full ">
-                <input
-                  type="text"
-                  name="Province"
-                  placeholder=" "
-                  className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
-                />
-                <label htmlFor="Province" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Province</label>    
-              </div>
-            </div>
-          
 
+              <div className="relative z-0 w-full ">
+                <label>Province</label>
+                <h5>{data.Province}</h5>
+              </div>
+            </div>
 
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
                   name="Model"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Model" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Model</label>
-                
+                <label
+                  htmlFor="Model"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Model
+                </label>
               </div>
               <div className="relative z-0 w-full mb-1">
                 <input
                   type="text"
                   name="Brand"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Brand" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Brand</label>
-                
+                <label
+                  htmlFor="Brand"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Brand
+                </label>
               </div>
               <div className="relative z-0 w-full ">
                 <input
                   type="text"
                   name="Color"
+                  onChange={handleChange}
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Color" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Color</label>    
+                <label
+                  htmlFor="Color"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Color
+                </label>
               </div>
             </div>
-
 
             <div className="relative z-0 w-full ">
               <div className="mb-3">
-              <div >
-                <Label htmlFor="multiple-file-upload" value="Upload multiple files" className="text-[12px] text-gray-300"/>
-
-              </div>
-              <FileInput id="multiple-file-upload" multiple />
-            </div>
-            <div className="flex w-full items-center justify-center">
-            <Label
-              htmlFor="dropzone-file"
-              className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                <svg
-                  className="mb-4 h-5 w-8 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                  
-                    strokeWidth="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                <div>
+                  <Label
+                    htmlFor="multiple-file-upload"
+                    value="Upload multiple files"
+                    className="text-[12px] text-gray-300"
                   />
-                </svg>
-              
+                </div>
+                <FileInput id="multiple-file-upload" multiple />
               </div>
-              
-            </Label>
-    </div>
-              
+              <div className="flex w-full items-center justify-center">
+                <Label
+                  htmlFor="dropzone-file"
+                  className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                    <svg
+                      className="mb-4 h-5 w-8 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                  </div>
+                </Label>
+              </div>
             </div>
             <div className="flex justify-center">
-            <button className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white">Edit</button>
-
+              <button className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white">
+                Edit
+              </button>
             </div>
-
-            
-         
-          
-          </div>
+          </form>
         </Modal.Body>
       </Modal>
     </>
