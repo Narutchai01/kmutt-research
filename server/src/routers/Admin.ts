@@ -16,6 +16,13 @@ import { GetCars } from '../controller/Car/GetCars';
 import { GetCase } from '../controller/Cases/GetCase';
 import { getCustomer } from '../controller/Customer/getCustomer';
 import { getInsurance } from '../controller/Insurance/GetInsurance';
+import { cardCounter } from '../controller/admin/Chart/CardCounter';
+import { ChartLine } from '../controller/admin/Chart/ChartLine';
+import { ChartDoughnut } from '../controller/admin/Chart/ChartDoughnut';
+import { ChartBar } from '../controller/admin/Chart/ChartBar';
+
+
+
 const router = express.Router();
 
 router.post('/createadmin',auth,CreateAdmin);
@@ -35,6 +42,10 @@ router.get("/getCars",auth,GetCars);
 router.get("/getCase",auth,GetCase)
 router.get("/getCustomer",auth,getCustomer)
 router.get("/getInsurance",auth,getInsurance)
+router.get("/getChartCard",auth,cardCounter)
+router.get("/getChartLine",auth,ChartLine)
+router.get("/getChartDoughnut",auth,ChartDoughnut)
+router.get("/getChartBar",auth,ChartBar)
 
 
 
