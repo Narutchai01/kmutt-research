@@ -168,7 +168,6 @@ const DashboardPage = () => {
     ],
   };
 
-  console.log(doughnutData);
 
   const dataDoughnuts = {
     labels: doughnutData.Province,

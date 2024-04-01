@@ -12,13 +12,12 @@ export const ChartLine = async (req: Request, res: Response) => {
 FROM Cases
 WHERE Date_opened >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
 GROUP BY case_day
-ORDER BY case_day DESC;
 ;`;
     const result: any = await conn?.query(sql);
 
     result[0].forEach((element: any) => {
       couter.push(element.case_couter);
-      date.push(dayjs(element.case_day).format("DD/MM/YYYY"));
+      date.push(dayjs(element.case_day).format("YYYY-MM-DD"));
     });
 
     res.status(200).json({ message: "Success", date: date, couter: couter });
