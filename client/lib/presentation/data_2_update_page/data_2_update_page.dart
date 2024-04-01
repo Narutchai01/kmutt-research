@@ -106,7 +106,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text('Process is working, please wait...'),
                 );
               }
               return Container(
@@ -208,7 +208,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 );
                               } else if (snapshot.hasError) {
                                 return Center(
-                                  child: Text('Error: ${snapshot.error}'),
+                                  child: Text(
+                                      'Process is working, please wait...'),
                                 );
                               } else {
                                 final int nPart = dataReport['report'][0][

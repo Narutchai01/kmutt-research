@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
