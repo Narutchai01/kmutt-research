@@ -18,7 +18,7 @@ export const CreateCase = async (req: Request, res: Response) => {
     const Images = req.files;
     const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
     const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
-    const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`
+    const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`;
     let reportArr: any = [];
     const ImageArr: string[] = [];
     const DataCase = {
@@ -51,16 +51,13 @@ export const CreateCase = async (req: Request, res: Response) => {
     );
 
     await axios
-      .post(
-        `${API}/predict`,
-        {
-          urls: ImageArr,
-          car_part_conf_thres: 0.3,
-          car_part_iou_thres: 0.5,
-          car_damage_conf_thres: 0.3,
-          car_damage_iou_thres: 0.5,
-        }
-      )
+      .post(`${API}/predict`, {
+        urls: ImageArr,
+        car_part_conf_thres: 0.3,
+        car_part_iou_thres: 0.5,
+        car_damage_conf_thres: 0.3,
+        car_damage_iou_thres: 0.5,
+      })
       .then((response) => {
         reportArr.push(response.data);
       })
@@ -97,19 +94,17 @@ export const CreateCase = async (req: Request, res: Response) => {
       })
     );
 
-    if (reportArr.length != 0) {
+    if (reportArr.length !== 0) {
       const updateSQL = `UPDATE Cases SET Status = 'Success' WHERE CaseID = ?`;
       await conn?.query(updateSQL, [CaseID]);
+      const data = {
+        CaseID: CaseID,
+        report: reportArr,
+      };
+      await client.db("kmutt").collection("report").insertOne(data);
     }
 
-    const data = {
-      CaseID: CaseID,
-      report: reportArr,
-    };
-
-    await client.db("kmutt").collection("report").insertOne(data);
-
-    res.status(200).json("Create case Suc");
+    res.status(200).json({ message: "Create Case Success" });
   } catch (error) {
     console.log(error);
   }
