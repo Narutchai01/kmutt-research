@@ -3,13 +3,13 @@ import 'damage.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 Future<void> overlaycardamaged(
-    PdfPage page, int nDamage, List<dynamic> reportDamageData) async {
+    PdfPage page, int nDamage, List<dynamic> reportDamageData , List<dynamic> imagesize) async {
   for (var i = 0; i < nDamage; i++) {
     String type = reportDamageData[i]['class'];
     List<dynamic> points = reportDamageData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
-      final x = (point['x'] / 2.3) + 125;
-      final y = (point['y'] / 2.3) + 460;
+      final x = (point['x'] * 273 / imagesize[1]) + 125;
+      final y = (point['y'] * 180 / imagesize[0]) + 458;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final path = Path();
@@ -26,15 +26,15 @@ Future<void> overlaycardamaged(
 }
 
 Future<void> overlaytextdamage(
-    PdfPage page, int nDamage, List<dynamic> reportDamageData) async {
+    PdfPage page, int nDamage, List<dynamic> reportDamageData , List<dynamic> imagesize) async {
   PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
   for (var i = 0; i < nDamage; i++) {
     String type = reportDamageData[i]['class'];
     double confidence = reportDamageData[i]['confidence'];
     List<dynamic> points = reportDamageData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
-      final x = (point['x'] / 2.3) + 225;
-      final y = (point['y'] / 2.3) + 460;
+      final x = (point['x'] * 273 / imagesize[1]) + 223;
+      final y = (point['y'] * 180 / imagesize[0]) + 455;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final List xpoints = offsetPoints.map((point) => point.dx).toList();

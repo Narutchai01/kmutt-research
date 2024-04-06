@@ -25,13 +25,11 @@ class DamageOverlay extends StatelessWidget {
           imageUrl,
           width: 273,
           height: 180,
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
         ),
         Positioned(
           top: 0,
           left: 0,
-          width: 273,
-          height: 180,
           child: CustomPaint(
             painter: PolygonPainter(
               data: data,
@@ -46,7 +44,7 @@ class DamageOverlay extends StatelessWidget {
             final int lengthY = size[0] ;
             final int lengthX = size[1] ;
             final List<Offset> offsetPoints = points.map<Offset>((point) {
-              final x = ( point['x'] * 273 ) / lengthX  ?? 0.0;
+              final x = ( point['x'] * 273 ) / lengthX ?? 0.0;
               final y = ( point['y'] * 180 ) / lengthY ?? 0.0;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
