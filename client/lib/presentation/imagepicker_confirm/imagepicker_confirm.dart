@@ -28,13 +28,14 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
       'Description': descriptionController.text,
       'Province': carToken.Province,
       'CarID': carToken.CarID,
+      'file': widget.selectedImages
     });
-    for (var file in widget.selectedImages) {
-      formData.files.add(MapEntry(
-        'file',
-        await MultipartFile.fromFile(file.path),
-      ));
-    }
+    // for (var file in widget.selectedImages) {
+    //   formData.files.add(MapEntry(
+    //     'file',
+    //     await MultipartFile.fromFile(file.path),
+    //   ));
+    // }
     Response response;
     try {
       response = await Dio().post(
