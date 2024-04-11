@@ -5,11 +5,13 @@ class DamageOverlay extends StatelessWidget {
   final String imageUrl;
   final List<dynamic> data;
   final int nDamage;
+  final List<dynamic> size;
 
   const DamageOverlay({
     required this.imageUrl,
     required this.data,
     required this.nDamage,
+    required this.size
   });
 
   @override
@@ -23,26 +25,27 @@ class DamageOverlay extends StatelessWidget {
           imageUrl,
           width: 273,
           height: 180,
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
         ),
         Positioned(
-          top: -5,
-          left: -2,
-          width: 273,
-          height: 180,
+          top: 0,
+          left: 0,
           child: CustomPaint(
             painter: PolygonPainter(
               data: data,
               nDamage: nDamage,
+              imagesize : size
             ),
           ),
         ),
         ...data.map((partData) {
           for (var i = 0; i < nDamage; i++) {
             final List<dynamic> points = partData['points'];
+            final int lengthY = size[0] ;
+            final int lengthX = size[1] ;
             final List<Offset> offsetPoints = points.map<Offset>((point) {
-              final x = point['x'] / 2.3;
-              final y = point['y'] / 2.3;
+              final x = ( point['x'] * 273 ) / lengthX ?? 0.0;
+              final y = ( point['y'] * 180 ) / lengthY ?? 0.0;
               return Offset(x.toDouble(), y.toDouble());
             }).toList();
             final List<double> xpoints =
@@ -81,9 +84,11 @@ class DamageOverlay extends StatelessWidget {
 class PolygonPainter extends CustomPainter {
   final List<dynamic> data;
   final int nDamage;
+  final List<dynamic> imagesize;
   PolygonPainter({
     required this.data,
     required this.nDamage,
+    required this.imagesize
   });
 
   @override
@@ -92,9 +97,11 @@ class PolygonPainter extends CustomPainter {
       final List<dynamic> points = data[i]['points'];
       final String type = data[i]['class'];
       final Color typeColor = getColor(type);
+      final int lengthY = imagesize[0] ;
+      final int lengthX = imagesize[1] ;
       final List<Offset> offsetPoints = points.map<Offset>((point) {
-        final x = point['x'] / 2.3;
-        final y = point['y'] / 2.3;
+        final x = ( point['x'] * 273 ) / lengthX  ?? 0.0;
+        final y = ( point['y'] * 180 ) / lengthY ?? 0.0;
         return Offset(x.toDouble(), y.toDouble());
       }).toList();
       final path = Path();
