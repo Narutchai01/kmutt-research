@@ -15,7 +15,7 @@ export const CreateCase = async (req: Request, res: Response) => {
     const decoded: any = jwt.verify(token, secert);
     const CaseID = uuidv4();
     const { CarID, Province, Description } = req.body;
-    const Images = req.files;
+    const Images = req.files || [];
     const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
     const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
     const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`;
@@ -35,6 +35,11 @@ export const CreateCase = async (req: Request, res: Response) => {
       DataCase.Province,
       DataCase.Description,
     ]);
+
+    if (Images.length === 0) {
+      res.status(400).json({ message: "Please upload image" });
+    }
+
     await Promise.all(
       (Images as Express.Multer.File[]).map(async (file: any) => {
         const url = await upLoadImageCase(file.buffer);
