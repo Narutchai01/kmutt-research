@@ -28,7 +28,7 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const decoded = jsonwebtoken_1.default.verify(token, secert);
         const CaseID = (0, uuid_1.v4)();
         const { CarID, Province, Description } = req.body;
-        const Images = req.files;
+        const Images = req.files || [];
         const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
         const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
         const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`;
@@ -48,6 +48,9 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             DataCase.Province,
             DataCase.Description,
         ]));
+        if (Images.length === 0) {
+            res.status(400).json({ message: "Please upload image" });
+        }
         yield Promise.all(Images.map((file) => __awaiter(void 0, void 0, void 0, function* () {
             const url = yield (0, UploadImage_1.upLoadImageCase)(file.buffer);
             ImageArr.push(url);
