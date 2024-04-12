@@ -27,11 +27,6 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
       'Description': descriptionController.text,
       'Province': carToken.Province,
       'CarID': carToken.CarID,
-      // 'files': [
-      //   for (var file in widget.selectedImages)
-      //     await MultipartFile.fromFile(file.path,
-      //         filename: file.path.split('/').last),
-      // ],
     });
     for (var file in widget.selectedImages) {
       formData.files.add(MapEntry(
@@ -56,11 +51,25 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    print(GlobalModel.token);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appTheme.blue900,
-      ),
+          backgroundColor: appTheme.blue900,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.confirm,
+                  title: 'Confirm',
+                  text: 'Are you sure you want to cancel?',
+                  confirmBtnText: 'Yes',
+                  cancelBtnText: 'No',
+                  onConfirmBtnTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+            },
+          )),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
