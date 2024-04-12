@@ -16,7 +16,8 @@ services:
       - PORT=${PORT}
       - DBHOST=${DBHOST}
       - DBUSER=${DBUSER}
-      - DBPASS =${DBPASS}
+      - DBPASS=${DBPASS}
       - DBNAME=${DBNAME}
       - DBPORT=${DBPORT}
       - JWT_SECRET=${JWT_SECRET}
+      - AI_URL=${AI_URL}
