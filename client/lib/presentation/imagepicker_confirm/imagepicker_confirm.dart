@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:client/presentation/Home_page/hom_page.dart';
-import 'package:client/presentation/camera_update_screen/camera_update_screen.dart';
-import 'package:client/presentation/data_1_update_screen/data_1_update_screen.dart';
+
 import 'package:client/presentation/search_update_page/search_update_page.dart';
-import 'package:client/routes/app_routes.dart';
+
 import 'package:client/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,20 +27,25 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
       'Description': descriptionController.text,
       'Province': carToken.Province,
       'CarID': carToken.CarID,
-      'file': widget.selectedImages
+      // 'files': [
+      //   for (var file in widget.selectedImages)
+      //     await MultipartFile.fromFile(file.path,
+      //         filename: file.path.split('/').last),
+      // ],
     });
-    // for (var file in widget.selectedImages) {
-    //   formData.files.add(MapEntry(
-    //     'file',
-    //     await MultipartFile.fromFile(file.path),
-    //   ));
-    // }
-    Response response;
+    for (var file in widget.selectedImages) {
+      formData.files.add(MapEntry(
+        'file',
+        await MultipartFile.fromFile(file.path),
+      ));
+    }
+    Dio dio = Dio();
     try {
-      response = await Dio().post(
+      var response = await dio.post(
         'https://kmutt-api.onrender.com/api/cases/createCase/${GlobalModel.token}',
         data: formData,
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
         print('success');
       }
@@ -117,6 +121,7 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
               padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () async {
+                  submit();
                   bool? isOk = await CoolAlert.show(
                     context: context,
                     type: CoolAlertType.success,
