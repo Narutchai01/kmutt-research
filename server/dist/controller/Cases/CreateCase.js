@@ -108,6 +108,10 @@ const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             };
             yield server_1.client.db("kmutt").collection("report").insertOne(data);
         }
+        else {
+            res.status(400).json({ message: "AI Error" });
+        }
+        console.log(reportArr);
         res.status(200).json({ message: "Create Case Success" });
     }
     catch (error) {
