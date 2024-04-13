@@ -44,11 +44,6 @@ void onStart(ServiceInstance service) {
   });
   Timer.periodic(Duration(seconds: 1), (timer) async {
     if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        service.setForegroundNotificationInfo(
-            title: "BIZ is working", content: "BIZ is working in background");
-      }
-
       /// perfoem some operation on background which in not noticable to the used everytime
       print("Service is running");
       service.invoke('update');

@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       finalToken = finalToken.toString();
     });
-    print(finalToken);
   }
 
   @override
