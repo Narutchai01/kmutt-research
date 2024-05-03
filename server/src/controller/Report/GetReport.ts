@@ -17,7 +17,7 @@ export const GetReport = async (req: Request, res: Response) => {
       const car_partArr: any = [];
       const { Image_link } = item;
       const newReport: any = report.report[0][Image_link];
-      const { car_part_results, report: reportData } = newReport;
+      const { car_part_results, report: reportData ,image_meta_data} = newReport;
       const { car_part, damage } = reportData;
 
       await damage.map((item: string, index: number) => {
@@ -31,7 +31,10 @@ export const GetReport = async (req: Request, res: Response) => {
         }
       });
       await newReportArr.push({
-        [Image_link]: car_partArr,
+        [Image_link]: {
+          image_meta_data: image_meta_data,
+          car_part_results: car_partArr,
+        },
       });
       car_partArr.length = 0;
     });

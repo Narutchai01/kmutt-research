@@ -25,7 +25,7 @@ const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const car_partArr = [];
             const { Image_link } = item;
             const newReport = report.report[0][Image_link];
-            const { car_part_results, report: reportData } = newReport;
+            const { car_part_results, report: reportData, image_meta_data } = newReport;
             const { car_part, damage } = reportData;
             yield damage.map((item, index) => {
                 if (item !== "") {
@@ -33,7 +33,10 @@ const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 }
             });
             yield newReportArr.push({
-                [Image_link]: car_partArr,
+                [Image_link]: {
+                    image_meta_data: image_meta_data,
+                    car_part_results: car_partArr,
+                },
             });
             car_partArr.length = 0;
         }));
