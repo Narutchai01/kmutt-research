@@ -29,7 +29,7 @@ const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const { car_part, damage } = reportData;
             yield damage.map((item, index) => {
                 if (item !== "") {
-                    car_partArr.push(Object.assign(Object.assign({}, car_part_results[index]), { class: `${car_part[index]} ${item.split(" ")[1]}` }));
+                    car_partArr.push(Object.assign(Object.assign({}, car_part_results[index]), { class: `${car_part[index]} ${item.split(" ")[1]}`, namePart: car_part[index], damage: item }));
                 }
             });
             yield newReportArr.push({

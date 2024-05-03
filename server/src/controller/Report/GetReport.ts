@@ -1,4 +1,4 @@
-import { client, conn} from "../../server";
+import { client, conn } from "../../server";
 import { Request, Response } from "express";
 
 export const GetReport = async (req: Request, res: Response) => {
@@ -25,6 +25,8 @@ export const GetReport = async (req: Request, res: Response) => {
           car_partArr.push({
             ...car_part_results[index],
             class: `${car_part[index]} ${item.split(" ")[1]}`,
+            namePart: car_part[index],
+            damage: item
           });
         }
       });
