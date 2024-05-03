@@ -99,6 +99,8 @@ class PDFProvider extends StatelessWidget {
       ),
     );
     for (var i = 0; i < imageUrl.length; i++) {
+      List<dynamic> imagesize = report['report'][0][report['report'][0].keys.toList()[i]]
+          ["image_meta_data"]["orig_shape"];
       int nPart = report['report'][0][report['report'][0].keys.toList()[i]]
           ["image_meta_data"]["n_car_parts"];
       int nDamage = report['report'][0][report['report'][0].keys.toList()[i]]
@@ -131,14 +133,14 @@ class PDFProvider extends StatelessWidget {
         image,
         Rect.fromLTWH(125, 255, 273, 180),
       );
-      overlaycarPart(page, nPart, reportData);
-      overlaytextcarpart(page, nPart, reportData);
+      overlaycarPart(page, nPart, reportData , imagesize);
+      overlaytextcarpart(page, nPart, reportData , imagesize);
       page.graphics.drawImage(
         image,
         Rect.fromLTWH(125, 455, 273, 180),
       );
-      overlaycardamaged(page, nDamage, reportDamageData);
-      overlaytextdamage(page, nDamage, reportDamageData);
+      overlaycardamaged(page, nDamage, reportDamageData , imagesize);
+      overlaytextdamage(page, nDamage, reportDamageData , imagesize);
       page.graphics.drawLine(
           PdfPen(PdfColor(0, 0, 0)),
           Offset(0, page.getClientSize().height - 50),

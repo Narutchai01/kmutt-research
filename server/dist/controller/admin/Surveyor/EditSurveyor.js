@@ -19,7 +19,6 @@ const EditSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const { First_name, Last_name, Birthday, Email, Telephone, Password } = req.body;
         const findsurveyorSQL = `SELECT * FROM Surveyor WHERE SurveyorID = ?`;
         const updateSQL = `UPDATE Surveyor SET First_name = ? , Last_name = ? , Birth_date = ? , Email = ? , Phone_number = ? , Password = ? WHERE SurveyorID = ?`;
-        yield (0, server_1.Connect)();
         const findSurveyorBYID = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(findsurveyorSQL, [id]));
         const data = {
             First_name: (yield (0, ChackDataEdit_1.CheckDataEdit)(First_name)) ? First_name : findSurveyorBYID[0][0].First_name,

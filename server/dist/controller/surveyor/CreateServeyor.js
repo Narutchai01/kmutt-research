@@ -15,17 +15,14 @@ const ManagePassWord_1 = require("../../utils/ManagePassWord");
 const UploadImage_1 = require("../../utils/UploadImage");
 const CreateSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
-        const Images = req.files || []; // ตรวจสอบว่า req.files มีค่าหรือไม่ ถ้าไม่มีให้เป็นอาร์เรย์เปล่า
+        const Images = req.files;
         const { First_name, Last_name, Email, PassWord, Phone_number, Birth_date } = req.body;
         const sql = `INSERT INTO Surveyor ( First_name, Last_name, Image , Birth_date , Phone_number ,Email , Password) VALUES ( ?, ?, ?, ?, ?, ? ,?)`;
         const ImageURL = yield Promise.all(Images.map((file) => __awaiter(void 0, void 0, void 0, function* () {
             const url = yield (0, UploadImage_1.uploadImageSurveyor)(file.buffer);
             return url;
         })));
-        const Image = ImageURL.length > 0
-            ? ImageURL[0]
-            : "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c";
+        const Image = ImageURL[0] || "https://firebasestorage.googleapis.com/v0/b/kmutt-recearch.appspot.com/o/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg?alt=media&token=cab37aca-7b80-44b5-940c-cdab08f0f97c";
         const dataSurveyor = {
             First_name,
             Last_name,

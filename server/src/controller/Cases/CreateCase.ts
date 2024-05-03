@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { conn, Connect, client } from "../../server";
+import  { Request, Response } from "express";
+import { conn, client } from "../../server";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { upLoadImageCase } from "../../utils/UploadImage";
@@ -8,14 +8,13 @@ import axios from "axios";
 export const CreateCase = async (req: Request, res: Response) => {
   try {
     await client.connect();
-    await Connect();
     const token = req.params.token;
     const API = String(process.env.AI_URL);
     const secert = process.env.JWT_SECRET!;
     const decoded: any = jwt.verify(token, secert);
     const CaseID = uuidv4();
     const { CarID, Province, Description } = req.body;
-    const Images = req.files;
+    const Images = req.files || [];
     const addCase = `INSERT INTO Cases (CaseID, SurveyorID, CarID, Province, Description) VALUES (?,?,?,?,?)`;
     const addImageCase = `INSERT INTO Image (CaseID , Image_link) VALUES (?,?)`;
     const addDamageDetails = `INSERT INTO Damage_detail (CaseID, Car_part , Damage_type ,Damage_severity) VALUE (?, ?, ?, ?)`;
@@ -35,6 +34,11 @@ export const CreateCase = async (req: Request, res: Response) => {
       DataCase.Province,
       DataCase.Description,
     ]);
+
+    if (Images.length === 0) {
+      res.status(400).json({ message: "Please upload image" });
+    }
+
     await Promise.all(
       (Images as Express.Multer.File[]).map(async (file: any) => {
         const url = await upLoadImageCase(file.buffer);
@@ -102,6 +106,8 @@ export const CreateCase = async (req: Request, res: Response) => {
         report: reportArr,
       };
       await client.db("kmutt").collection("report").insertOne(data);
+    }else{
+      res.status(400).json({ message: "AI Error" });
     }
 
     res.status(200).json({ message: "Create Case Success" });

@@ -38,7 +38,7 @@ app.use(cors(
 
 export const client = new MongoClient(configMongoDb);
 export let conn: mysql.Connection | null = null;
-export const Connect = async () => {
+const Connect = async () => {
   conn = await mysql.createConnection({
     host: Config.DB_HOST,
     user: Config.DB_USER,
@@ -70,6 +70,6 @@ app.use("/api/admin",AdminRouter);
 app.use("/api/report",ReportRouter);
 
 app.listen(PORT, async () => {
-  // await Connect();
+  await Connect();
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });

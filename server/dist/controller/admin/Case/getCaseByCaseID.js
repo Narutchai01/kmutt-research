@@ -15,7 +15,6 @@ const getCaseByCaseID = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const { caseId } = req.params;
         const sql = `SELECT * FROM Cases WHERE CaseID = ?`;
-        yield (0, server_1.Connect)();
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [caseId]));
         if (!result) {
             return res.status(400).json({ message: "Case not found" });

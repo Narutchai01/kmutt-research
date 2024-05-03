@@ -16,18 +16,17 @@ const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id, province } = req.params;
         const { Brand, Model, Color } = req.body;
-        const sqlFindCar = `SELECT * FROM Car WHERE CarID = ? AND Province = ?`;
-        const updatesql = `UPDATE Car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
-        yield (0, server_1.Connect)();
+        const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
+        const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
         const findCar = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sqlFindCar, [id, province]));
         if (findCar.length === 0) {
             res.status(404).json({ message: "Car not found" });
             return;
         }
         const data = {
-            Brand: (0, ChackDataEdit_1.CheckDataEdit)(Brand) ? Brand : findCar[0][0].Brand,
-            Model: (0, ChackDataEdit_1.CheckDataEdit)(Model) ? Model : findCar[0][0].Model,
-            Color: (0, ChackDataEdit_1.CheckDataEdit)(Color) ? Color : findCar[0][0].Color,
+            Brand: (0, ChackDataEdit_1.CheckDataEdit)(Brand) || findCar[0][0].Brand,
+            Model: (0, ChackDataEdit_1.CheckDataEdit)(Model) || findCar[0][0].Model,
+            Color: (0, ChackDataEdit_1.CheckDataEdit)(Color) || findCar[0][0].Color,
         };
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(updatesql, [
             data.Brand,
@@ -36,7 +35,7 @@ const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             id,
             province,
         ]));
-        res.status(200).json({ message: "Edit car success", data });
+        res.status(200).json({ message: "Edit car success" });
     }
     catch (error) {
         console.log(error);

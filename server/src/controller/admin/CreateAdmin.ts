@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { conn,Connect } from "../../server";
+import { conn } from "../../server";
 import { upLoadeImageAdmin } from "../../utils/UploadImage";
 import { hashPassword } from "../../utils/ManagePassWord";
 
@@ -25,7 +25,6 @@ export const CreateAdmin = async (req: Request, res: Response) => {
         ImageURL,
     };
     
-    await Connect();
     await conn?.query(sql,[DataAdmin.First_name,DataAdmin.Last_name,DataAdmin.Birth_date,DataAdmin.Phone_number,DataAdmin.Email,DataAdmin.Password,DataAdmin.ImageURL[0]])
     res.status(200).json({
         status: "success",

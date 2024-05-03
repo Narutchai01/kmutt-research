@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { conn ,Connect} from "../../server";
+import { conn } from "../../server";
 
 export const getCarByID = async (req: Request, res: Response) => {
   try {
-    await Connect();
     const { CarID, Province } = req.query;
     const sql = `
 SELECT Cus.First_name , Cus.Last_name 

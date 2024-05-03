@@ -32,7 +32,7 @@ get baseURL {
 }
 
 // get baseURL {
-//   String baseUrl = "http://10.0.2.2:8080/api";
+//   String baseUrl = "http://192.168.40.46:8080/api";
 //   return baseUrl;
 // }
 
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushNamed(context, AppRoutes.homePage);
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomePage(),
+        builder: (BuildContext context) => HomePage(index: 0),
       ));
     }
   }

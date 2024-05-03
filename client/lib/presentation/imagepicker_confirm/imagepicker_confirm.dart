@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:client/presentation/Home_page/hom_page.dart';
+
 import 'package:client/presentation/search_update_page/search_update_page.dart';
+
 import 'package:client/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,12 +34,13 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
         await MultipartFile.fromFile(file.path),
       ));
     }
-    Response response;
+    Dio dio = Dio();
     try {
-      response = await Dio().post(
+      var response = await dio.post(
         'https://kmutt-api.onrender.com/api/cases/createCase/${GlobalModel.token}',
         data: formData,
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
         print('success');
       }
@@ -47,11 +51,25 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    print(GlobalModel.token);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appTheme.blue900,
-      ),
+          backgroundColor: appTheme.blue900,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.confirm,
+                  title: 'Confirm',
+                  text: 'Are you sure you want to cancel?',
+                  confirmBtnText: 'Yes',
+                  cancelBtnText: 'No',
+                  onConfirmBtnTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+            },
+          )),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -111,14 +129,23 @@ class _ImagePickerConfirmState extends State<ImagePickerConfirm> {
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   submit();
-                  CoolAlert.show(
+                  bool? isOk = await CoolAlert.show(
                     context: context,
                     type: CoolAlertType.success,
                     text: "Add picture success!",
                   );
+
                   print('Confirmation Button Pressed!');
+                  if (isOk == null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(index: 0),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   'Confirm',

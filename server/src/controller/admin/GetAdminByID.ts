@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { conn, Connect } from "../../server";
+import { conn} from "../../server";
 import jwt from "jsonwebtoken";
 
 
@@ -8,7 +8,6 @@ export const getAdminByID = async (req: Request, res: Response) => {
     const Token = req.cookies.token;
     const secret = process.env.JWT_SECRET;
     const verifyToken:any = jwt.verify(Token, String(secret));
-    await Connect();
     const findAdmin :any = await conn?.query(`SELECT * FROM Admin WHERE AdminID = ?`,[verifyToken.id]);
     if (!findAdmin) {
       return res.status(404).json({

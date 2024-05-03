@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:client/presentation/user_profile_update_page/user_profile_update_page.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -245,6 +246,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                                               doneCases++;
                                             }
                                           });
+
                                           return Container(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -448,27 +450,45 @@ Widget _chart(List<dynamic> data) {
     );
   }
 
+  DateTime firstDate = casesPerDay.keys.reduce((a, b) => a.isBefore(b) ? a : b);
+  DateTime lastDate = casesPerDay.keys.reduce((a, b) => a.isAfter(b) ? a : b);
+
+  // Create a list of entries with dates and corresponding case counts
+  List<MapEntry<DateTime, int>> chartData = [];
+  for (DateTime date = firstDate;
+      !date.isAfter(lastDate);
+      date = date.add(Duration(days: 1))) {
+    int cases = casesPerDay[date] ?? 0;
+    chartData.add(MapEntry(date, cases));
+  }
+
+  int minCases =
+      chartData.map((entry) => entry.value).reduce((a, b) => a < b ? a : b);
+  int maxCases =
+      chartData.map((entry) => entry.value).reduce((a, b) => a > b ? a : b);
+
   return SfCartesianChart(
-    // Customize the appearance of the chart
     title: ChartTitle(text: 'Cases Per Day'),
     legend: Legend(isVisible: false),
     primaryXAxis: DateTimeAxis(
-      // Customize the date time axis
       title: AxisTitle(text: 'Date'),
-      dateFormat: DateFormat.MMMd(), // Format the date
-      intervalType: DateTimeIntervalType.days, // Set interval to days
+      dateFormat: DateFormat.MMMd(),
+      intervalType: DateTimeIntervalType.days,
+      minimum: firstDate,
+      maximum: lastDate,
+      majorGridLines: MajorGridLines(width: 1),
     ),
     primaryYAxis: NumericAxis(
-      // Customize the numeric axis
-      title: AxisTitle(text: 'Number of Cases'),
-      majorGridLines: MajorGridLines(width: 0), // Hide major gridlines
+      minimum: minCases.toDouble(),
+      maximum: maxCases.toDouble(),
+      majorGridLines: MajorGridLines(width: 0),
+      desiredIntervals: maxCases,
     ),
     series: <CartesianSeries>[
       LineSeries<MapEntry<DateTime, int>, DateTime>(
-        dataSource: casesPerDay.entries.toList(),
+        dataSource: chartData,
         xValueMapper: (MapEntry<DateTime, int> entry, _) => entry.key,
         yValueMapper: (MapEntry<DateTime, int> entry, _) => entry.value,
-        // Customize the appearance of the series
         markerSettings: MarkerSettings(isVisible: true),
       ),
     ],
@@ -485,9 +505,8 @@ Map<DateTime, int> _countCasesPerDay(List<dynamic> caseList) {
         dateOpened.year,
         dateOpened.month,
         dateOpened.day,
-      ); // Extract date only
-      int count = casesPerDay[dateOnly] ?? 0;
-      casesPerDay[dateOnly] = count + 1;
+      );
+      casesPerDay.update(dateOnly, (value) => value + 1, ifAbsent: () => 1);
     }
   });
 

@@ -106,7 +106,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text('Error: ${snapshot.error}'),
+                  child: Text('Process is working, please wait...'),
                 );
               }
               return Container(
@@ -208,7 +208,8 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 );
                               } else if (snapshot.hasError) {
                                 return Center(
-                                  child: Text('Error: ${snapshot.error}'),
+                                  child: Text(
+                                      'Process is working, please wait...'),
                                 );
                               } else {
                                 final int nPart = dataReport['report'][0][
@@ -251,20 +252,22 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                           data: points,
                                           nPart: nPart,
                                           selectedParts: selectedParts,
-                                          size: imagesize)
+                                          size: imagesize
+                                        )
                                     else if (showDamageOverlay)
                                       DamageOverlay(
                                         imageUrl: dataImgLink[imgpreview]
                                             ["Image_link"],
                                         data: reportDamageData,
                                         nDamage: nDamage,
+                                        size: imagesize
                                       )
                                     else
                                       Image.network(
                                         dataImgLink[imgpreview]["Image_link"],
                                         width: 273,
                                         height: 180,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover
                                       ),
                                   ],
                                 );

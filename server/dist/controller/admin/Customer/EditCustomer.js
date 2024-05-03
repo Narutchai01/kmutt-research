@@ -16,7 +16,6 @@ const EditCustomer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { id } = req.params;
         const { FirstName, LastName, Email, Phone_number, Address, Line } = req.body;
-        yield (0, server_1.Connect)();
         const findCustomer = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query("SELECT * FROM customer WHERE id = ?", [id]));
         if (!findCustomer) {
             return res.status(400).json({ message: "Customer not found" });

@@ -13,7 +13,6 @@ exports.getInsurance = void 0;
 const server_1 = require("../../server");
 const getInsurance = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const getInsurance = `SELECT Policy_number ,Car.CustomerID , Policy_type , Start_date , End_date ,CarID ,Car.Province  FROM Insurance JOIN Car USING(Policy_number)`;
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(getInsurance));
         res.status(200).send(result[0]);

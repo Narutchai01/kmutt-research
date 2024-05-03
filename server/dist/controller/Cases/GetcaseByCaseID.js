@@ -14,7 +14,6 @@ const server_1 = require("../../server");
 const GetcaseByCaseID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { caseID } = req.query;
-        yield (0, server_1.Connect)();
         const sql = `SELECT * FROM Cases WHERE CaseID = ?`;
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [caseID]));
         res.status(200).send(result[0]);

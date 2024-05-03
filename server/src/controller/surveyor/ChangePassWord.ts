@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { conn,Connect } from "../../server";
+import { conn} from "../../server";
 import { hashPassword, comparePassword } from "../../utils/ManagePassWord";
 import jwt from "jsonwebtoken";
 
 export const ChangePassWord = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const { oldPassword, newPassword } = req.body;
         const secert = process.env.JWT_SECRET!;
         const { token } = req.params;
