@@ -11,7 +11,7 @@ import 'package:client/presentation/status_update_screen/status_update_screen.da
 
 class PDFProvider extends StatelessWidget {
   final List<dynamic> imageUrl;
-  final Map<String, dynamic> report;
+  final List<dynamic> report;
   final List<dynamic> datatable;
   const PDFProvider(
       {required this.imageUrl, required this.report, required this.datatable});
@@ -99,16 +99,16 @@ class PDFProvider extends StatelessWidget {
       ),
     );
     for (var i = 0; i < imageUrl.length; i++) {
-      List<dynamic> imagesize = report['report'][0][report['report'][0].keys.toList()[i]]
+      List<dynamic> imagesize = report[0][report[0].keys.toList()[i]]
           ["image_meta_data"]["orig_shape"];
-      int nPart = report['report'][0][report['report'][0].keys.toList()[i]]
+      int nPart = report[0][report[0].keys.toList()[i]]
           ["image_meta_data"]["n_car_parts"];
-      int nDamage = report['report'][0][report['report'][0].keys.toList()[i]]
+      int nDamage = report[0][report[0].keys.toList()[i]]
           ["image_meta_data"]["n_car_damages"];
-      List<dynamic> reportData = report['report'][0]
-          [report['report'][0].keys.toList()[i]]['car_part_results'];
-      List<dynamic> reportDamageData = report['report'][0]
-          [report['report'][0].keys.toList()[i]]['car_damage_results'];
+      List<dynamic> reportData = report[0]
+          [report[0].keys.toList()[i]]['car_part_results'];
+      List<dynamic> reportDamageData = report[0]
+          [report[0].keys.toList()[i]]['car_damage_results'];
       Uint8List imageData = await _getImageData(imageUrl[i]["Image_link"]);
       PdfBitmap image = PdfBitmap(imageData);
       PdfPage page = document.pages.add();

@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
-import 'package:client/presentation/data_2_update_page/widgets/damage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
@@ -27,7 +26,7 @@ get dataTable {
 }
 
 List<dynamic> dataImgLink = [];
-Map<String, dynamic> dataReport = {};
+List<dynamic> dataReport = [];
 List<dynamic> tabledata = [];
 
 class CarPart {
@@ -59,12 +58,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
   bool showDamageOverlay = false;
-  bool showCarpartOverlay = false;
 
   // show all table
-  bool showAllTable = true;
+  bool showAllTable = false;
   // show filter talbe
-  bool showFilterTable = false;
+  bool showFilterTable = true;
 
   Future getDataIMG() async {
     var response = await dio.get(dataImgURL);
@@ -73,7 +71,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     var datatable = await dio.get(dataTable);
     tabledata = datatable.data;
   }
-
   Future<List<TableModel>> getTableData() async {
     var table = await dio.get(dataTable);
 
@@ -83,7 +80,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
     // Map each item in the list to a CaseModel instance
     List<TableModel> tableData =
         responseDataList.map((map) => TableModel.fromMap(map)).toList();
-
     return tableData;
   }
 
@@ -97,6 +93,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
         appBar: AppBar(
             title: Text("Result"),
             backgroundColor: AppDecoration.fillBlue.color),
+            
         body: FutureBuilder(
             future: getDataIMG(),
             builder: (context, snapshot) {
@@ -104,11 +101,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (snapshot.hasError) {
+              } /*else if (snapshot.hasError) {
                 return Center(
                   child: Text('Process is working, please wait...'),
                 );
-              }
+              }*/
               return Container(
                   width: double.maxFinite,
                   decoration: AppDecoration.fillWhiteA,
@@ -206,61 +203,26 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(
-                                      'Process is working, please wait...'),
-                                );
-                              } else {
-                                final int nPart = dataReport['report'][0][
-                                        dataReport['report'][0]
-                                            .keys
-                                            .toList()[imgpreview]]
-                                    ["image_meta_data"]["n_car_parts"];
-                                final List<dynamic> imagesize =
-                                    dataReport['report']
-                                            [0][dataReport['report']
-                                                [0]
-                                            .keys
-                                            .toList()[imgpreview]]
-                                        ["image_meta_data"]["orig_shape"];
-                                print(imagesize);
-                                final int nDamage = dataReport['report'][0][
-                                        dataReport['report'][0]
-                                            .keys
-                                            .toList()[imgpreview]]
-                                    ["image_meta_data"]["n_car_damages"];
-                                final List<dynamic> reportData =
-                                    dataReport['report'][0][dataReport['report']
-                                                [0]
-                                            .keys
-                                            .toList()[imgpreview]]
-                                        ['car_part_results'];
-                                final List<dynamic> reportDamageData =
-                                    dataReport['report'][0][dataReport['report']
-                                                [0]
-                                            .keys
-                                            .toList()[imgpreview]]
-                                        ['car_damage_results'];
-                                final List<dynamic> points = reportData;
+                              }else {
+                                final List<dynamic> data =  dataReport[imgpreview]
+                                                  [dataReport[imgpreview].keys.toList()[0]]
+                                                  ['car_part_results'];          
+                                final int nPart = dataReport[imgpreview]
+                                                  [dataReport[imgpreview].keys.toList()[0]]
+                                                  ['car_part_results'].length;
+                                final List<dynamic> imageInfo = dataReport[imgpreview]
+                                                                [dataReport[imgpreview].keys.toList()[0]]
+                                                                ['image_meta_data']['orig_shape'];
                                 return Column(
                                   children: [
-                                    if (showCarpartOverlay)
+                                    if (showDamageOverlay)
                                       ImageOverlay(
-                                          imageUrl: dataImgLink[imgpreview]
-                                              ["Image_link"],
-                                          data: points,
-                                          nPart: nPart,
-                                          selectedParts: selectedParts,
-                                          size: imagesize
-                                        )
-                                    else if (showDamageOverlay)
-                                      DamageOverlay(
                                         imageUrl: dataImgLink[imgpreview]
                                             ["Image_link"],
-                                        data: reportDamageData,
-                                        nDamage: nDamage,
-                                        size: imagesize
+                                        data: data,
+                                        nPart: nPart,
+                                        selectedParts: selectedParts,
+                                        size: imageInfo
                                       )
                                     else
                                       Image.network(
@@ -280,6 +242,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Padding(padding: EdgeInsets.only(right: 10)),
                             TextButton(
                               style: TextButton.styleFrom(
                                   foregroundColor: showDamageOverlay
@@ -291,60 +254,32 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   side: BorderSide(color: appTheme.blue900)),
                               onPressed: () {
                                 setState(() {
+                                  selectedParts.clear();
+                                  selectedParts.addAll((dataReport[imgpreview][dataReport[imgpreview].keys.toList()[0]]['car_part_results'] as List<dynamic>)
+                                    .map((entry) => CarPart(entry['namePart'] as String)));
                                   showDamageOverlay = !showDamageOverlay;
-                                  showCarpartOverlay = false;
-                                  showFilterTable = true;
-                                  showAllTable = false;
                                 });
                               },
                               child: Text('Damaged'),
                             ),
                             Padding(padding: EdgeInsets.only(right: 10)),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: showCarpartOverlay
-                                      ? appTheme.whiteA700
-                                      : appTheme.blue900,
-                                  backgroundColor: showCarpartOverlay
-                                      ? appTheme.blue900
-                                      : appTheme.whiteA700,
-                                  side: BorderSide(color: appTheme.blue900)),
-                              onPressed: () {
-                                setState(() {
-                                  selectedParts.clear();
-                                  selectedParts.addAll((dataReport['report'][0][
-                                              dataReport['report'][0]
-                                                  .keys
-                                                  .toList()[imgpreview]]
-                                          ['car_part_results'] as List<dynamic>)
-                                      .map((entry) =>
-                                          CarPart(entry['class'] as String)));
-                                  showDamageOverlay = false;
-                                  showCarpartOverlay = !showCarpartOverlay;
-                                  showAllTable = true;
-                                  showFilterTable = false;
-                                });
-                              },
-                              child: Text('All Parts'),
-                            ),
-                            Padding(padding: EdgeInsets.only(right: 10)),
-                            if (showCarpartOverlay)
+                            if (showDamageOverlay)
                               MultiSelectDialogField<String>(
                                 buttonText: Text("Filter"),
                                 title: Text("Select Filters"),
-                                items: dataReport['report'].isNotEmpty &&
-                                        dataReport['report'][0] != null &&
-                                        dataReport['report'][0].containsKey(
-                                            dataReport['report'][0]
+                                items: dataReport.isNotEmpty &&
+                                        dataReport[imgpreview] != null &&
+                                        dataReport[imgpreview].containsKey(
+                                            dataReport[imgpreview]
                                                 .keys
-                                                .toList()[imgpreview])
-                                    ? (dataReport['report'][0][
-                                                    dataReport['report'][0]
+                                                .toList()[0])
+                                    ? (dataReport[imgpreview][
+                                                    dataReport[imgpreview]
                                                         .keys
-                                                        .toList()[imgpreview]]
+                                                        .toList()[0]]
                                                 ['car_part_results']
                                             as List<dynamic>)
-                                        .map<String>((entry) => entry['class'] as String)
+                                        .map<String>((entry) => entry['partName'] as String)
                                         .toSet()
                                         .map((partName) => MultiSelectItem<String>(partName, partName))
                                         .toList()
@@ -364,11 +299,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               ),
                           ]),
                       SizedBox(height: 16.v),
-                      PDFProvider(
+                      /*PDFProvider(
                         imageUrl: dataImgLink,
                         report: dataReport,
                         datatable: tabledata,
-                      ),
+                      ),*/
                       SizedBox(height: 16.v),
                       _TableColumn(context),
                       Container(
