@@ -110,7 +110,6 @@ export const CreateCase = async (req: Request, res: Response) => {
       res.status(400).json({ message: "AI Error" });
     }
 
-    console.log(reportArr);
     res.status(200).json({ message: "Create Case Success" });
   } catch (error) {
     console.log(error);
