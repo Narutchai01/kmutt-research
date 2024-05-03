@@ -13,7 +13,6 @@ exports.GetCustomerByCustomerID = void 0;
 const server_1 = require("../../../server");
 const GetCustomerByCustomerID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { CustomerID } = req.params;
         const newCustomerID = Number(CustomerID);
         const sql = `SELECT * FROM Customer WHERE CustomerID = ?`;

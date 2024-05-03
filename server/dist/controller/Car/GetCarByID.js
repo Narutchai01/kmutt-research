@@ -13,7 +13,6 @@ exports.getCarByID = void 0;
 const server_1 = require("../../server");
 const getCarByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { CarID, Province } = req.query;
         const sql = `
 SELECT Cus.First_name , Cus.Last_name 

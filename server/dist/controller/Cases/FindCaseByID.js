@@ -17,7 +17,6 @@ const server_1 = require("../../server");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const findCaseBySurveyorID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const token = req.params.token;
         const secert = process.env.JWT_SECRET;
         const decoded = jsonwebtoken_1.default.verify(token, secert);

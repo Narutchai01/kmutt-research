@@ -1,5 +1,5 @@
 import { Request ,Response} from "express";
-import { Connect , conn} from '../../../server';
+import {  conn} from '../../../server';
 import { CheckDataEdit } from "../../../utils/ChackDataEdit";
 import { hashPassword } from "../../../utils/ManagePassWord";
 
@@ -10,7 +10,6 @@ export const EditSurveyor = async (req: Request, res: Response) => {
         const {First_name , Last_name , Birthday , Email , Telephone , Password} = req.body;
         const findsurveyorSQL = `SELECT * FROM Surveyor WHERE SurveyorID = ?`
         const updateSQL = `UPDATE Surveyor SET First_name = ? , Last_name = ? , Birth_date = ? , Email = ? , Phone_number = ? , Password = ? WHERE SurveyorID = ?`;
-        await Connect();
         const findSurveyorBYID :any = await conn?.query(findsurveyorSQL,[id]);
         const data = {
             First_name : await CheckDataEdit(First_name) ? First_name : findSurveyorBYID[0][0].First_name,

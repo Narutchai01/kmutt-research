@@ -1,5 +1,5 @@
-import e, { Request, Response } from "express";
-import { conn, Connect, client } from "../../server";
+import  { Request, Response } from "express";
+import { conn, client } from "../../server";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { upLoadImageCase } from "../../utils/UploadImage";
@@ -8,7 +8,6 @@ import axios from "axios";
 export const CreateCase = async (req: Request, res: Response) => {
   try {
     await client.connect();
-    await Connect();
     const token = req.params.token;
     const API = String(process.env.AI_URL);
     const secert = process.env.JWT_SECRET!;
@@ -111,7 +110,6 @@ export const CreateCase = async (req: Request, res: Response) => {
       res.status(400).json({ message: "AI Error" });
     }
 
-    console.log(reportArr);
     res.status(200).json({ message: "Create Case Success" });
   } catch (error) {
     console.log(error);

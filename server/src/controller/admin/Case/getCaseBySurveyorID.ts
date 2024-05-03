@@ -1,10 +1,9 @@
 import { Request,Response } from "express";
-import {conn , Connect} from "../../../server";
+import {conn} from "../../../server";
 
 
 export const getCaseBySurveyorID = async (req:Request,res:Response) => {
     try {
-        await Connect();
         const {surveyorID} = req.params;
         const newtypeSurveyorID = parseInt(surveyorID);
         const sql = `SELECT * FROM Cases WHERE SurveyorID = ?`;

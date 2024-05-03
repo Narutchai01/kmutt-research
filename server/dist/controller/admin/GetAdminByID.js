@@ -20,7 +20,6 @@ const getAdminByID = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const Token = req.cookies.token;
         const secret = process.env.JWT_SECRET;
         const verifyToken = jsonwebtoken_1.default.verify(Token, String(secret));
-        yield (0, server_1.Connect)();
         const findAdmin = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(`SELECT * FROM Admin WHERE AdminID = ?`, [verifyToken.id]));
         if (!findAdmin) {
             return res.status(404).json({

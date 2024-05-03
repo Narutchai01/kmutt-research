@@ -18,7 +18,6 @@ const ManagePassWord_1 = require("../../utils/ManagePassWord");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const LoginSurveyor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { email, PassWord } = req.body;
         const findSurveyorSQL = `SELECT * FROM Surveyor WHERE Email = ?`;
         const secret = String(process.env.JWT_SECRET);

@@ -31,7 +31,6 @@ const CreateAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             Password: yield (0, ManagePassWord_1.hashPassword)(Password),
             ImageURL,
         };
-        yield (0, server_1.Connect)();
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [DataAdmin.First_name, DataAdmin.Last_name, DataAdmin.Birth_date, DataAdmin.Phone_number, DataAdmin.Email, DataAdmin.Password, DataAdmin.ImageURL[0]]));
         res.status(200).json({
             status: "success",

@@ -13,7 +13,6 @@ exports.getSurveyorByID = void 0;
 const server_1 = require("../../../server");
 const getSurveyorByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const id = req.params.id;
         const sql = `SELECT * FROM Surveyor WHERE SurveyorID = ?`;
         const reuslt = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [id]));

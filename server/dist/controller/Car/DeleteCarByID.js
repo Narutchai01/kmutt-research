@@ -15,7 +15,6 @@ const DeleteCarByID = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { id } = req.params;
         const sql = `DELETE FROM Car WHERE CarID = ?`;
-        yield (0, server_1.Connect)();
         yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql, [id]));
         console.log(id);
         res.json({ message: `Car with id ${id} deleted.` });

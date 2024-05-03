@@ -1,4 +1,4 @@
-import { Connect, conn } from "./../../../server";
+import {  conn } from "./../../../server";
 import { Request, Response } from "express";
 import { CheckDataEdit } from "../../../utils/ChackDataEdit";
 
@@ -7,7 +7,6 @@ export const EditCustomer = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { FirstName, LastName, Email, Phone_number, Address, Line } =
       req.body;
-    await Connect();
     const findCustomer: any = await conn?.query(
       "SELECT * FROM customer WHERE id = ?",
       [id]

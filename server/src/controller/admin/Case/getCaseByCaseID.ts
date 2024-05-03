@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { conn, Connect } from "../../../server";
+import { conn} from "../../../server";
 
 export const getCaseByCaseID = async (req: Request, res: Response) => {
   try {
     const { caseId } = req.params;
     const sql = `SELECT * FROM Cases WHERE CaseID = ?`;
-    await Connect();
 
     const result: any = await conn?.query(sql, [caseId]);
     if (!result) {
