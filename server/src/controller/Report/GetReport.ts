@@ -36,7 +36,10 @@ export const GetReport = async (req: Request, res: Response) => {
       car_partArr.length = 0;
     });
 
-    res.status(200).send(newReportArr);
+    res.status(200).send({
+      ImageArr: ImgaeArr[0],
+      report: newReportArr,
+    });
   } catch (error) {
     console.log(error);
   }

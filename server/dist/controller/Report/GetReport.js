@@ -37,7 +37,10 @@ const GetReport = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
             car_partArr.length = 0;
         }));
-        res.status(200).send(newReportArr);
+        res.status(200).send({
+            ImageArr: ImgaeArr[0],
+            report: newReportArr,
+        });
     }
     catch (error) {
         console.log(error);
