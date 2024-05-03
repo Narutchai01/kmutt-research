@@ -17,6 +17,7 @@ interface dataSurveyorInterface {
 
 const SurveyorPage = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const [dataSurveyor, setDataSurveyor] = useState<dataSurveyorInterface>({
     First_name: "",
     Last_name: "",
@@ -30,8 +31,14 @@ const SurveyorPage = () => {
     setOpenModal(false);
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setFile(files[0]);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Add type annotation for e parameter
     const { name, value } = e.target;
     setDataSurveyor((prev) => ({
       ...prev,
@@ -39,13 +46,24 @@ const SurveyorPage = () => {
     }));
   };
 
+  const formData = new FormData();
+
+  formData.append("First_name", dataSurveyor.First_name);
+  formData.append("Last_name", dataSurveyor.Last_name);
+  formData.append("Email", dataSurveyor.Email);
+  formData.append("PassWord", dataSurveyor.PassWord);
+  formData.append("Phone_number", dataSurveyor.Phone_number);
+  formData.append("Birth_date", dataSurveyor.Birth_date);
+  if (file) {
+    formData.append("file", file);
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-      // console.log(dataSurveyor);
       await axiosInstance
-        .post(`/api/surveyor/createSurveyor`, dataSurveyor)
-        .then((res) => console.log(res));
+        .post(`/api/surveyor/createSurveyor`, formData)
+        .then(() => onCloseModal());
     } catch (error) {
       console.log(error);
     }
@@ -93,22 +111,30 @@ const SurveyorPage = () => {
                     className="dark:hover:bg-bray-800 flex  w-full cursor-pointer flex-col items-center justify-center rounded-full border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                   >
                     <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                      <svg
-                        className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 20 8"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeWidth="2"
-                          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      {file !== null ? (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt="profile"
+                          className="w-20 h-20 rounded-full object-cover"
                         />
-                      </svg>
+                      ) : (
+                        <svg
+                          className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 8"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeWidth="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                      )}
                     </div>
-                    <FileInput id="dropzone-file" className="hidden" />
+                    <FileInput className="hidden" onChange={handleFileChange} />
                   </Label>
                 </div>
               </div>

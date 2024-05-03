@@ -1,9 +1,8 @@
 import { Request,Response } from "express";
-import { conn, Connect } from "../../../server";
+import { conn} from "../../../server";
 
 export const ChartBar = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const Policy_type :string[] = []
         const coun_policy :number[] = []
         const sql = `SELECT Policy_type , COUNT(*) as coun_policy from Insurance GROUP by Policy_type;`

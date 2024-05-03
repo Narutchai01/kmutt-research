@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { conn, Connect } from "../../../server";
+import { conn} from "../../../server";
 
 export const cardCounter = async (req: Request, res: Response) => {
   try {
-    await Connect();
     const caseSQL = `SELECT COUNT(*) TotalCase FROM Cases;`;
     const customerSQL = `SELECT COUNT(*) as TotalCustomer FROM Customer`;
     const insuranceSQL = `SELECT COUNT(*) as TotalInsurance FROM Insurance`;

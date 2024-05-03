@@ -17,7 +17,6 @@ const server_1 = require("../../../server");
 const dayjs_1 = __importDefault(require("dayjs"));
 const ChartLine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const couter = [];
         const date = [];
         const sql = `SELECT DATE(Date_opened) AS case_day, COUNT(*) AS case_couter

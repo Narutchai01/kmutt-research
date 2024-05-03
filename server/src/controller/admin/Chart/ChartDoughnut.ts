@@ -1,9 +1,8 @@
 import { Request,Response } from "express";
-import { conn, Connect } from "../../../server";
+import { conn} from "../../../server";
 
 export const ChartDoughnut = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const Province :string[] = []
         const ProvinceCounter :number[] = []
         const sql = `SELECT Province , COUNT(*) as counter FROM Cases GROUP by Province;`

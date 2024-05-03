@@ -13,7 +13,6 @@ exports.cardCounter = void 0;
 const server_1 = require("../../../server");
 const cardCounter = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const caseSQL = `SELECT COUNT(*) TotalCase FROM Cases;`;
         const customerSQL = `SELECT COUNT(*) as TotalCustomer FROM Customer`;
         const insuranceSQL = `SELECT COUNT(*) as TotalInsurance FROM Insurance`;

@@ -13,7 +13,6 @@ exports.ChartDoughnut = void 0;
 const server_1 = require("../../../server");
 const ChartDoughnut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const Province = [];
         const ProvinceCounter = [];
         const sql = `SELECT Province , COUNT(*) as counter FROM Cases GROUP by Province;`;

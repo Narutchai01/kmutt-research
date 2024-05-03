@@ -2,41 +2,56 @@ import Layout from "../../components/Layout";
 import { FaPlus } from "react-icons/fa6";
 import TableCar from "./components/TableCar";
 import { useState } from "react";
-import { Modal,Label ,FileInput} from "flowbite-react";
+import { Modal, Label, FileInput } from "flowbite-react";
 
 const CarPage = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const [carData, setCarData] = useState({
-  CarID : "",
-  Province : "",
-  Policy_number : "",
-  CustomerID : "",
-  Brand : "",
-  Model : "",
-  Color : "",
+    CarID: "",
+    Province: "",
+    Policy_number: "",
+    CustomerID: "",
+    Brand: "",
+    Model: "",
+    Color: "",
   });
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCarData({ ...carData, [name]: value });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      setFile(files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       console.log(carData);
-      
+
       setOpenModal(false);
     } catch (error) {
       console.log(error);
-      
     }
   };
 
   function onCloseModal() {
     setOpenModal(false);
-    // setEmail('');
+    setFile(null);
+    setCarData({
+      CarID: "",
+      Province: "",
+      Policy_number: "",
+      CustomerID: "",
+      Brand: "",
+      Model: "",
+      Color: "",
+    });
   }
 
   return (
@@ -52,7 +67,10 @@ const CarPage = () => {
               />
             </div>
             <div className="w-full flex justify-end">
-              <div className="bg-primary flex text-white px-3 py-2 rounded-xl gap-2" onClick={() => setOpenModal(true)}>
+              <div
+                className="bg-primary flex text-white px-3 py-2 rounded-xl gap-2"
+                onClick={() => setOpenModal(true)}
+              >
                 <FaPlus className="text-2xl" />
                 <button>Add Car</button>
               </div>
@@ -67,7 +85,9 @@ const CarPage = () => {
         <Modal.Header />
         <Modal.Body>
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">Add Car</h3>
+            <h3 className="text-[24px] font-medium text-gray-900 dark:text-white text-center">
+              Add Car
+            </h3>
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
@@ -77,8 +97,12 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="CusID" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Customer ID</label>
-                
+                <label
+                  htmlFor="CusID"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Customer ID
+                </label>
               </div>
               <div className="relative z-0 w-full ">
                 <input
@@ -88,10 +112,15 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="PolicyNumber" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Policy number</label>    
+                <label
+                  htmlFor="PolicyNumber"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Policy number
+                </label>
               </div>
             </div>
-            
+
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
                 <input
@@ -101,8 +130,12 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="CarID" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Car ID</label>
-                
+                <label
+                  htmlFor="CarID"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Car ID
+                </label>
               </div>
               <div className="relative z-0 w-full ">
                 <input
@@ -112,11 +145,14 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Province" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Province</label>    
+                <label
+                  htmlFor="Province"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Province
+                </label>
               </div>
             </div>
-          
-
 
             <div className="flex flex-row gap-3">
               <div className="relative z-0 w-full mb-1">
@@ -127,8 +163,12 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Model" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Model</label>
-                
+                <label
+                  htmlFor="Model"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Model
+                </label>
               </div>
               <div className="relative z-0 w-full mb-1">
                 <input
@@ -138,8 +178,12 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Brand" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Brand</label>
-                
+                <label
+                  htmlFor="Brand"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Brand
+                </label>
               </div>
               <div className="relative z-0 w-full ">
                 <input
@@ -149,59 +193,59 @@ const CarPage = () => {
                   placeholder=" "
                   className="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-1 rounded-md border-gray-300"
                 />
-                <label htmlFor="Color" className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]">Color</label>    
+                <label
+                  htmlFor="Color"
+                  className="absolute duration-300 top-[-13px] left-3 text-[12px] text-gray-300 bg-white p-1 focus:border-2 focus:border-[#120554]"
+                >
+                  Color
+                </label>
               </div>
             </div>
-
 
             <div className="relative z-0 w-full ">
               <div className="mb-3">
-              <div >
-                <Label htmlFor="multiple-file-upload" value="Upload multiple files" className="text-[12px] text-gray-300"/>
-
-              </div>
-              <FileInput id="multiple-file-upload" multiple />
-            </div>
-            <div className="flex w-full items-center justify-center">
-            <Label
-              htmlFor="dropzone-file"
-              className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                <svg
-                  className="mb-4 h-5 w-8 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                  
-                    strokeWidth="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                <div>
+                  <Label
+                    htmlFor="multiple-file-upload"
+                    value="Upload multiple files"
+                    className="text-[12px] text-gray-300"
                   />
-                </svg>
-              
+                </div>
+                <FileInput
+                  id="multiple-file-upload"
+                  multiple
+                  onChange={handleFileChange}
+                />
               </div>
-              
-            </Label>
-    </div>
-              
+              <div className="flex w-full items-center justify-center">
+                <Label
+                  htmlFor="dropzone-file"
+                  className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div className="flex flex-col items-center justify-center pb-6 pt-5 overflow-hidden">
+                    {file ? (
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-[12px] text-gray-300">
+                        Drag and drop your file here
+                      </span>
+                    )}
+                  </div>
+                </Label>
+              </div>
             </div>
             <div className="flex justify-center">
-            <button className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white">Add</button>
-
+              <button className="border-1 border-[#120554] bg-[#120554] rounded-md w-[180px] h-[44px] text-white">
+                Add
+              </button>
             </div>
-
-            
-         
-          
           </form>
         </Modal.Body>
       </Modal>
-
     </>
   );
 };

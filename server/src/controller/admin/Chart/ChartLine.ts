@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import { conn, Connect } from "../../../server";
+import { conn} from "../../../server";
 import dayjs from "dayjs";
 
 export const ChartLine = async (req: Request, res: Response) => {
   try {
-    await Connect();
     const couter: number[] = [];
     const date: string[] = [];
 

@@ -13,7 +13,6 @@ exports.ChartBar = void 0;
 const server_1 = require("../../../server");
 const ChartBar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const Policy_type = [];
         const coun_policy = [];
         const sql = `SELECT Policy_type , COUNT(*) as coun_policy from Insurance GROUP by Policy_type;`;
