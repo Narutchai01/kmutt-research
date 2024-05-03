@@ -13,7 +13,6 @@ exports.getCarByCustomerID = void 0;
 const server_1 = require("../../../server");
 const getCarByCustomerID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { CustomerID } = req.params;
         const newCustomerID = Number(CustomerID);
         const sql = `SELECT CarID , Province , Brand , Model , Color  FROM Car WHERE CustomerID = ?`;

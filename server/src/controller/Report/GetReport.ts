@@ -1,10 +1,9 @@
 import { report } from 'process';
-import {client ,conn,Connect } from "../../server";
+import {client ,conn} from "../../server";
 import { Request, Response } from "express";
 
 export const GetReport = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const sql = `SELECT Image_link FROM Image WHERE CaseID = ?`;
         const { caseID } = req.query;
         const ImgaeArr: any = await conn?.query(sql, [caseID]);

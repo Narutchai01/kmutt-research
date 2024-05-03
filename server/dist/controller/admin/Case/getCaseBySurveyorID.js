@@ -13,7 +13,6 @@ exports.getCaseBySurveyorID = void 0;
 const server_1 = require("../../../server");
 const getCaseBySurveyorID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { surveyorID } = req.params;
         const newtypeSurveyorID = parseInt(surveyorID);
         const sql = `SELECT * FROM Cases WHERE SurveyorID = ?`;

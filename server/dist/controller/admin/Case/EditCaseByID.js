@@ -17,7 +17,6 @@ const EditCaseByID = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const { Descriptcion } = req.body;
         const sqlFindCase = `SELECT * FROM case WHERE CaseID = ?`;
         const updatesql = `UPDATE Case SET Descriptcion = ? WHERE CaseID = ?`;
-        yield (0, server_1.Connect)();
         const findCase = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sqlFindCase, [caseID]));
         if (findCase.length === 0) {
             res.status(404).json({ message: "Case not found" });

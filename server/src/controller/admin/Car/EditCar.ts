@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CheckDataEdit } from "../../../utils/ChackDataEdit";
-import { Connect, conn } from "./../../../server";
+import {  conn } from "./../../../server";
 
 export const EditCar = async (req: Request, res: Response) => {
   try {
@@ -8,7 +8,6 @@ export const EditCar = async (req: Request, res: Response) => {
     const { Brand, Model, Color } = req.body;
     const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
     const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
-    await Connect();
     const findCar: any = await conn?.query(sqlFindCar, [id, province]);
     if (findCar.length === 0) {
       res.status(404).json({ message: "Car not found" });

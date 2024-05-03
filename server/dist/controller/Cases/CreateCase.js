@@ -21,7 +21,6 @@ const axios_1 = __importDefault(require("axios"));
 const CreateCase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield server_1.client.connect();
-        yield (0, server_1.Connect)();
         const token = req.params.token;
         const API = String(process.env.AI_URL);
         const secert = process.env.JWT_SECRET;

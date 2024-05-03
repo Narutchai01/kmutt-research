@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { conn,Connect } from "../../server";
+import { conn} from "../../server";
 import { comparePassword } from "../../utils/ManagePassWord";
 import jwt from "jsonwebtoken";
 
@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 export const loginAdmin = async (req:Request,res:Response) => {
     try {
         const secret = process.env.JWT_SECRET;
-        await Connect();
         const {Email,Password} = req.body;
         const findAdmin:any = await conn?.query(`SELECT * FROM Admin WHERE Email = ?`,[Email]);
         if (!findAdmin) {

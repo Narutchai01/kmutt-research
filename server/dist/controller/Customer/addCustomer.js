@@ -14,7 +14,6 @@ const server_1 = require("../../server");
 const UploadImage_1 = require("../../utils/UploadImage");
 const addCustomer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const { First_name, Last_name, Email, Address, Phone_number, Line } = req.body;
         const Image = req.files;
         const addCustomer = `INSERT INTO Customer (First_name , Last_name , Email , Address , Phone_number , Line , Image) VALUES (?,?,?,?,?,?,?)`;

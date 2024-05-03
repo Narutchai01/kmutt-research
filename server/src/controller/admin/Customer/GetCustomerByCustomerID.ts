@@ -1,10 +1,9 @@
 import { Request,Response } from "express";
-import {conn ,Connect} from "../../../server";
+import {conn } from "../../../server";
 
 
 export const GetCustomerByCustomerID = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const {CustomerID} = req.params;
         const newCustomerID = Number(CustomerID);
         const sql = `SELECT * FROM Customer WHERE CustomerID = ?`;

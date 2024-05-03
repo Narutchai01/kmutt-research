@@ -18,7 +18,6 @@ const EditCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { Brand, Model, Color } = req.body;
         const sqlFindCar = `SELECT * FROM car WHERE CarID = ? AND Province = ?`;
         const updatesql = `UPDATE car SET  Brand = ?, Model = ?, Color = ? WHERE CarID = ? AND Province = ?`;
-        yield (0, server_1.Connect)();
         const findCar = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sqlFindCar, [id, province]));
         if (findCar.length === 0) {
             res.status(404).json({ message: "Car not found" });

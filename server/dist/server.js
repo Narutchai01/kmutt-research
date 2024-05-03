@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Connect = exports.conn = exports.client = void 0;
+exports.conn = exports.client = void 0;
 const express_1 = __importDefault(require("express"));
 const config_1 = require("./lib/config");
 const promise_1 = __importDefault(require("mysql2/promise"));
@@ -48,7 +48,6 @@ const Connect = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     console.log("Database Connected");
 });
-exports.Connect = Connect;
 const multerMid = (0, multer_1.default)({
     storage: multer_1.default.memoryStorage(),
 });
@@ -64,6 +63,6 @@ app.use("/api/insurance", Insurance_1.default);
 app.use("/api/admin", Admin_1.default);
 app.use("/api/report", Report_1.default);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
-    // await Connect();
+    yield Connect();
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 }));

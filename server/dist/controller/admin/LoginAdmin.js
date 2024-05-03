@@ -19,7 +19,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const loginAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const secret = process.env.JWT_SECRET;
-        yield (0, server_1.Connect)();
         const { Email, Password } = req.body;
         const findAdmin = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(`SELECT * FROM Admin WHERE Email = ?`, [Email]));
         if (!findAdmin) {

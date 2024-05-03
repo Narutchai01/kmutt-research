@@ -14,7 +14,6 @@ const server_1 = require("../../server");
 const getInsuranceByInsuranceID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { InsuranceID } = req.params;
-        yield (0, server_1.Connect)();
         const getInsuranceByInsuranceID = `SELECT * FROM Insurance WHERE Policy_number = ?`;
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(getInsuranceByInsuranceID, [InsuranceID]));
         res.status(200).send(result[0]);

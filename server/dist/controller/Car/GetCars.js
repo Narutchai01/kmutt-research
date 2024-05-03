@@ -13,7 +13,6 @@ exports.GetCars = void 0;
 const server_1 = require("../../server");
 const GetCars = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, server_1.Connect)();
         const sql = 'SELECT Car.CarID , Car.Province , Customer.First_name , Customer.Last_name , Insurance.Policy_type  ,Car.image  FROM Customer JOIN Car USING(CustomerID) JOIN Insurance USING(Policy_number);';
         const result = yield (server_1.conn === null || server_1.conn === void 0 ? void 0 : server_1.conn.query(sql));
         if (!result[0]) {

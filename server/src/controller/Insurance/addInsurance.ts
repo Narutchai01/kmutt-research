@@ -1,10 +1,9 @@
 import { Request,Response } from "express";
-import { conn,Connect } from "../../server";
+import { conn } from "../../server";
 
 
 export const addInsurance = async (req: Request, res: Response) => {
     try {
-        await Connect();
         const {Policy_number , CustomerID ,Policy_type , Start_date , End_date } = req.body;
         const addInsurance = `INSERT INTO Insurance (Policy_number , CustomerID , Policy_type , Start_date , End_date ,Status) VALUES (?,?,?,?,?,?)`;
         const DataInsurance = {
