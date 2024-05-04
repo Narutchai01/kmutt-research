@@ -5,7 +5,7 @@ import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-//import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
+import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // get dataImgURL {
@@ -58,7 +58,6 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
   int imgpreview = 0;
   final dio = Dio();
   bool showDamageOverlay = false;
-
   // show all table
   bool showAllTable = false;
   // show filter talbe
@@ -204,6 +203,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   child: CircularProgressIndicator(),
                                 );
                               }else {
+                                print(dataImgLink[1]['Image_link']);
                                 final List<dynamic> data =  dataReport[imgpreview]
                                                   [dataReport[imgpreview].keys.toList()[0]]
                                                   ['car_part_results'];          
@@ -286,11 +286,11 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                             ),
                           ]),
                       SizedBox(height: 16.v),
-                      /*PDFProvider(
+                      PDFProvider(
                         imageUrl: dataImgLink,
                         report: dataReport,
                         datatable: tabledata,
-                      ),*/
+                      ),
                       SizedBox(height: 16.v),
                       _TableColumn(context),
                       Container(
@@ -371,6 +371,9 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
             onTap: () {
               setState(() {
                 imgpreview = index;
+                selectedParts.clear();
+                selectedParts.addAll((dataReport[index][dataReport[index].keys.toList()[0]]['car_part_results'] as List<dynamic>)
+                .map((entry) => CarPart(entry['namePart'] as String)));
               });
             },
             child: Container(

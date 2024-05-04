@@ -9,11 +9,11 @@ Future<void> overlaycarPart(
    List<dynamic> imagesize
 ) async {
   for (var i = 0; i < nPart; i++) {
-    String partName = reportData[i]['class'];
+    String partName = reportData[i]['namePart'];
     List<dynamic> points = reportData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
       final x = (point['x'] * 273 / imagesize[1]) + 125;
-      final y = (point['y'] * 180 / imagesize[0]) + 255;
+      final y = (point['y'] * 180 / imagesize[0]) + 405;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final path = Path();
@@ -33,12 +33,12 @@ Future<void> overlaytextcarpart(
     PdfPage page, int nPart, List<dynamic> reportData , List<dynamic> imagesize) async {
   PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
   for (var i = 0; i < nPart; i++) {
-    String partName = reportData[i]['class'];
-    double confidence = reportData[i]['confidence'];
+    String partName = reportData[i]['namePart'];
+    String damage = reportData[i]['damage'];
     List<dynamic> points = reportData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
       final x = (point['x'] * 273 / imagesize[1]) + 125;
-      final y = (point['y'] * 180 / imagesize[0]) + 255;
+      final y = (point['y'] * 180 / imagesize[0]) + 405;
       return Offset(x.toDouble(), y.toDouble());
     }).toList();
     final List xpoints = offsetPoints.map((point) => point.dx).toList();
@@ -57,7 +57,7 @@ Future<void> overlaytextcarpart(
     double x = dxpoint;
     double y = dypoint;
     Size textSize = font.measureString(
-      '$partName - ${(confidence * 100).toStringAsFixed(0)}%',
+      '$partName - $damage',
     );
     page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(
@@ -67,7 +67,7 @@ Future<void> overlaytextcarpart(
         )),
         bounds: Rect.fromLTWH(x, y, textSize.width, textSize.height));
     page.graphics.drawString(
-      '$partName - ${(confidence * 100).toStringAsFixed(0)}%',
+      '$partName - $damage',
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       bounds: Rect.fromPoints(
         Offset(x, y),

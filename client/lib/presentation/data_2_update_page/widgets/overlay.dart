@@ -30,6 +30,7 @@ class ImageOverlay extends StatelessWidget {
         ),
         ...data.map((partData) {
           final String partName = partData['namePart'];
+          final String className = partData['class'];
           final bool isSelected =
               selectedParts.any((part) => part.name == partName);
           if (isSelected) {
@@ -80,7 +81,7 @@ class ImageOverlay extends StatelessWidget {
                         painter: PathPainter(path: path, paintObject: paint),
                       ),
                       OverlayText(
-                          damage: partName,
+                          damage: className,
                           x: dxpoint,
                           y: dypoint),
                     ],
