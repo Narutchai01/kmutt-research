@@ -5,7 +5,7 @@ import 'package:client/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:client/presentation/data_2_update_page/widgets/overlay.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
+//import 'package:client/presentation/data_2_update_page/widgets/pdf.dart';
 import 'package:client/presentation/status_update_screen/status_update_screen.dart';
 
 // get dataImgURL {
@@ -263,40 +263,27 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                               child: Text('Damaged'),
                             ),
                             Padding(padding: EdgeInsets.only(right: 10)),
-                            if (showDamageOverlay)
-                              MultiSelectDialogField<String>(
-                                buttonText: Text("Filter"),
-                                title: Text("Select Filters"),
-                                items: dataReport.isNotEmpty &&
-                                        dataReport[imgpreview] != null &&
-                                        dataReport[imgpreview].containsKey(
-                                            dataReport[imgpreview]
-                                                .keys
-                                                .toList()[0])
-                                    ? (dataReport[imgpreview][
-                                                    dataReport[imgpreview]
-                                                        .keys
-                                                        .toList()[0]]
-                                                ['car_part_results']
-                                            as List<dynamic>)
-                                        .map<String>((entry) => entry['partName'] as String)
-                                        .toSet()
-                                        .map((partName) => MultiSelectItem<String>(partName, partName))
-                                        .toList()
-                                    : [],
-                                listType: MultiSelectListType.CHIP,
-                                onConfirm: (values) {
-                                  setState(() {
-                                    selectedParts.clear();
-                                    selectedParts.addAll(values
-                                        .map((partName) => CarPart(partName)));
-                                  });
-                                },
-                                selectedItemsTextStyle:
-                                    TextStyle(color: Colors.black),
-                                selectedColor: Color(0XFF4DC3FF),
-                                chipDisplay: MultiSelectChipDisplay.none(),
-                              ),
+                            if (showDamageOverlay && dataReport.isNotEmpty && dataReport[imgpreview] != null)
+                            MultiSelectDialogField<String>(
+                              buttonText: Text("Filter"),
+                              title: Text("Select Filters"),
+                              items: (dataReport[imgpreview][dataReport[imgpreview].keys.toList()[0]]
+                                          ['car_part_results'] as List<dynamic>)
+                                      .map<String>((entry) => entry['namePart'] as String)
+                                      .toSet()
+                                      .map((partName) => MultiSelectItem<String>(partName, partName))
+                                      .toList(),
+                              listType: MultiSelectListType.CHIP,
+                              onConfirm: (values) {
+                                setState(() {
+                                  selectedParts.clear();
+                                  selectedParts.addAll(values.map((partName) => CarPart(partName)));
+                                });
+                              },
+                              selectedItemsTextStyle: TextStyle(color: Colors.black),
+                              selectedColor: Color(0XFF4DC3FF),
+                              chipDisplay: MultiSelectChipDisplay.none(),
+                            ),
                           ]),
                       SizedBox(height: 16.v),
                       /*PDFProvider(
