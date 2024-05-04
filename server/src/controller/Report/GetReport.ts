@@ -26,7 +26,7 @@ export const GetReport = async (req: Request, res: Response) => {
             ...car_part_results[index],
             class: `${car_part[index]} ${item.split(" ")[1]}`,
             namePart: car_part[index],
-            damage: item
+            damage: item.split(" ")[1],
           });
         }
       });
