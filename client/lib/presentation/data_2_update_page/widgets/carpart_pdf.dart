@@ -33,8 +33,7 @@ Future<void> overlaytextcarpart(
     PdfPage page, int nPart, List<dynamic> reportData , List<dynamic> imagesize) async {
   PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 12);
   for (var i = 0; i < nPart; i++) {
-    String partName = reportData[i]['namePart'];
-    String damage = reportData[i]['damage'];
+    String damage = reportData[i]['class'];
     List<dynamic> points = reportData[i]['points'];
     List<Offset> offsetPoints = points.map<Offset>((point) {
       final x = (point['x'] * 273 / imagesize[1]) + 125;
@@ -57,7 +56,7 @@ Future<void> overlaytextcarpart(
     double x = dxpoint;
     double y = dypoint;
     Size textSize = font.measureString(
-      '$partName - $damage',
+      '$damage',
     );
     page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(
@@ -67,7 +66,7 @@ Future<void> overlaytextcarpart(
         )),
         bounds: Rect.fromLTWH(x, y, textSize.width, textSize.height));
     page.graphics.drawString(
-      '$partName - $damage',
+      '$damage',
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       bounds: Rect.fromPoints(
         Offset(x, y),

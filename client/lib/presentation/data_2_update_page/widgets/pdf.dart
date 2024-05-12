@@ -30,11 +30,10 @@ class PDFProvider extends StatelessWidget {
       child: Text('Export to PDF'),
     );
   }
-
   Future<void> generateAndSavePdf(BuildContext context) async {
     PdfDocument document = PdfDocument();
     PdfPage page = document.pages.add();
-    page.graphics.drawString('Report : ',
+    page.graphics.drawString('Car Damaged Report : ',
         PdfStandardFont(PdfFontFamily.helvetica, 30, style: PdfFontStyle.bold));
     PdfGrid grid = PdfGrid();
     grid.columns.add(count: 3);
@@ -62,28 +61,30 @@ class PDFProvider extends StatelessWidget {
         ),
         backgroundBrush: PdfSolidBrush(PdfColor(169, 169, 169)));
     for (var i = 0; i < datatable.length; i++) {
-      PdfGridRow row = grid.rows.add();
-      row.cells[0].value = datatable[i]['Car_part'];
-      row.cells[0].style = PdfGridCellStyle(
-        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.center,
-        ),
-      );
-      row.cells[1].value = datatable[i]['Damage_type'];
-      row.cells[1].style = PdfGridCellStyle(
-        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.center,
-        ),
-      );
-      row.cells[2].value = datatable[i]['Damage_severity'];
-      row.cells[2].style = PdfGridCellStyle(
-        font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.center,
-        ),
-      );
+      if(datatable[i]['Damage_type'] != "None" || datatable[i]['Damage_severity'] != "None"){
+        PdfGridRow row = grid.rows.add();
+        row.cells[0].value = datatable[i]['Car_part'];
+        row.cells[0].style = PdfGridCellStyle(
+          font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+          format: PdfStringFormat(
+            alignment: PdfTextAlignment.center,
+          ),
+        );
+        row.cells[1].value = datatable[i]['Damage_type'];
+        row.cells[1].style = PdfGridCellStyle(
+          font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+          format: PdfStringFormat(
+            alignment: PdfTextAlignment.center,
+          ),
+        );
+        row.cells[2].value = datatable[i]['Damage_severity'];
+        row.cells[2].style = PdfGridCellStyle(
+          font: PdfStandardFont(PdfFontFamily.timesRoman, 20),
+          format: PdfStringFormat(
+            alignment: PdfTextAlignment.center,
+          ),
+        );
+      }
     }
     grid.draw(page: page, bounds: const Rect.fromLTWH(0, 50, 0, 0));
     page.graphics.drawLine(
