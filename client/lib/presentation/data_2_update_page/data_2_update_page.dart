@@ -201,7 +201,7 @@ class _Data2UpdatePageState extends State<Data2UpdatePage> {
                                   child: CircularProgressIndicator(),
                                 );
                               }else {
-                                print(dataImgLink[1]['Image_link']);
+                                
                                 final List<dynamic> data =  dataReport[imgpreview]
                                                   [dataReport[imgpreview].keys.toList()[0]]
                                                   ['car_part_results'];          
