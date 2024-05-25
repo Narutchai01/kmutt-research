@@ -29,7 +29,8 @@ class ImageOverlay extends StatelessWidget {
           ),
         ),
         ...data.map((partData) {
-          final String partName = partData['class'];
+          final String partName = partData['namePart'];
+          final String className = partData['class'];
           final bool isSelected =
               selectedParts.any((part) => part.name == partName);
           if (isSelected) {
@@ -80,8 +81,7 @@ class ImageOverlay extends StatelessWidget {
                         painter: PathPainter(path: path, paintObject: paint),
                       ),
                       OverlayText(
-                          partName: partName,
-                          confidence: partData['confidence'],
+                          damage: className,
                           x: dxpoint,
                           y: dypoint),
                     ],
@@ -116,14 +116,12 @@ class PathPainter extends CustomPainter {
 }
 
 class OverlayText extends StatelessWidget {
-  final String partName;
-  final double confidence;
+  final String damage;
   final double x;
   final double y;
 
   OverlayText(
-      {required this.partName,
-      required this.confidence,
+      {required this.damage,
       required this.x,
       required this.y});
 
@@ -141,17 +139,10 @@ class OverlayText extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '$partName',
+              '$damage',
               style: TextStyle(
                 fontSize: 12,
                 color: const Color.fromARGB(255, 255, 255, 255),
-              ),
-            ),
-            Text(
-              '  ${(confidence * 100).toStringAsFixed(0)}%',
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ],
